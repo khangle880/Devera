@@ -1,2 +1,2 @@
-# To-do-list-Devera
+# E Commerce app
 I do not own the design
