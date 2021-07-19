@@ -8,15 +8,24 @@ class CustomInput extends StatelessWidget {
     required this.hintText,
     this.hintTextStyle = Constants.regularHintText,
     this.textStyle = Constants.regularDarkText,
-    this.marginVertical = 12.0,
-    this.marginHorizontal = 24.0,
+    // this.marginVertical = 12.0,
+    // this.marginHorizontal = 24.0,
+    this.margin = const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+    this.onChanged,
+    this.onSubmitted,
+    this.focusNode,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   final String hintText;
   final TextStyle hintTextStyle;
   final TextStyle textStyle;
-  final double marginVertical;
-  final double marginHorizontal;
+  final EdgeInsets margin;
+  final TextInputType keyboardType;
+
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +33,12 @@ class CustomInput extends StatelessWidget {
       decoration: BoxDecoration(
           color: hexToColor("#F2F2F2"),
           borderRadius: BorderRadius.circular(12.0)),
-      margin: EdgeInsets.symmetric(
-          vertical: marginVertical, horizontal: marginHorizontal),
+      margin: margin,
       child: TextField(
+        keyboardType: keyboardType,
+        focusNode: focusNode,
+        onChanged: onChanged,
+        onSubmitted: onSubmitted,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintText,

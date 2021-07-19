@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+//? Shortcut Class
+
 class Constants {
   //? Text's Styles
   static const regularHeader = TextStyle(
@@ -22,8 +24,27 @@ class Constants {
   //?----------------------------
 }
 
+//?------------------------------------------------------------------------------
+
 //? Shortcut functions
+
 Color hexToColor(String code) {
   return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
 }
-//?------------------------------
+
+void changeFocusFrom(BuildContext context, FocusNode focusNodeNew) {
+  FocusScope.of(context).requestFocus(focusNodeNew);
+}
+
+//?------------------------------------------------------------------------------
+
+//? Extension functions
+
+extension customString on String? {
+  bool isNull() {
+    if (this != null) return false;
+    return true;
+  }
+}
+
+//?------------------------------------------------------------------------------

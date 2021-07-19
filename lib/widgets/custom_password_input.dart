@@ -8,15 +8,20 @@ class CustomPasswordInput extends StatefulWidget {
     required this.hintText,
     this.hintTextStyle = Constants.regularHintText,
     this.textStyle = Constants.regularDarkText,
-    this.marginVertical = 12.0,
-    this.marginHorizontal = 24.0,
+    this.margin = const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+    this.onChanged,
+    this.onSubmitted,
+    this.focusNode,
   }) : super(key: key);
 
   final String hintText;
   final TextStyle hintTextStyle;
   final TextStyle textStyle;
-  final double marginVertical;
-  final double marginHorizontal;
+  final EdgeInsets margin;
+
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final FocusNode? focusNode;
 
   @override
   _CustomPasswordInputState createState() => _CustomPasswordInputState();
@@ -32,15 +37,20 @@ class _CustomPasswordInputState extends State<CustomPasswordInput> {
       decoration: BoxDecoration(
           color: hexToColor("#F2F2F2"),
           borderRadius: BorderRadius.circular(12.0)),
-      margin: EdgeInsets.symmetric(
-          vertical: widget.marginVertical, horizontal: widget.marginHorizontal),
+      margin: widget.margin,
       child: TextField(
         obscureText: _isObscure,
+        keyboardType: TextInputType.emailAddress,
+        focusNode: widget.focusNode,
+        onChanged: widget.onChanged,
+        onSubmitted: widget.onSubmitted,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: widget.hintText,
             suffixIcon: IconButton(
               icon: Icon(icon, color: Colors.black),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               onPressed: () {
                 setState(() {
                   _isObscure = !_isObscure;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laptop/animations/bouncing_page_route.dart';
 import 'package:laptop/constants.dart';
 import 'package:laptop/screens/login/login_page.dart';
 import 'package:laptop/screens/register/components/register_form.dart';
@@ -10,6 +11,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -22,16 +24,19 @@ class RegisterPage extends StatelessWidget {
                     textAlign: TextAlign.center, style: Constants.boldHeading),
               ),
               RegisterForm(),
-              CustomButton(
-                color: Colors.black,
-                textColor: Colors.black,
-                text: "Have an Account? Login",
-                outLineButton: true,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-              )
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: CustomButton(
+                  color: Colors.black,
+                  textColor: Colors.black,
+                  text: "Have an Account? Login",
+                  outLineButton: true,
+                  onPressed: () {
+                    Navigator.push(
+                        context, BouncingPageRoute(widget: LoginPage()));
+                  },
+                ),
+              ),
             ],
           ),
         ),
