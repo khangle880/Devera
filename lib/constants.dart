@@ -36,6 +36,25 @@ void changeFocusFrom(BuildContext context, FocusNode focusNodeNew) {
   FocusScope.of(context).requestFocus(focusNodeNew);
 }
 
+Future<void> alertDialogBuilder(
+    BuildContext context, String errorType, String errorMessage) async {
+  return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+            title: Text(errorType),
+            content: Container(child: Text(errorMessage)),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Close Dialog"))
+            ]);
+      });
+}
+
 //?------------------------------------------------------------------------------
 
 //? Extension functions

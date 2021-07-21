@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:laptop/constants.dart';
+import 'package:laptop/error_codes.dart';
 import 'package:laptop/widgets/custom_button.dart';
 import 'package:laptop/widgets/custom_input.dart';
 import 'package:laptop/widgets/custom_password_input.dart';
@@ -15,39 +16,24 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterForm extends State<RegisterForm> {
-  Future<void> _alertDialogBuilder(String errorMessage) async {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-              title: Text("Error"),
-              content: Container(child: Text(errorMessage)),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("Close Dialog"))
-              ]);
-        });
-  }
+  Future<ErrorCode?> _createAccount() async {
+    if (_registerPassword.trim() != _registerReEnterPassword.trim()) {
+      return ErrorCode(
+          errorType: "Passwords are not match!",
+          errorDescription: "Your Passwords are not match");
+    }
 
-  Future<String?> _createAccount() async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _registerEmail.trim(), password: _registerPassword);
       return null;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        return 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        return 'The account already exists for that email.';
-      }
       print(e.code);
-      return e.message;
+      return signUpErrorCodes(e.code);
     } catch (e) {
-      return e.toString();
+      return ErrorCode(
+          errorType: "Unexpected Error!",
+          errorDescription: "Unexpected error has occurred.");
     }
   }
 
@@ -56,12 +42,12 @@ class _RegisterForm extends State<RegisterForm> {
       _needLoading = true;
     });
 
-    String? _createAccountFeedBack = await _createAccount();
-    if (_createAccountFeedBack.isNull()) {
+    ErrorCode? _createAccountFeedBack = await _createAccount();
+    if (_createAccountFeedBack == null) {
       Navigator.pop(context);
     } else {
-      _alertDialogBuilder(
-          _createAccountFeedBack ?? "PLease check your internet!");
+      alertDialogBuilder(context, _createAccountFeedBack.getErrorType(),
+          _createAccountFeedBack.getErrorDescription());
       setState(() {
         _needLoading = false;
       });
