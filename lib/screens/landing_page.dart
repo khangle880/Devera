@@ -11,43 +11,69 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _initialization,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Scaffold(
-                body: Center(child: Text("Error ${snapshot.error}")));
-          }
+      future: _initialization,
+      builder: (context, snapshot) {
+        // If Firebase App init, snapshot has error
+        if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Text("Error: ${snapshot.error}"),
+            ),
+          );
+        }
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            return StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, streamSnapshot) {
-                  if (streamSnapshot.hasError) {
-                    return Scaffold(
-                        body: Center(
-                            child: Text("Error ${snapshot.error}",
-                                style: Constants.regularHeader)));
-                  }
+        // Connection Initialized - Firebase App is running
+        if (snapshot.connectionState == ConnectionState.done) {
+          // StreamBuilder can check the login state live
+          return StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, streamSnapshot) {
+              // If Stream Snapshot has error
+              if (streamSnapshot.hasError) {
+                return Scaffold(
+                  body: Center(
+                    child: Text("Error: ${streamSnapshot.error}"),
+                  ),
+                );
+              }
 
-                  if (streamSnapshot.connectionState ==
-                      ConnectionState.active) {
-                    User? _user = streamSnapshot.data;
+              // Connection state active - Do the user login check inside the
+              // if statement
+              if (streamSnapshot.connectionState == ConnectionState.active) {
+                // Get the user
+                Object? _user = streamSnapshot.data;
 
-                    if (_user == null) {
-                      return LoginPage();
-                    }
+                // If the user is null, we're not logged in
 
-                    return HomePage();
-                  }
+                if (_user == null) {
+                  return LoginPage();
+                } else {
+                  return HomePage();
+                }
+              }
 
-                  return Scaffold(
-                      body: Center(
-                          child: Text("Checking Authentication...",
-                              style: Constants.regularHeader)));
-                });
-          }
+              return Scaffold(
+                body: Center(
+                  child: Text(
+                    "Checking Authentication...",
+                    style: Constants.regularHeader,
+                  ),
+                ),
+              );
+            },
+          );
+        }
 
-          return Scaffold(body: Center(child: Text("Fuck you")));
-        });
+        // Connecting to Firebase - Loading
+        return Scaffold(
+          body: Center(
+            child: Text(
+              "Initialization App...",
+              style: Constants.regularHeader,
+            ),
+          ),
+        );
+      },
+    );
   }
 }

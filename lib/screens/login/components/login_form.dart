@@ -76,7 +76,6 @@ class _LoginForm extends State<LoginForm> {
       CustomInput(
           hintText: "Email...",
           keyboardType: TextInputType.emailAddress,
-          focusNode: _emailFocusNode,
           onChanged: (value) {
             _loginEmail = value;
           },
@@ -85,12 +84,13 @@ class _LoginForm extends State<LoginForm> {
             changeFocusFrom(context, _passwordFocusNode);
           }),
       CustomPasswordInput(
-        hintText: "Password...",
-        focusNode: _passwordFocusNode,
-        onChanged: (value) {
-          _loginPassword = value;
-        },
-      ),
+          hintText: "Password...",
+          onChanged: (value) {
+            _loginPassword = value;
+          },
+          onSubmitted: (value) {
+            _passwordFocusNode.unfocus();
+          }),
       CustomButton(
         color: Colors.black,
         textColor: Colors.white,
