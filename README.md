@@ -2,5 +2,9 @@
 
 # E Commerce app
 
-I feel like i was committed two same thing :<
-Am i an idiot ?.?
+[**App bottom bar base code.**](https://github.com/mahtab-ali/Flutter-Bottom-Tab-Bar)<br>
+
+[**Design base code**](https://github.com/rajayogan/flutterui-cookies)<br>
+
+[**Firebase base code**](https://github.com/akshayejh/a_commerce)<br>
+
