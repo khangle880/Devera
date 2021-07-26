@@ -2,7 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:laptop/constants.dart';
 import 'package:laptop/screens/home/components/bottom_bar.dart';
-import 'package:laptop/screens/home/components/list_laptop.dart';
+import 'package:laptop/screens/home/screens/bookmark_tab.dart';
+import 'package:laptop/screens/home/screens/find_laptop_tab.dart';
+import 'package:laptop/screens/home/screens/laptop_categories_tab.dart';
+import 'package:laptop/screens/home/screens/profile_screen.dart';
+import 'package:laptop/screens/home/tabs/home_tab.dart';
+import 'package:laptop/screens/home/tabs/save_tab.dart';
+import 'package:laptop/widgets/custom_action_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,94 +18,70 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  late PageController _tabsPageController;
+  int _selectedTab = 0;
+
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabsPageController = PageController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabsPageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hexToColor("#F9F9F9"),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        centerTitle: true,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: hexToColor("#545D68")),
-            onPressed: () {}),
-        title: Text("Pickup",
-            style: TextStyle(
-                fontFamily: 'Varela',
-                fontSize: 20,
-                color: hexToColor("#545D68"))),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {},
-              icon:
-                  Icon(Icons.notifications_none, color: hexToColor("#545D68")))
-        ],
-      ),
-      body: ListView(padding: EdgeInsets.only(left: 20.0), children: <Widget>[
-        SizedBox(height: 15.0),
-        Text('Categories',
-            style: TextStyle(
-                fontFamily: 'Varela',
-                fontSize: 42.0,
-                fontWeight: FontWeight.bold)),
-        SizedBox(height: 15.0),
-        TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.transparent,
-          labelColor: hexToColor("#C88D67"),
-          isScrollable: true,
-          labelPadding: EdgeInsets.only(left: 25.0, right: 25.0),
-          unselectedLabelColor: hexToColor("#CDCDCD"),
-          tabs: [
-            Tab(
-              child: Text(
-                'Apple',
-                style: TextStyle(fontFamily: "Varela", fontSize: 21.0),
-              ),
-            ),
-            Tab(
-              child: Text(
-                'ThinkPad',
-                style: TextStyle(fontFamily: "Varela", fontSize: 21.0),
-              ),
-            ),
-            Tab(
-              child: Text(
-                'Dell',
-                style: TextStyle(fontFamily: "Varela", fontSize: 21.0),
-              ),
-            ),
-          ],
+        backgroundColor: hexToColor("#F9F9F9"),
+        // appBar: CustomActionBar(),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   elevation: 0.0,
+        //   centerTitle: true,
+        //   leading: IconButton(
+        //       icon: Icon(Icons.arrow_back, color: hexToColor("#545D68")),
+        //       onPressed: () {}),
+        //   title: Text("Pickup",
+        //       style: TextStyle(
+        //           fontFamily: 'Varela',
+        //           fontSize: 20,
+        //           color: hexToColor("#545D68"))),
+        //   actions: <Widget>[
+        //     IconButton(
+        //         onPressed: () {},
+        //         icon: Icon(Icons.notifications_none,
+        //             color: hexToColor("#545D68")))
+        //   ],
+        // ),
+        body: PageView(
+            controller: _tabsPageController,
+            onPageChanged: (pageIndex) {
+              setState(() {
+                _selectedTab = pageIndex;
+              });
+            },
+            children: <Widget>[HomeTab(), FindLaptop(), SaveTab(), Profile()]),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+          },
+          backgroundColor: hexToColor("#F17532"),
+          child: Icon(Icons.fastfood),
         ),
-        Container(
-          height: MediaQuery.of(context).size.height - 50.0,
-          width: double.infinity,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              ListLaptop(),
-              ListLaptop(),
-              ListLaptop(),
-            ],
-          ),
-        )
-      ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FirebaseAuth.instance.signOut();
-        },
-        backgroundColor: hexToColor("#F17532"),
-        child: Icon(Icons.fastfood),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBars(),
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomBars(
+          selectedTab: _selectedTab,
+          tabPressed: (pageIndex) {
+            setState(() {
+              _tabsPageController.animateToPage(pageIndex,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeOutCubic);
+            });
+          },
+        ));
   }
 }

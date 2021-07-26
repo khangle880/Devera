@@ -6,12 +6,12 @@ import 'package:laptop/screens/home/components/bottom_bar.dart';
 class LapTopDetailPage extends StatelessWidget {
   const LapTopDetailPage({
     Key? key,
-    required this.assetPath,
+    required this.imgUrl,
     required this.laptopName,
     required this.laptopPrice,
   }) : super(key: key);
 
-  final String assetPath;
+  final String imgUrl;
   final String laptopName;
   final String laptopPrice;
 
@@ -40,7 +40,7 @@ class LapTopDetailPage extends StatelessWidget {
                   Icon(Icons.notifications_none, color: hexToColor("#545D68")))
         ],
       ),
-      body: ListView(padding: EdgeInsets.only(left: 20.0), children: <Widget>[
+      body: ListView(padding: EdgeInsets.only(left: 0.0), children: <Widget>[
         SizedBox(height: 15.0),
         Padding(
             padding: EdgeInsets.only(left: 20.0),
@@ -52,9 +52,9 @@ class LapTopDetailPage extends StatelessWidget {
                     color: hexToColor("#F17532")))),
         SizedBox(height: 15.0),
         Hero(
-            tag: assetPath,
-            child: Image.asset(assetPath,
-                height: 150.0, width: 100.0, fit: BoxFit.contain)),
+            tag: imgUrl,
+            child: Image.network(imgUrl,
+                height: 150.0, width: 100.0, fit: BoxFit.cover)),
         SizedBox(height: 20.0),
         Center(
           child: Text(laptopPrice,
@@ -111,7 +111,6 @@ class LapTopDetailPage extends StatelessWidget {
         child: Icon(Icons.fastfood),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBars(),
     );
     ;
   }

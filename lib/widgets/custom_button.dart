@@ -8,8 +8,7 @@ class CustomButton extends StatefulWidget {
     required this.color,
     required this.textColor,
     this.outLineButton = false,
-    this.marginVertical = 8.0,
-    this.marginHorizontal = 24.0,
+    this.margin = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
     required this.onPressed,
     this.isLoading = false,
   }) : super(key: key);
@@ -19,8 +18,7 @@ class CustomButton extends StatefulWidget {
   final Color textColor;
   final bool isLoading;
   final bool outLineButton;
-  final double marginVertical;
-  final double marginHorizontal;
+  final EdgeInsets margin;
   final VoidCallback onPressed;
 
   @override
@@ -75,9 +73,7 @@ class _CustomButton extends State<CustomButton>
               12.0,
             ),
           ),
-          margin: EdgeInsets.symmetric(
-              vertical: widget.marginVertical,
-              horizontal: widget.marginHorizontal),
+          margin: widget.margin,
           child: _isLoading
               ? SizedBox(
                   height: 30.0, width: 30.0, child: CircularProgressIndicator())

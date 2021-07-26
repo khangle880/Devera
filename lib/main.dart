@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laptop/constants.dart';
 import 'package:laptop/screens/landing_page.dart';
-import 'package:laptop/size_config.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,10 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-      ),
+          textTheme: GoogleFonts.varelaTextTheme(Theme.of(context).textTheme),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          accentColor: hexToColor("#FF1E00")),
       home: LandingPage(),
     );
   }
