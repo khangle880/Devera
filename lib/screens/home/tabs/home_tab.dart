@@ -13,8 +13,8 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final CollectionReference _productRef =
-      FirebaseFirestore.instance.collection("Products");
+  // final CollectionReference _productRef =
+  //     FirebaseFirestore.instance.collection("Products");
 
   @override
   void initState() {
@@ -24,13 +24,12 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Stack(children: [
+    return Stack(children: [
       ListView(
-          physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.only(top: 150.0, left: 20.0),
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(top: 150.0, left: 20.0),
           children: <Widget>[
-            SizedBox(height: 15.0),
+            const SizedBox(height: 15.0),
             Container(
               color: hexToColor("#F9F9F9"),
               child: TabBar(
@@ -40,7 +39,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                 isScrollable: true,
                 labelPadding: EdgeInsets.only(left: 35.0, right: 35.0),
                 unselectedLabelColor: hexToColor("#CDCDCD"),
-                tabs: [
+                tabs: const [
                   Tab(
                     child: Text(
                       'Apple',
@@ -62,12 +61,12 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height - 50.0,
               width: double.infinity,
               child: TabBarView(
                 controller: _tabController,
-                children: [
+                children: const [
                   ListLaptop(),
                   ListLaptop(),
                   ListLaptop(),
@@ -75,10 +74,10 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               ),
             )
           ]),
-      CustomActionBar(
+      const CustomActionBar(
         title: "Laptop Categories",
         hasBackArrow: false,
       )
-    ]));
+    ]);
   }
 }

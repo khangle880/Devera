@@ -35,10 +35,9 @@ class _CustomButton extends State<CustomButton>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 200,
       ),
-      lowerBound: 0.0,
       upperBound: 0.1,
     )..addListener(() {
         setState(() {});
@@ -75,7 +74,7 @@ class _CustomButton extends State<CustomButton>
           ),
           margin: widget.margin,
           child: _isLoading
-              ? SizedBox(
+              ? const SizedBox(
                   height: 30.0, width: 30.0, child: CircularProgressIndicator())
               : Text(
                   widget.text,

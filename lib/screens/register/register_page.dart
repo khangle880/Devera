@@ -13,17 +13,17 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top: 24),
-                child: Text("Welcome user\n Create your new account",
+                padding: const EdgeInsets.only(top: 24),
+                child: const Text("Welcome user\n Create your new account",
                     textAlign: TextAlign.center, style: Constants.boldHeading),
               ),
-              RegisterForm(),
+              const RegisterForm(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: CustomButton(
@@ -33,7 +33,7 @@ class RegisterPage extends StatelessWidget {
                   outLineButton: true,
                   onPressed: () {
                     Navigator.push(
-                        context, BouncingPageRoute(widget: LoginPage()));
+                        context, BouncingPageRoute(widget: const LoginPage()));
                   },
                 ),
               ),

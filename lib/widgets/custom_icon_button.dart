@@ -28,10 +28,9 @@ class _CustomIconButton extends State<CustomIconButton>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         milliseconds: 100,
       ),
-      lowerBound: 0.0,
       upperBound: 0.5,
     )..addListener(() {
         setState(() {});

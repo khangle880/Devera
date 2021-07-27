@@ -2,10 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:laptop/constants.dart';
 import 'package:laptop/screens/home/components/bottom_bar.dart';
-import 'package:laptop/screens/home/screens/bookmark_tab.dart';
-import 'package:laptop/screens/home/screens/find_laptop_tab.dart';
-import 'package:laptop/screens/home/screens/laptop_categories_tab.dart';
-import 'package:laptop/screens/home/screens/profile_screen.dart';
 import 'package:laptop/screens/home/tabs/home_tab.dart';
 import 'package:laptop/screens/home/tabs/save_tab.dart';
 import 'package:laptop/widgets/custom_action_bar.dart';
@@ -64,13 +60,18 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 _selectedTab = pageIndex;
               });
             },
-            children: <Widget>[HomeTab(), FindLaptop(), SaveTab(), Profile()]),
+            children: const <Widget>[
+              HomeTab(),
+              HomeTab(),
+              SaveTab(),
+              HomeTab()
+            ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             FirebaseAuth.instance.signOut();
           },
           backgroundColor: hexToColor("#F17532"),
-          child: Icon(Icons.fastfood),
+          child: const Icon(Icons.fastfood),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomBars(
@@ -78,7 +79,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           tabPressed: (pageIndex) {
             setState(() {
               _tabsPageController.animateToPage(pageIndex,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic);
             });
           },

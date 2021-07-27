@@ -29,11 +29,10 @@ class CustomActionBar extends StatelessWidget {
                 Colors.white.withOpacity(0.5),
               ],
             )),
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 top: 80.0, bottom: 24.0, left: 24.0, right: 24.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (hasBackArrow)
                   Container(
@@ -57,7 +56,7 @@ class CustomActionBar extends StatelessWidget {
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(8.0)),
                     alignment: Alignment.center,
-                    child: Text("0",
+                    child: const Text("0",
                         style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w600,

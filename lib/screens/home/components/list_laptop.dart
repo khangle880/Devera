@@ -8,8 +8,10 @@ class ListLaptop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CollectionReference _productRef =
-        FirebaseFirestore.instance.collection("Products");
+    final CollectionReference _productRef = FirebaseFirestore.instance
+        .collection("ProductBranch")
+        .doc("Apple")
+        .collection("Products");
 
     return Scaffold(
         backgroundColor: hexToColor("#FCFAF8"),
@@ -25,13 +27,13 @@ class ListLaptop extends StatelessWidget {
               }
 
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
 
               return ListView(children: <Widget>[
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
                 Container(
-                    padding: EdgeInsets.only(right: 15.0),
+                    padding: const EdgeInsets.only(right: 15.0),
                     width: MediaQuery.of(context).size.width - 30.0,
                     height: MediaQuery.of(context).size.height - 50.0,
                     child: GridView.count(
@@ -42,22 +44,23 @@ class ListLaptop extends StatelessWidget {
                         childAspectRatio: 0.8,
                         children: snapshot.data!.docs.map((document) {
                           return _buildCard(
-                              document['name'],
+                              document['name'].toString(),
                               "\$ ${document['minPrice']} - ${document['maxPrice']}",
-                              document['images'][0],
+                              document['images'][0].toString(),
                               false,
                               false,
                               context);
                         }).toList())),
-                SizedBox(height: 15.0)
+                const SizedBox(height: 15.0)
               ]);
             }));
   }
 
   Widget _buildCard(String name, String price, String imgUrl, bool added,
-      bool isFavorite, context) {
+      bool isFavorite, BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
+        padding:
+            const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
         child: InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -83,27 +86,27 @@ class ListLaptop extends StatelessWidget {
                             height: 120.0,
                             width: 200.0,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(15.0),
                                     topRight: Radius.circular(15.0)),
                                 image: DecorationImage(
                                     image: NetworkImage(imgUrl),
                                     fit: BoxFit.cover)))),
                     Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             top: 5.0, bottom: 15.0, left: 5.0, right: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            isFavorite
-                                ? Icon(Icons.favorite,
-                                    color: hexToColor("#EF7532"))
-                                : Icon(Icons.favorite_border,
-                                    color: hexToColor("#EF7532"))
+                            if (isFavorite)
+                              Icon(Icons.favorite, color: hexToColor("#EF7532"))
+                            else
+                              Icon(Icons.favorite_border,
+                                  color: hexToColor("#EF7532"))
                           ],
                         )),
                   ]),
-                  SizedBox(height: 15.0),
+                  const SizedBox(height: 15.0),
                   Text(price,
                       style: TextStyle(
                           color: hexToColor("#CC8053"),
@@ -115,11 +118,12 @@ class ListLaptop extends StatelessWidget {
                           fontFamily: 'Varela',
                           fontSize: 16.0)),
                   Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child:
                           Container(color: hexToColor("#EBEBEB"), height: 1.0)),
                   Padding(
-                      padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+                      padding: const EdgeInsets.only(
+                          left: 5.0, right: 5.0, top: 5.0),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [

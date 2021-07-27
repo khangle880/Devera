@@ -18,7 +18,7 @@ class RegisterForm extends StatefulWidget {
 class _RegisterForm extends State<RegisterForm> {
   Future<ErrorCode?> _createAccount() async {
     if (_registerPassword.trim() != _registerReEnterPassword.trim()) {
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Passwords are not match!",
           errorDescription: "Your Passwords are not match");
     }
@@ -31,27 +31,27 @@ class _RegisterForm extends State<RegisterForm> {
       print(e.code);
       return signUpErrorCodes(e.code);
     } catch (e) {
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Unexpected Error!",
           errorDescription: "Unexpected error has occurred.");
     }
   }
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     setState(() {
       _needLoading = true;
     });
 
-    ErrorCode? _createAccountFeedBack = await _createAccount();
-    if (_createAccountFeedBack == null) {
-      Navigator.pop(context);
-    } else {
+    final ErrorCode? _createAccountFeedBack = await _createAccount();
+    if (_createAccountFeedBack != null) {
       alertDialogBuilder(context, _createAccountFeedBack.getErrorType(),
           _createAccountFeedBack.getErrorDescription());
       setState(() {
         _needLoading = false;
       });
     }
+
+    Navigator.pop(context);
   }
 
   bool _needLoading = false;

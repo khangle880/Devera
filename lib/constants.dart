@@ -20,7 +20,7 @@ class Constants {
       fontWeight: FontWeight.w600,
       color: Colors.black);
 
-  static buttonTextStyle(Color textColor) {
+  static TextStyle buttonTextStyle(Color textColor) {
     return TextStyle(
         fontSize: 16, fontWeight: FontWeight.w600, color: textColor);
   }
@@ -32,7 +32,7 @@ class Constants {
 //? Shortcut functions
 
 Color hexToColor(String code) {
-  return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
 }
 
 void changeFocusFrom(BuildContext context, FocusNode focusNodeNew) {
@@ -47,13 +47,13 @@ Future<void> alertDialogBuilder(
       builder: (context) {
         return AlertDialog(
             title: Text(errorType),
-            content: Container(child: Text(errorMessage)),
+            content: Text(errorMessage),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Close Dialog"))
+                  child: const Text("Close Dialog"))
             ]);
       });
 }
@@ -62,7 +62,7 @@ Future<void> alertDialogBuilder(
 
 //? Extension functions
 
-extension customString on String? {
+extension CustomString on String? {
   bool isNull() {
     if (this != null) return false;
     return true;

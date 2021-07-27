@@ -13,7 +13,6 @@ class LandingPage extends StatelessWidget {
     return FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {
-        // If Firebase App init, snapshot has error
         if (snapshot.hasError) {
           return Scaffold(
             body: Center(
@@ -22,13 +21,10 @@ class LandingPage extends StatelessWidget {
           );
         }
 
-        // Connection Initialized - Firebase App is running
         if (snapshot.connectionState == ConnectionState.done) {
-          // StreamBuilder can check the login state live
           return StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, streamSnapshot) {
-              // If Stream Snapshot has error
               if (streamSnapshot.hasError) {
                 return Scaffold(
                   body: Center(
@@ -37,22 +33,18 @@ class LandingPage extends StatelessWidget {
                 );
               }
 
-              // Connection state active - Do the user login check inside the
-              // if statement
               if (streamSnapshot.connectionState == ConnectionState.active) {
                 // Get the user
-                User? _user = streamSnapshot.data as User?;
-
-                // If the user is null, we're not logged in
+                final User? _user = streamSnapshot.data as User?;
 
                 if (_user == null) {
-                  return LoginPage();
+                  return const LoginPage();
                 } else {
-                  return HomePage();
+                  return const HomePage();
                 }
               }
 
-              return Scaffold(
+              return const Scaffold(
                 body: Center(
                   child: Text(
                     "Checking Authentication...",
@@ -64,8 +56,7 @@ class LandingPage extends StatelessWidget {
           );
         }
 
-        // Connecting to Firebase - Loading
-        return Scaffold(
+        return const Scaffold(
           body: Center(
             child: Text(
               "Initialization App...",

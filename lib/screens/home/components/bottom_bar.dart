@@ -24,14 +24,14 @@ class _BottomBars extends State<BottomBars> {
     _currentTab = widget.selectedTab;
 
     return BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 10.0,
         color: Colors.transparent,
         elevation: 100.0,
         clipBehavior: Clip.antiAlias,
         child: Container(
           height: 60.0,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25.0),
                 topRight: Radius.circular(25.0)),
@@ -39,20 +39,20 @@ class _BottomBars extends State<BottomBars> {
           ),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Container(
+            SizedBox(
               height: 60.0,
               width: MediaQuery.of(context).size.width / 2 - 40.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   CustomIconButton(
-                      isSelected: _currentTab == 0 ? true : false,
+                      isSelected: _currentTab == 0 || false,
                       onPressed: () {
                         widget.tabPressed(0);
                       },
                       iconPath: "assets/icons/home.svg"),
                   CustomIconButton(
-                      isSelected: _currentTab == 1 ? true : false,
+                      isSelected: _currentTab == 1 || false,
                       onPressed: () {
                         widget.tabPressed(1);
                       },
@@ -67,13 +67,13 @@ class _BottomBars extends State<BottomBars> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   CustomIconButton(
-                      isSelected: _currentTab == 2 ? true : false,
+                      isSelected: _currentTab == 2 || false,
                       onPressed: () {
                         widget.tabPressed(2);
                       },
                       iconPath: "assets/icons/bookmark.svg"),
                   CustomIconButton(
-                      isSelected: _currentTab == 3 ? true : false,
+                      isSelected: _currentTab == 3 || false,
                       onPressed: () {
                         widget.tabPressed(3);
                       },
