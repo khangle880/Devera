@@ -17,19 +17,19 @@ class ErrorCode {
 ErrorCode signUpErrorCodes(String errorCode) {
   switch (errorCode) {
     case "weak-password":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Weak Password!",
           errorDescription: "Your password is weak");
     case "email-already-in-use":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Email is already in use!",
           errorDescription: "PLease use another Email");
     case "invalid-email":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Invalid email!",
           errorDescription: "Your email is invalid");
     default:
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Internet connection error!",
           errorDescription: "PLease check your internet connection");
   }
@@ -40,24 +40,24 @@ ErrorCode signUpErrorCodes(String errorCode) {
 ErrorCode signInErrorCodes(String errorCode) {
   switch (errorCode) {
     case "invalid-email":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Email or Password is invalid!",
           errorDescription: "Your Email or Password is wrong ");
     case "wrong-password":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Email or Password is invalid!",
           errorDescription: "Your Email or Password is wrong ");
     case "user-not-found":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Email or Password is invalid!",
           errorDescription: "Your Email or Password is wrong ");
     case "user-disabled":
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Your account have been banned",
           errorDescription:
               "PLease check our website to know why your account has been banned");
     default:
-      return ErrorCode(
+      return const ErrorCode(
           errorType: "Internet connection error!",
           errorDescription: "PLease check your internet connection");
   }
