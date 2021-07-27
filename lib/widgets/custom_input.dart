@@ -43,7 +43,7 @@ class CustomInput extends StatelessWidget {
             border: InputBorder.none,
             hintText: hintText,
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
             hintStyle: hintTextStyle),
         style: Constants.regularDarkText,
       ),

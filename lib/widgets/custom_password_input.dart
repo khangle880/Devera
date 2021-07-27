@@ -61,7 +61,7 @@ class _CustomPasswordInputState extends State<CustomPasswordInput> {
               },
             ),
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
             hintStyle: widget.hintTextStyle),
         style: Constants.regularDarkText,
       ),
