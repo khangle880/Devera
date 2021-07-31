@@ -20,7 +20,7 @@ class RegisterPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.only(top: 24),
-                child: const Text("Welcome user\n Create your new account",
+                child: const Text('Welcome user\n Create your new account',
                     textAlign: TextAlign.center, style: Constants.boldHeading),
               ),
               const RegisterForm(),
@@ -29,7 +29,7 @@ class RegisterPage extends StatelessWidget {
                 child: CustomButton(
                   color: Colors.black,
                   textColor: Colors.black,
-                  text: "Have an Account? Login",
+                  text: 'Have an Account? Login',
                   outLineButton: true,
                   onPressed: () {
                     Navigator.push(

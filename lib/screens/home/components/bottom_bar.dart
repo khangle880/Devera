@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:laptop/widgets/custom_icon_button.dart';
 
 class BottomBars extends StatefulWidget {
@@ -37,51 +36,52 @@ class _BottomBars extends State<BottomBars> {
                 topRight: Radius.circular(25.0)),
             color: Colors.white,
           ),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            SizedBox(
-              height: 60.0,
-              width: MediaQuery.of(context).size.width / 2 - 40.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CustomIconButton(
-                      isSelected: _currentTab == 0 || false,
-                      onPressed: () {
-                        widget.tabPressed(0);
-                      },
-                      iconPath: "assets/icons/home.svg"),
-                  CustomIconButton(
-                      isSelected: _currentTab == 1 || false,
-                      onPressed: () {
-                        widget.tabPressed(1);
-                      },
-                      iconPath: "assets/icons/find.svg"),
-                ],
-              ),
-            ),
-            Container(
-              height: 60.0,
-              width: MediaQuery.of(context).size.width / 2 - 40.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CustomIconButton(
-                      isSelected: _currentTab == 2 || false,
-                      onPressed: () {
-                        widget.tabPressed(2);
-                      },
-                      iconPath: "assets/icons/bookmark.svg"),
-                  CustomIconButton(
-                      isSelected: _currentTab == 3 || false,
-                      onPressed: () {
-                        widget.tabPressed(3);
-                      },
-                      iconPath: "assets/icons/profile.svg"),
-                ],
-              ),
-            ),
-          ]),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                SizedBox(
+                  height: 60.0,
+                  width: MediaQuery.of(context).size.width / 2 - 40.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      CustomIconButton(
+                          isSelected: _currentTab == 0 || false,
+                          onPressed: () {
+                            widget.tabPressed(0);
+                          },
+                          iconPath: 'assets/icons/home.svg'),
+                      CustomIconButton(
+                          isSelected: _currentTab == 1 || false,
+                          onPressed: () {
+                            widget.tabPressed(1);
+                          },
+                          iconPath: 'assets/icons/find.svg'),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 60.0,
+                  width: MediaQuery.of(context).size.width / 2 - 40.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      CustomIconButton(
+                          isSelected: _currentTab == 2 || false,
+                          onPressed: () {
+                            widget.tabPressed(2);
+                          },
+                          iconPath: 'assets/icons/bookmark.svg'),
+                      CustomIconButton(
+                          isSelected: _currentTab == 3 || false,
+                          onPressed: () {
+                            widget.tabPressed(3);
+                          },
+                          iconPath: 'assets/icons/profile.svg'),
+                    ],
+                  ),
+                ),
+              ]),
         ));
   }
 }

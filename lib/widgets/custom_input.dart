@@ -31,7 +31,7 @@ class CustomInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: hexToColor("#F2F2F2"),
+          color: hexToColor('#F2F2F2'),
           borderRadius: BorderRadius.circular(12.0)),
       margin: margin,
       child: TextField(

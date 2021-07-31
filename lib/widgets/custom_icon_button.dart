@@ -62,13 +62,13 @@ class _CustomIconButton extends State<CustomIconButton>
                 border: Border(
                     top: BorderSide(
               color: widget.isSelected
-                  ? hexToColor("#EF7532")
+                  ? hexToColor('#EF7532')
                   : Colors.transparent,
               width: 2.0,
             ))),
             child: SvgPicture.asset(
               widget.iconPath,
-              color: widget.isSelected ? hexToColor("#EF7532") : Colors.grey,
+              color: widget.isSelected ? hexToColor('#EF7532') : Colors.grey,
             )),
       ),
     );

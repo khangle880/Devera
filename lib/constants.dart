@@ -5,20 +5,20 @@ import 'package:flutter/widgets.dart';
 
 class Constants {
   //? Text's Styles
-  static const regularHeader = TextStyle(
+  static const TextStyle regularHeader = TextStyle(
       fontSize: 18.0, fontWeight: FontWeight.w600, color: Colors.black);
 
-  static const regularDarkText = TextStyle(
-      fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black);
+  static const TextStyle regularDarkText = TextStyle(
+      fontSize: 22.0, fontWeight: FontWeight.w600, color: Colors.black);
 
-  static const regularHintText = TextStyle(
+  static const TextStyle regularHintText = TextStyle(
       fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black38);
 
-  static const boldHeading = TextStyle(
+  static const TextStyle boldHeading = TextStyle(
       fontFamily: 'Varela',
-      fontSize: 28,
+      fontSize: 30,
       fontWeight: FontWeight.w600,
-      color: Colors.black);
+      color: Colors.blue);
 
   static TextStyle buttonTextStyle(Color textColor) {
     return TextStyle(
@@ -44,16 +44,16 @@ Future<void> alertDialogBuilder(
   return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
             title: Text(errorType),
             content: Text(errorMessage),
-            actions: [
+            actions: <Widget>[
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("Close Dialog"))
+                  child: const Text('Close Dialog'))
             ]);
       });
 }

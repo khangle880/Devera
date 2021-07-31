@@ -24,38 +24,38 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    return Stack(children: <Widget>[
       ListView(
           physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: 150.0, left: 20.0),
+          padding: const EdgeInsets.only(left: 20.0),
           children: <Widget>[
             const SizedBox(height: 15.0),
             Container(
-              color: hexToColor("#F9F9F9"),
+              color: hexToColor('#F9F9F9'),
               child: TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.transparent,
-                labelColor: hexToColor("#C88D67"),
+                labelColor: hexToColor('#C88D67'),
                 isScrollable: true,
-                labelPadding: EdgeInsets.only(left: 35.0, right: 35.0),
-                unselectedLabelColor: hexToColor("#CDCDCD"),
-                tabs: const [
+                labelPadding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                unselectedLabelColor: hexToColor('#CDCDCD'),
+                tabs: const <Widget>[
                   Tab(
                     child: Text(
                       'Apple',
-                      style: TextStyle(fontFamily: "Varela", fontSize: 21.0),
+                      style: TextStyle(fontFamily: 'Varela', fontSize: 21.0),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'ThinkPad',
-                      style: TextStyle(fontFamily: "Varela", fontSize: 21.0),
+                      style: TextStyle(fontFamily: 'Varela', fontSize: 21.0),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'Dell',
-                      style: TextStyle(fontFamily: "Varela", fontSize: 21.0),
+                      style: TextStyle(fontFamily: 'Varela', fontSize: 21.0),
                     ),
                   ),
                 ],
@@ -66,7 +66,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               width: double.infinity,
               child: TabBarView(
                 controller: _tabController,
-                children: const [
+                children: const <Widget>[
                   ListLaptop(),
                   ListLaptop(),
                   ListLaptop(),
@@ -74,10 +74,10 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               ),
             )
           ]),
-      const CustomActionBar(
-        title: "Laptop Categories",
-        hasBackArrow: false,
-      )
+      // const CustomActionBar(
+      //   title: 'Laptop Categories',
+      //   hasBackArrow: false,
+      // )
     ]);
   }
 }

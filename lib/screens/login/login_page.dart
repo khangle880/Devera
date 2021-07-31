@@ -13,27 +13,27 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top: 24),
-                child: Text("Welcome user\n Login to your account",
+                padding: const EdgeInsets.only(top: 24),
+                child: const Text('Welcome user\n Login to your account',
                     textAlign: TextAlign.center, style: Constants.boldHeading),
               ),
-              LoginForm(),
+              const LoginForm(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: CustomButton(
                   color: Colors.black,
                   textColor: Colors.black,
-                  text: "Create New Account",
+                  text: 'Create New Account',
                   outLineButton: true,
                   onPressed: () {
-                    Navigator.push(
-                        context, BouncingPageRoute(widget: RegisterPage()));
+                    Navigator.push(context,
+                        BouncingPageRoute(widget: const RegisterPage()));
                   },
                 ),
               )

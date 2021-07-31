@@ -10,32 +10,33 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<Object>(
       future: _initialization,
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
             body: Center(
-              child: Text("Error: ${snapshot.error}"),
+              child: Text('Error: ${snapshot.error}'),
             ),
           );
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return StreamBuilder(
+          return StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, streamSnapshot) {
+            builder:
+                (BuildContext context, AsyncSnapshot<User?> streamSnapshot) {
               if (streamSnapshot.hasError) {
                 return Scaffold(
                   body: Center(
-                    child: Text("Error: ${streamSnapshot.error}"),
+                    child: Text('Error: ${streamSnapshot.error}'),
                   ),
                 );
               }
 
               if (streamSnapshot.connectionState == ConnectionState.active) {
                 // Get the user
-                final User? _user = streamSnapshot.data as User?;
+                final User? _user = streamSnapshot.data;
 
                 if (_user == null) {
                   return const LoginPage();
@@ -47,7 +48,7 @@ class LandingPage extends StatelessWidget {
               return const Scaffold(
                 body: Center(
                   child: Text(
-                    "Checking Authentication...",
+                    'Checking Authentication...',
                     style: Constants.regularHeader,
                   ),
                 ),
@@ -59,7 +60,7 @@ class LandingPage extends StatelessWidget {
         return const Scaffold(
           body: Center(
             child: Text(
-              "Initialization App...",
+              'Initialization App...',
               style: Constants.regularHeader,
             ),
           ),

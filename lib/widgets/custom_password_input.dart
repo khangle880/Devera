@@ -35,7 +35,7 @@ class _CustomPasswordInputState extends State<CustomPasswordInput> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: hexToColor("#F2F2F2"),
+          color: hexToColor('#F2F2F2'),
           borderRadius: BorderRadius.circular(12.0)),
       margin: widget.margin,
       child: TextField(

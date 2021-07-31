@@ -19,8 +19,8 @@ class _RegisterForm extends State<RegisterForm> {
   Future<ErrorCode?> _createAccount() async {
     if (_registerPassword.trim() != _registerReEnterPassword.trim()) {
       return const ErrorCode(
-          errorType: "Passwords are not match!",
-          errorDescription: "Your Passwords are not match");
+          errorType: 'Passwords are not match!',
+          errorDescription: 'Your Passwords are not match');
     }
 
     try {
@@ -32,8 +32,8 @@ class _RegisterForm extends State<RegisterForm> {
       return signUpErrorCodes(e.code);
     } catch (e) {
       return const ErrorCode(
-          errorType: "Unexpected Error!",
-          errorDescription: "Unexpected error has occurred.");
+          errorType: 'Unexpected Error!',
+          errorDescription: 'Unexpected error has occurred.');
     }
   }
 
@@ -57,9 +57,9 @@ class _RegisterForm extends State<RegisterForm> {
   bool _needLoading = false;
 
   //? Form Input Fields
-  String _registerEmail = "";
-  String _registerPassword = "";
-  String _registerReEnterPassword = "";
+  String _registerEmail = '';
+  String _registerPassword = '';
+  String _registerReEnterPassword = '';
 
   //? Focus node
   late FocusNode _emailFocusNode;
@@ -86,31 +86,31 @@ class _RegisterForm extends State<RegisterForm> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       CustomInput(
-        hintText: "Email...",
-        onChanged: (value) {
+        hintText: 'Email...',
+        onChanged: (String value) {
           _registerEmail = value;
         },
         keyboardType: TextInputType.emailAddress,
         focusNode: _emailFocusNode,
-        onSubmitted: (value) {
+        onSubmitted: (String value) {
           _emailFocusNode.unfocus();
           changeFocusFrom(context, _passwordFocusNode);
         },
       ),
       CustomPasswordInput(
-        hintText: "Password...",
-        onChanged: (value) {
+        hintText: 'Password...',
+        onChanged: (String value) {
           _registerPassword = value;
         },
         focusNode: _passwordFocusNode,
-        onSubmitted: (value) {
+        onSubmitted: (String value) {
           _passwordFocusNode.unfocus();
           changeFocusFrom(context, _reEnterPasswordFocusNode);
         },
       ),
       CustomPasswordInput(
-        hintText: "Re-enter...",
-        onChanged: (value) {
+        hintText: 'Re-enter...',
+        onChanged: (String value) {
           _registerReEnterPassword = value;
         },
         focusNode: _reEnterPasswordFocusNode,
@@ -118,7 +118,7 @@ class _RegisterForm extends State<RegisterForm> {
       CustomButton(
         color: Colors.black,
         textColor: Colors.white,
-        text: "Register",
+        text: 'Register',
         onPressed: () {
           _submitForm();
         },

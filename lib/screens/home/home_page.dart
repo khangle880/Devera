@@ -16,6 +16,9 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   late PageController _tabsPageController;
   int _selectedTab = 0;
+  String _title = 'Latop Categories';
+  bool _hasBackArrow = false;
+  bool _hasTitle = true;
 
   @override
   void initState() {
@@ -32,32 +35,31 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: hexToColor("#F9F9F9"),
-        // appBar: CustomActionBar(),
-        // appBar: AppBar(
-        //   backgroundColor: Colors.white,
-        //   elevation: 0.0,
-        //   centerTitle: true,
-        //   leading: IconButton(
-        //       icon: Icon(Icons.arrow_back, color: hexToColor("#545D68")),
-        //       onPressed: () {}),
-        //   title: Text("Pickup",
-        //       style: TextStyle(
-        //           fontFamily: 'Varela',
-        //           fontSize: 20,
-        //           color: hexToColor("#545D68"))),
-        //   actions: <Widget>[
-        //     IconButton(
-        //         onPressed: () {},
-        //         icon: Icon(Icons.notifications_none,
-        //             color: hexToColor("#545D68")))
-        //   ],
-        // ),
+        backgroundColor: hexToColor('#F9F9F9'),
+        appBar: CustomActionBar(
+          title: _title,
+          hasBackArrow: _hasBackArrow,
+          hasTitle: _hasTitle,
+        ),
         body: PageView(
             controller: _tabsPageController,
-            onPageChanged: (pageIndex) {
+            onPageChanged: (int pageIndex) {
               setState(() {
                 _selectedTab = pageIndex;
+
+                switch (pageIndex) {
+                  case 0:
+                    _title = 'Latop Categories';
+                    _hasBackArrow = false;
+                    _hasTitle = true;
+                    break;
+                  case 1:
+                    _title = 'Search Categories';
+                    _hasBackArrow = true;
+                    _hasTitle = true;
+                    break;
+                  default:
+                }
               });
             },
             children: const <Widget>[
@@ -70,13 +72,13 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           onPressed: () {
             FirebaseAuth.instance.signOut();
           },
-          backgroundColor: hexToColor("#F17532"),
+          backgroundColor: hexToColor('#F17532'),
           child: const Icon(Icons.fastfood),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomBars(
           selectedTab: _selectedTab,
-          tabPressed: (pageIndex) {
+          tabPressed: (int pageIndex) {
             setState(() {
               _tabsPageController.animateToPage(pageIndex,
                   duration: const Duration(milliseconds: 300),

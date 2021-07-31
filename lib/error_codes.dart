@@ -1,8 +1,8 @@
 class ErrorCode {
+  const ErrorCode({required this.errorType, required this.errorDescription});
+
   final String errorType;
   final String errorDescription;
-
-  const ErrorCode({required this.errorType, required this.errorDescription});
 
   String getErrorType() {
     return errorType;
@@ -16,22 +16,22 @@ class ErrorCode {
 //? Errors when using Sign-In
 ErrorCode signUpErrorCodes(String errorCode) {
   switch (errorCode) {
-    case "weak-password":
+    case 'weak-password':
       return const ErrorCode(
-          errorType: "Weak Password!",
-          errorDescription: "Your password is weak");
-    case "email-already-in-use":
+          errorType: 'Weak Password!',
+          errorDescription: 'Your password is weak');
+    case 'email-already-in-use':
       return const ErrorCode(
-          errorType: "Email is already in use!",
-          errorDescription: "PLease use another Email");
-    case "invalid-email":
+          errorType: 'Email is already in use!',
+          errorDescription: 'PLease use another Email');
+    case 'invalid-email':
       return const ErrorCode(
-          errorType: "Invalid email!",
-          errorDescription: "Your email is invalid");
+          errorType: 'Invalid email!',
+          errorDescription: 'Your email is invalid');
     default:
       return const ErrorCode(
-          errorType: "Internet connection error!",
-          errorDescription: "PLease check your internet connection");
+          errorType: 'Internet connection error!',
+          errorDescription: 'PLease check your internet connection');
   }
 }
 //?------------------------------------------------------------------------------
@@ -39,27 +39,27 @@ ErrorCode signUpErrorCodes(String errorCode) {
 //? Errors when using Sign-Up
 ErrorCode signInErrorCodes(String errorCode) {
   switch (errorCode) {
-    case "invalid-email":
+    case 'invalid-email':
       return const ErrorCode(
-          errorType: "Email or Password is invalid!",
-          errorDescription: "Your Email or Password is wrong ");
-    case "wrong-password":
+          errorType: 'Email or Password is invalid!',
+          errorDescription: 'Your Email or Password is wrong ');
+    case 'wrong-password':
       return const ErrorCode(
-          errorType: "Email or Password is invalid!",
-          errorDescription: "Your Email or Password is wrong ");
-    case "user-not-found":
+          errorType: 'Email or Password is invalid!',
+          errorDescription: 'Your Email or Password is wrong ');
+    case 'user-not-found':
       return const ErrorCode(
-          errorType: "Email or Password is invalid!",
-          errorDescription: "Your Email or Password is wrong ");
-    case "user-disabled":
+          errorType: 'Email or Password is invalid!',
+          errorDescription: 'Your Email or Password is wrong ');
+    case 'user-disabled':
       return const ErrorCode(
-          errorType: "Your account have been banned",
+          errorType: 'Your account have been banned',
           errorDescription:
-              "PLease check our website to know why your account has been banned");
+              'PLease check our website to know why your account has been banned');
     default:
       return const ErrorCode(
-          errorType: "Internet connection error!",
-          errorDescription: "PLease check your internet connection");
+          errorType: 'Internet connection error!',
+          errorDescription: 'PLease check your internet connection');
   }
 }
 

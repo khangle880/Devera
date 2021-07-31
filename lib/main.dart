@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.varelaTextTheme(Theme.of(context).textTheme),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          accentColor: hexToColor("#FF1E00")),
+          accentColor: hexToColor('#FF1E00')),
       home: LandingPage(),
     );
   }

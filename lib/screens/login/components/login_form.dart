@@ -25,18 +25,18 @@ class _LoginForm extends State<LoginForm> {
       print(e.code);
       return signInErrorCodes(e.code);
     } catch (e) {
-      return ErrorCode(
-          errorType: "Unexpected Error!",
-          errorDescription: "Unexpected error has occurred.");
+      return const ErrorCode(
+          errorType: 'Unexpected Error!',
+          errorDescription: 'Unexpected error has occurred.');
     }
   }
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     setState(() {
       _needLoading = true;
     });
 
-    ErrorCode? _loginAccoutFeedBack = await _loginAccount();
+    final ErrorCode? _loginAccoutFeedBack = await _loginAccount();
     if (_loginAccoutFeedBack != null) {
       alertDialogBuilder(context, _loginAccoutFeedBack.getErrorType(),
           _loginAccoutFeedBack.getErrorDescription());
@@ -49,8 +49,8 @@ class _LoginForm extends State<LoginForm> {
   bool _needLoading = false;
 
   //? Form Input Fields
-  String _loginEmail = "";
-  String _loginPassword = "";
+  String _loginEmail = '';
+  String _loginPassword = '';
 
   //? Focus node
   late FocusNode _emailFocusNode;
@@ -74,27 +74,29 @@ class _LoginForm extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       CustomInput(
-          hintText: "Email...",
+          hintText: 'Email...',
           keyboardType: TextInputType.emailAddress,
-          onChanged: (value) {
+          onChanged: (String value) {
             _loginEmail = value;
           },
-          onSubmitted: (value) {
+          focusNode: _emailFocusNode,
+          onSubmitted: (String value) {
             _emailFocusNode.unfocus();
             changeFocusFrom(context, _passwordFocusNode);
           }),
       CustomPasswordInput(
-          hintText: "Password...",
-          onChanged: (value) {
+          hintText: 'Password...',
+          onChanged: (String value) {
             _loginPassword = value;
           },
-          onSubmitted: (value) {
+          focusNode: _passwordFocusNode,
+          onSubmitted: (String value) {
             _passwordFocusNode.unfocus();
           }),
       CustomButton(
         color: Colors.black,
         textColor: Colors.white,
-        text: "Login",
+        text: 'Login',
         onPressed: () {
           _submitForm();
         },

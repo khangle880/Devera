@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BouncingPageRoute extends PageRouteBuilder {
-  final Widget widget;
-
+class BouncingPageRoute extends PageRouteBuilder<BouncingPageRoute> {
   BouncingPageRoute({required this.widget})
       : super(
             transitionDuration: const Duration(milliseconds: 300),
@@ -19,4 +17,6 @@ class BouncingPageRoute extends PageRouteBuilder {
                 Animation<double> secAnimation) {
               return widget;
             });
+
+  final Widget widget;
 }
