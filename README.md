@@ -22,3 +22,4 @@
 ## About this 
 
 This is still very bad optimize and can not usable. Lack of experience with flutter so this is my first project with this.
+This project only work on ios and device with same size with Xs Max. I haven't optimzed for responsive display yet
