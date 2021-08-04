@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:laptop/constants/constants_color.dart';
 
 //? Shortcut Class
 
@@ -18,7 +19,7 @@ class Constants {
       fontFamily: 'Varela',
       fontSize: 30,
       fontWeight: FontWeight.w600,
-      color: Colors.blue);
+      color: kHeadingTextColor);
 
   static TextStyle buttonTextStyle(Color textColor) {
     return TextStyle(

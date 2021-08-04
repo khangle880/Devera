@@ -44,10 +44,12 @@ class _ImageSwiperState extends State<ImageSwiper> {
                     margin: const EdgeInsets.symmetric(
                       horizontal: 5.0,
                     ),
-                    width: _selectedPage == imageIndex ? 35.0 : 10.0,
-                    height: 10.0,
+                    width: _selectedPage == imageIndex ? 30.0 : 10.0,
+                    height: 5.0,
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: _selectedPage == imageIndex
+                            ? const Color(0xFF222831)
+                            : const Color(0xFF145374),
                         borderRadius: BorderRadius.circular(12.0)),
                   )
               ]),

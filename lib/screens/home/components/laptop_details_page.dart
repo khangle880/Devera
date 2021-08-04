@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:laptop/constants.dart';
+import 'package:laptop/services/firebase_services.dart';
 import 'package:laptop/widgets/custom_action_bar.dart';
 import 'package:laptop/widgets/image_swiper.dart';
 import 'package:laptop/widgets/select_laptop_option.dart';
@@ -24,15 +25,36 @@ class LaptopDetailsPage extends StatefulWidget {
 }
 
 class _LaptopDetailsPageState extends State<LaptopDetailsPage> {
+  final FirebaseServices _firebaseServices = FirebaseServices();
+  late int _selectedProductOption;
+  late String _selectedProductImage;
+  late String _selectedProductName;
+
+  @override
+  void initState() {
+    _selectedProductName = widget.productName;
+    _selectedProductImage = widget.productImageUrls[0].toString();
+    super.initState();
+  }
+
+  Future<void> _addToCardButtonPressed() {
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserID())
+        .collection('Cart')
+        .doc(widget.productId)
+        .set(<String, dynamic>{
+      'name': _selectedProductName,
+      'price': _selectedProductOption,
+      'image': _selectedProductImage,
+      'amount': 1
+    });
+  }
+
+  static const SnackBar _snackBar =
+      SnackBar(content: Text('Product added to your cart'));
+
   @override
   Widget build(BuildContext context) {
-    final CollectionReference<Object> _productRef = FirebaseFirestore.instance
-        .collection('ProductBranch')
-        .doc('Apple')
-        .collection('Products')
-        .doc(widget.productId)
-        .collection('Product_Detail');
-
     return Scaffold(
         backgroundColor: hexToColor('#F4F9F9'),
         body: Stack(children: <Widget>[
@@ -60,7 +82,11 @@ class _LaptopDetailsPageState extends State<LaptopDetailsPage> {
             ),
             SizedBox(
               child: FutureBuilder<QuerySnapshot<Object?>>(
-                  future: _productRef.orderBy('price').get(),
+                  future: _firebaseServices.productRef
+                      .doc(widget.productId)
+                      .collection('Product_Detail')
+                      .orderBy('price')
+                      .get(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
                     if (snapshot.hasError) {
@@ -71,9 +97,16 @@ class _LaptopDetailsPageState extends State<LaptopDetailsPage> {
                       return const CircularProgressIndicator();
                     }
 
+                    _selectedProductOption =
+                        snapshot.data!.docs[0]['price'] as int;
+
                     return Padding(
                         padding: const EdgeInsets.only(left: 15.0),
-                        child: SelectLaptopOption(snapshotData: snapshot));
+                        child: SelectLaptopOption(
+                            snapshotData: snapshot,
+                            onSelected: (int userChooseOption) {
+                              _selectedProductOption = userChooseOption;
+                            }));
                   }),
             )
           ]),
@@ -96,18 +129,25 @@ class _LaptopDetailsPageState extends State<LaptopDetailsPage> {
                 ),
                 Expanded(
                   flex: 4,
-                  child: Container(
-                      height: 65.0,
-                      margin: const EdgeInsets.only(
-                        left: 16.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text('Add to cart',
-                          style: TextStyle(color: Colors.white, fontSize: 20))),
+                  child: GestureDetector(
+                    onTap: () async {
+                      _addToCardButtonPressed();
+                      ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                    },
+                    child: Container(
+                        height: 65.0,
+                        margin: const EdgeInsets.only(
+                          left: 16.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Add to cart',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20))),
+                  ),
                 )
               ]),
             ),

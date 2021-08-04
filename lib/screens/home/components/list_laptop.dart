@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:laptop/constants.dart';
+import 'package:laptop/constants/constants_color.dart';
 import 'package:laptop/screens/home/components/laptop_details_page.dart';
 
 class ListLaptop extends StatelessWidget {
@@ -130,15 +131,15 @@ class ListLaptop extends StatelessWidget {
                             if (isFavorite)
                               Icon(Icons.favorite, color: hexToColor('#EF7532'))
                             else
-                              Icon(Icons.favorite_border,
-                                  color: hexToColor('#EF7532'))
+                              const Icon(Icons.favorite_border,
+                                  color: kHightlightTextColor)
                           ],
                         )),
                   ]),
                   const SizedBox(height: 15.0),
                   Text(productPrice,
-                      style: TextStyle(
-                          color: hexToColor('#CC8053'),
+                      style: const TextStyle(
+                          color: kHightlightTextColor,
                           fontFamily: 'Varela',
                           fontSize: 16.0)),
                   Text(productName,
@@ -157,15 +158,15 @@ class ListLaptop extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             if (!added) ...<Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.shopping_basket,
-                                color: hexToColor('#D17E50'),
+                                color: kHightlightTextColor,
                                 size: 20,
                               ),
-                              Text('Add to cart',
+                              const Text('Add to cart',
                                   style: TextStyle(
                                       fontFamily: 'Varela',
-                                      color: hexToColor('#D17E50'),
+                                      color: kHightlightTextColor,
                                       fontSize: 18.0))
                             ],
                             if (added) ...<Widget>[

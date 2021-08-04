@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:laptop/constants.dart';
+import 'package:laptop/constants/constants_color.dart';
 import 'package:laptop/screens/home/components/list_laptop.dart';
 import 'package:laptop/widgets/custom_action_bar.dart';
 
@@ -35,7 +36,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               child: TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.transparent,
-                labelColor: hexToColor('#C88D67'),
+                labelColor: kHightlightLabelTextColor,
                 isScrollable: true,
                 labelPadding: const EdgeInsets.only(left: 35.0, right: 35.0),
                 unselectedLabelColor: hexToColor('#CDCDCD'),

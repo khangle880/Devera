@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:laptop/constants.dart';
+import 'package:laptop/constants/constants_color.dart';
 
 class CustomIconButton extends StatefulWidget {
   const CustomIconButton({
@@ -61,14 +62,12 @@ class _CustomIconButton extends State<CustomIconButton>
             decoration: BoxDecoration(
                 border: Border(
                     top: BorderSide(
-              color: widget.isSelected
-                  ? hexToColor('#EF7532')
-                  : Colors.transparent,
+              color: widget.isSelected ? kBottomIconColor : Colors.transparent,
               width: 2.0,
             ))),
             child: SvgPicture.asset(
               widget.iconPath,
-              color: widget.isSelected ? hexToColor('#EF7532') : Colors.grey,
+              color: widget.isSelected ? kBottomIconColor : Colors.grey,
             )),
       ),
     );
