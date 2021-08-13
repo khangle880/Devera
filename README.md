@@ -6,9 +6,9 @@
 
 # Things todo
 
-- [ ] Try to code like Hung-Senpai ideas
-- [ ] Create Forgot password
-- [ ] I feel like idiot right now
+- [ ] Create Todo Home UI
+- [ ] Create DataStore GraphQL
+- [ ] Apply AWS to UI
 
 # Some requirement for this project
 
