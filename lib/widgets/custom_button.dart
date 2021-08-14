@@ -80,7 +80,7 @@ class _CustomButton extends State<CustomButton>
                   height: 30.0, width: 30.0, child: CircularProgressIndicator())
               : Text(
                   widget.text,
-                  style: StylesConstant.buttonTextStyle(widget.textColor),
+                  style: StyleConstants.buttonTextStyle(widget.textColor),
                 ),
         ),
       ),

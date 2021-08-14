@@ -1,6 +1,8 @@
 import 'package:asking/auth/auth_cubit.dart';
 import 'package:asking/auth/auth_repository.dart';
 import 'package:asking/auth/form_submission_status.dart';
+import 'package:asking/auth/login/components/password_field.dart';
+import 'package:asking/auth/login/components/username_field.dart';
 import 'package:asking/auth/login/login_bloc.dart';
 import 'package:asking/auth/login/login_event.dart';
 import 'package:asking/auth/login/login_state.dart';
@@ -13,13 +15,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginView extends StatefulWidget {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   _LoginViewState createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
+  final _formKey = GlobalKey<FormState>();
   bool _needLoading = false;
 
   //? Focus node
@@ -63,11 +64,11 @@ class _LoginViewState extends State<LoginView> {
         }
       },
       child: Form(
-        key: widget._formKey,
+        key: _formKey,
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Padding(
-              padding: EdgeInsets.only(top: 138.0.h),
+              padding: EdgeInsets.only(top: 118.0.h),
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,51 +122,20 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _userNameField() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return TextFormField(
-        decoration: InputDecoration(
-          hintText: 'User Name',
-          hintStyle: TextStyle(fontSize: 16.sp),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorConstants.kPrimaryDarkColor),
-          ),
-        ),
-        validator: (value) =>
-            state.isValidUsername ? null : 'Username is too short',
+    return UserNameField(
         focusNode: _usernameFocusNode,
-        onFieldSubmitted: (value) {
+        onSubmitted: (value) {
           _usernameFocusNode.unfocus();
           ExtensionFunction.changeFocusFrom(context, _passwordFocusNode);
-        },
-        onChanged: (value) => context
-            .read<LoginBloc>()
-            .add(LoginUsernameChanged(username: value)),
-      );
-    });
+        });
   }
 
   Widget _passwordField() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return TextFormField(
-        obscureText: true,
-        decoration: InputDecoration(
-          hintText: 'Password',
-          hintStyle: TextStyle(fontSize: 16.sp),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorConstants.kPrimaryDarkColor),
-          ),
-        ),
-        validator: (value) =>
-            state.isValidPassword ? null : 'Password is too weak',
+    return PasswordField(
         focusNode: _passwordFocusNode,
-        onFieldSubmitted: (value) {
+        onSubmitted: (value) {
           _passwordFocusNode.unfocus();
-        },
-        onChanged: (value) => context
-            .read<LoginBloc>()
-            .add(LoginPasswordChanged(password: value)),
-      );
-    });
+        });
   }
 
   Widget _loginButton() {
@@ -179,8 +149,11 @@ class _LoginViewState extends State<LoginView> {
             setState(() {
               _needLoading = true;
             });
-            if (widget._formKey.currentState!.validate()) {
+            if (_formKey.currentState!.validate()) {
               context.read<LoginBloc>().add(LoginSubmitted());
+              setState(() {
+                _needLoading = false;
+              });
             }
           });
     });

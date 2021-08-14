@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:asking/auth/auth_credentials.dart';
 import 'package:asking/session_cubit.dart';
 
-enum AuthState { login, signUp, confirmSignUp }
+enum AuthState { login, signUp, confirmSignUp, reactivate }
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
