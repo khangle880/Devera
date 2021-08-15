@@ -65,6 +65,16 @@ class AuthRepository {
     }
   }
 
+  Future<String> resendSignUpCode({required String username}) async {
+    try {
+      final result = await Amplify.Auth.resendSignUpCode(username: username);
+
+      return result.codeDeliveryDetails.destination;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> signOut() async {
     await Amplify.Auth.signOut();
   }

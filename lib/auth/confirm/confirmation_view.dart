@@ -67,7 +67,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Welcome back',
+                          Text('Confirmation',
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       fontSize: 30.sp,

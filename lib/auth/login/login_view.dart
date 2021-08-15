@@ -21,7 +21,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  bool _needLoading = false;
+  bool _needLoadingForLogin = false;
+  bool _needLoadingForResendCode = false;
 
   //? Focus node
   late FocusNode _usernameFocusNode;
@@ -61,6 +62,9 @@ class _LoginViewState extends State<LoginView> {
         final formStatus = state.formStatus;
         if (formStatus is SubmissionFailed) {
           _showSnackBar(context, formStatus.exception.toString());
+          setState(() {
+            _needLoadingForLogin = false;
+          });
         }
       },
       child: Form(
@@ -112,8 +116,10 @@ class _LoginViewState extends State<LoginView> {
                             _showSignUpButton(context),
                             _showForgetPasswordButton(context)
                           ]),
-                      SizedBox(height: 50.h),
+                      SizedBox(height: 40.h),
                       _loginButton(),
+                      SizedBox(height: 30.h),
+                      _showResendCode(context),
                     ]),
               ),
             )),
@@ -144,17 +150,19 @@ class _LoginViewState extends State<LoginView> {
           text: 'Log In',
           color: ColorConstants.kButtonColor,
           textColor: Colors.white,
-          isLoading: _needLoading,
+          isLoading: _needLoadingForLogin,
           onPressed: () {
             setState(() {
-              _needLoading = true;
+              _needLoadingForLogin = true;
             });
+
             if (_formKey.currentState!.validate()) {
               context.read<LoginBloc>().add(LoginSubmitted());
-              setState(() {
-                _needLoading = false;
-              });
             }
+
+            setState(() {
+              _needLoadingForLogin = false;
+            });
           });
     });
   }
@@ -181,6 +189,26 @@ class _LoginViewState extends State<LoginView> {
                       fontWeight: FontWeight.w500,
                       color: ColorConstants.kTextColor)))),
     );
+  }
+
+  Widget _showResendCode(BuildContext context) {
+    return CustomButton(
+        text: 'Resend Confirmation Code',
+        color: Colors.black,
+        outLineButton: true,
+        textColor: Colors.black,
+        isLoading: _needLoadingForResendCode,
+        onPressed: () {
+          setState(() {
+            _needLoadingForResendCode = true;
+          });
+
+          context.read<AuthCubit>().showResendCode();
+
+          setState(() {
+            _needLoadingForResendCode = false;
+          });
+        });
   }
 
   void _showSnackBar(BuildContext context, String message) {

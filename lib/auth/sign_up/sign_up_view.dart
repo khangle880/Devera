@@ -66,6 +66,9 @@ class _SignUpViewState extends State<SignUpView> {
         final formStatus = state.formStatus;
         if (formStatus is SubmissionFailed) {
           _showSnackBar(context, formStatus.exception.toString());
+          setState(() {
+            _needLoading = false;
+          });
         }
       },
       child: Form(
@@ -171,12 +174,14 @@ class _SignUpViewState extends State<SignUpView> {
             setState(() {
               _needLoading = true;
             });
+
             if (_formKey.currentState!.validate()) {
               context.read<SignUpBloc>().add(SignUpSubmitted());
-              setState(() {
-                _needLoading = false;
-              });
             }
+
+            setState(() {
+              _needLoading = false;
+            });
           });
     });
   }
