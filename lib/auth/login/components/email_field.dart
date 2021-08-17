@@ -6,8 +6,8 @@ import 'package:asking/auth/login/login_event.dart';
 import 'package:asking/auth/login/login_state.dart';
 import 'package:asking/constants/style_constants.dart';
 
-class UserNameField extends StatelessWidget {
-  const UserNameField({
+class EmailField extends StatelessWidget {
+  const EmailField({
     Key? key,
     required this.focusNode,
     this.onSubmitted,
@@ -20,15 +20,13 @@ class UserNameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return TextFormField(
-        decoration: StyleConstants.regularInputDecoration(
-            hintText: 'Enter your username'),
-        validator: (value) =>
-            state.isValidUsername ? null : 'Username is too short',
+        decoration:
+            StyleConstants.regularInputDecoration(hintText: 'Enter your email'),
+        validator: (value) => state.isValidEmail ? null : 'Email is not valid',
         focusNode: focusNode,
         onFieldSubmitted: onSubmitted,
-        onChanged: (value) => context
-            .read<LoginBloc>()
-            .add(LoginUsernameChanged(username: value)),
+        onChanged: (value) =>
+            context.read<LoginBloc>().add(LoginEmailChanged(email: value)),
       );
     });
   }

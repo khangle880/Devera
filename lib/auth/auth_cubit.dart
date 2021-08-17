@@ -3,7 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:asking/auth/auth_credentials.dart';
 import 'package:asking/session_cubit.dart';
 
-enum AuthState { login, signUp, confirmSignUp, resendCode, confirmResendCode }
+enum AuthState {
+  login,
+  signUp,
+  confirmSignUp,
+  resendCode,
+  confirmResendCode,
+  forgotPassword,
+  confirmForgotPasswordCode,
+}
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
@@ -13,6 +21,10 @@ class AuthCubit extends Cubit<AuthState> {
   final SessionCubit sessionCubit;
 
   AuthCredentials? credentials;
+
+  void didPop() {
+    credentials = null;
+  }
 
   void showLogin() => emit(AuthState.login);
   void showSignUp() => emit(AuthState.signUp);
@@ -32,6 +44,14 @@ class AuthCubit extends Cubit<AuthState> {
   void showConfirmResendCode({required String username}) {
     credentials = AuthCredentials(username: username);
     emit(AuthState.confirmResendCode);
+  }
+
+  void showForgetPassword() {
+    emit(AuthState.forgotPassword);
+  }
+
+  void showConfirmForgetPasswordCode() {
+    emit(AuthState.confirmForgotPasswordCode);
   }
 
   void launchSession(AuthCredentials credentials) =>

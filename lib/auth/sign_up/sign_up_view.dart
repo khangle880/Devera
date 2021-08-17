@@ -1,9 +1,9 @@
 import 'package:asking/auth/auth_cubit.dart';
 import 'package:asking/auth/auth_repository.dart';
 import 'package:asking/auth/form_submission_status.dart';
+import 'package:asking/auth/sign_up/components/confirm_password_field.dart';
 import 'package:asking/auth/sign_up/components/email_field.dart';
 import 'package:asking/auth/sign_up/components/password_field.dart';
-import 'package:asking/auth/sign_up/components/username_field.dart';
 import 'package:asking/auth/sign_up/sign_up_bloc.dart';
 import 'package:asking/auth/sign_up/sign_up_event.dart';
 import 'package:asking/auth/sign_up/sign_up_state.dart';
@@ -27,13 +27,13 @@ class _SignUpViewState extends State<SignUpView> {
 
   final _formKey = GlobalKey<FormState>();
   //? Focus node
-  late FocusNode _usernameFocusNode;
+  late FocusNode _confirmPasswordNode;
   late FocusNode _passwordFocusNode;
   late FocusNode _emailFocusNode;
 
   @override
   void initState() {
-    _usernameFocusNode = FocusNode();
+    _confirmPasswordNode = FocusNode();
     _passwordFocusNode = FocusNode();
     _emailFocusNode = FocusNode();
     super.initState();
@@ -41,7 +41,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   void dispose() {
-    _usernameFocusNode.dispose();
+    _confirmPasswordNode.dispose();
     _passwordFocusNode.dispose();
     _emailFocusNode.dispose();
     super.dispose();
@@ -96,15 +96,6 @@ class _SignUpViewState extends State<SignUpView> {
                                   color: ColorConstants
                                       .kUnselectedLabelTextColor))),
                       SizedBox(height: 48.h),
-                      Text('Username',
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorConstants.kTextColor))),
-                      SizedBox(height: 15.h),
-                      _userNameField(),
-                      SizedBox(height: 15.h),
                       Text('Email',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
@@ -115,6 +106,15 @@ class _SignUpViewState extends State<SignUpView> {
                       _emailField(),
                       SizedBox(height: 15.h),
                       Text('Password',
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: ColorConstants.kTextColor))),
+                      SizedBox(height: 15.h),
+                      _confirmPasswordField(),
+                      SizedBox(height: 15.h),
+                      Text('Confirm Password',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 20.sp,
@@ -137,15 +137,6 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 
-  Widget _userNameField() {
-    return UserNameField(
-        focusNode: _usernameFocusNode,
-        onSubmitted: (value) {
-          _usernameFocusNode.unfocus();
-          ExtensionFunction.changeFocusFrom(context, _emailFocusNode);
-        });
-  }
-
   Widget _emailField() {
     return EmailField(
         focusNode: _emailFocusNode,
@@ -160,6 +151,15 @@ class _SignUpViewState extends State<SignUpView> {
         focusNode: _passwordFocusNode,
         onSubmitted: (value) {
           _emailFocusNode.unfocus();
+        });
+  }
+
+  Widget _confirmPasswordField() {
+    return ConfirmPasswordField(
+        focusNode: _confirmPasswordNode,
+        onSubmitted: (value) {
+          _confirmPasswordNode.unfocus();
+          ExtensionFunction.changeFocusFrom(context, _emailFocusNode);
         });
   }
 

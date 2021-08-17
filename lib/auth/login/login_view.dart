@@ -2,7 +2,7 @@ import 'package:asking/auth/auth_cubit.dart';
 import 'package:asking/auth/auth_repository.dart';
 import 'package:asking/auth/form_submission_status.dart';
 import 'package:asking/auth/login/components/password_field.dart';
-import 'package:asking/auth/login/components/username_field.dart';
+import 'package:asking/auth/login/components/email_field.dart';
 import 'package:asking/auth/login/login_bloc.dart';
 import 'package:asking/auth/login/login_event.dart';
 import 'package:asking/auth/login/login_state.dart';
@@ -92,14 +92,14 @@ class _LoginViewState extends State<LoginView> {
                                   color: ColorConstants
                                       .kUnselectedLabelTextColor))),
                       SizedBox(height: 48.h),
-                      Text('Username',
+                      Text('Email',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w500,
                                   color: ColorConstants.kTextColor))),
                       SizedBox(height: 15.h),
-                      _userNameField(),
+                      _emailField(),
                       SizedBox(height: 32.h),
                       Text('Password',
                           style: GoogleFonts.poppins(
@@ -127,8 +127,8 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget _userNameField() {
-    return UserNameField(
+  Widget _emailField() {
+    return EmailField(
         focusNode: _usernameFocusNode,
         onSubmitted: (value) {
           _usernameFocusNode.unfocus();
@@ -181,7 +181,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _showForgetPasswordButton(BuildContext context) {
     return SizedBox(
       child: TextButton(
-          onPressed: () {},
+          onPressed: () => context.read<AuthCubit>().showForgetPassword(),
           child: Text('Forgot password',
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(

@@ -80,7 +80,7 @@ class _ResendCodeViewState extends State<ResendCodeView> {
                                 fontWeight: FontWeight.w700,
                                 color: ColorConstants.kTextColor))),
                     SizedBox(height: 12.h),
-                    Text('Please enter your username',
+                    Text('Please enter your email',
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 fontSize: 16.sp,

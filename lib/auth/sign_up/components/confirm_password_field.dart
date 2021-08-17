@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:asking/constants/style_constants.dart';
 
-class UserNameField extends StatelessWidget {
-  const UserNameField({
+class ConfirmPasswordField extends StatelessWidget {
+  const ConfirmPasswordField({
     Key? key,
-    required this.focusNode,
+    this.focusNode,
     this.onSubmitted,
   }) : super(key: key);
 
@@ -19,15 +19,16 @@ class UserNameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       return TextFormField(
+        obscureText: true,
         decoration: StyleConstants.regularInputDecoration(
-            hintText: 'Enter your username'),
+            hintText: 'Enter your confirm password'),
         validator: (value) =>
-            state.isValidUsername ? null : 'Username is too short',
+            state.isValidPassword ? null : 'Password is too weak',
         focusNode: focusNode,
         onFieldSubmitted: onSubmitted,
         onChanged: (value) => context
             .read<SignUpBloc>()
-            .add(SignUpUserNameChange(username: value)),
+            .add(SignUpConfirmPasswordChanged(confirmPassword: value)),
       );
     });
   }

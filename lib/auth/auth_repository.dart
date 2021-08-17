@@ -75,6 +75,18 @@ class AuthRepository {
     }
   }
 
+  Future<bool> resetPassword({required String email}) async {
+    try {
+      ResetPasswordResult res = await Amplify.Auth.resetPassword(
+        username: email,
+      );
+
+      return res.isPasswordReset;
+    } on AmplifyException catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> signOut() async {
     await Amplify.Auth.signOut();
   }

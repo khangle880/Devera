@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "askingd3f0d40d_identitypool_d3f0d40d",
+    "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "askingd3f0d40d",
-    "userPoolName": "askingd3f0d40d_userpool_d3f0d40d",
+    "resourceNameTruncated": "asking8c41e1ef",
+    "userPoolName": "Asking",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -12,25 +12,23 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Your verification code",
-    "emailVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Forgot password code: {####}",
+    "emailVerificationMessage": "Forgot password code: {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 6,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
         "email"
     ],
-    "aliasAttributes": [
-        "preferred_username"
-    ],
+    "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "askingd3f0d40d_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "Asking8c41e1ef_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "d3f0d40d",
-    "resourceName": "askingd3f0d40d",
+    "sharedId": "8c41e1ef",
+    "resourceName": "Asking",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -44,20 +42,16 @@
             "Arn"
         ]
     },
-    "useDefault": "manual",
-    "triggers": "{}",
-    "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "usernameCaseSensitive": false,
-    "parentStack": {
-        "Ref": "AWS::StackId"
-    },
-    "breakCircularDependency": true,
-    "permissions": [],
-    "dependsOn": [],
-    "hostedUI": false,
-    "authProviders": [],
+    "usernameAttributes": [
+        "email"
+    ],
+    "useDefault": "manual",
     "userPoolGroups": false,
+    "userPoolGroupList": [],
     "adminQueries": false,
-    "thirdPartyAuth": false
+    "thirdPartyAuth": false,
+    "authProviders": [],
+    "usernameCaseSensitive": false,
+    "dependsOn": []
 }

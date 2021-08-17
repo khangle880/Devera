@@ -18,33 +18,39 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   @override
   Stream<SignUpState> mapEventToState(SignUpEvent event) async* {
     //? Username updated
-    if (event is SignUpUserNameChange) {
-      yield state.copyWith(username: event.username);
+    if (event is SignUpEmailChanged) {
+      yield state.copyWith(email: event.email);
     }
     //? Password updated
-    else if (event is SignUpPasswordChange) {
+    else if (event is SignUpPasswordChanged) {
       yield state.copyWith(password: event.password);
-    } else if (event is SignUpEmailChanged) {
-      yield state.copyWith(email: event.email);
+    } else if (event is SignUpConfirmPasswordChanged) {
+      yield state.copyWith(confirmPassword: event.confirmPassword);
     }
     //? Form submitted
     else if (event is SignUpSubmitted) {
       yield state.copyWith(formStatus: FormSubmitting());
 
       try {
-        await authRepository.signUp(
-            username: state.username,
-            email: state.email,
-            password: state.password);
-        yield state.copyWith(formStatus: SubmissionSuccess());
+        if (state.password == state.confirmPassword) {
+          await authRepository.signUp(
+              username: state.email,
+              email: state.email,
+              password: state.password);
+          yield state.copyWith(formStatus: SubmissionSuccess());
 
-        authCubit.showConfirmSignUp(
-            username: state.username,
-            email: state.email,
-            password: state.password);
+          authCubit.showConfirmSignUp(
+              username: state.email,
+              email: state.email,
+              password: state.password);
+        } else {
+          throw Exception('Password are not match');
+        }
       } catch (e) {
         yield state.copyWith(
             formStatus: SubmissionFailed(exception: e as Exception));
+
+        yield state.copyWith(formStatus: InitialFormStatus());
       }
     }
   }

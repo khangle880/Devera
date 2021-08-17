@@ -28,20 +28,18 @@
     }
   },
   "auth": {
-    "askingd3f0d40d": {
+    "Asking": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "loginMechanism": [
-          "PREFERRED_USERNAME"
-        ],
+        "loginMechanism": [],
         "signupAttributes": [
           "EMAIL"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyMinLength": 8,
+          "passwordPolicyMinLength": 6,
           "passwordPolicyCharacters": []
         },
         "mfaConfiguration": "OFF",

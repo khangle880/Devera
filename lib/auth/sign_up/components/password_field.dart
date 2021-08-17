@@ -19,15 +19,16 @@ class PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       return TextFormField(
+        obscureText: true,
         decoration: StyleConstants.regularInputDecoration(
             hintText: 'Enter your password'),
         validator: (value) =>
-            state.isValidUsername ? null : 'Password is too weak',
+            state.isValidPassword ? null : 'Password is too weak',
         focusNode: focusNode,
         onFieldSubmitted: onSubmitted,
         onChanged: (value) => context
             .read<SignUpBloc>()
-            .add(SignUpPasswordChange(password: value)),
+            .add(SignUpPasswordChanged(password: value)),
       );
     });
   }

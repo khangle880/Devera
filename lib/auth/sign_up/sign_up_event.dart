@@ -1,13 +1,5 @@
 abstract class SignUpEvent {}
 
-class SignUpUserNameChange extends SignUpEvent {
-  SignUpUserNameChange({
-    required this.username,
-  });
-
-  final String username;
-}
-
 class SignUpEmailChanged extends SignUpEvent {
   SignUpEmailChanged({
     required this.email,
@@ -16,12 +8,20 @@ class SignUpEmailChanged extends SignUpEvent {
   final String email;
 }
 
-class SignUpPasswordChange extends SignUpEvent {
-  SignUpPasswordChange({
+class SignUpPasswordChanged extends SignUpEvent {
+  SignUpPasswordChanged({
     required this.password,
   });
 
   final String password;
+}
+
+class SignUpConfirmPasswordChanged extends SignUpEvent {
+  SignUpConfirmPasswordChanged({
+    required this.confirmPassword,
+  });
+
+  final String confirmPassword;
 }
 
 class SignUpSubmitted extends SignUpEvent {}
