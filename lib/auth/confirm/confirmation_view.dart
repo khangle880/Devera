@@ -62,7 +62,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
             child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Padding(
-                  padding: EdgeInsets.only(top: 90.0.h),
+                  padding: EdgeInsets.only(top: 30.0.h),
                   child: SingleChildScrollView(
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

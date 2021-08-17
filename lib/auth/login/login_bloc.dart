@@ -1,3 +1,4 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:asking/auth/auth_credentials.dart';
 import 'package:asking/auth/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,9 +40,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           username: state.username,
           userId: userId,
         ));
-      } catch (e) {
-        yield state.copyWith(
-            formStatus: SubmissionFailed(exception: e as Exception));
+      } on UserNotConfirmedException catch (e) {
+        print(e.hashCode);
+        yield state.copyWith(formStatus: SubmissionFailed(exception: e));
 
         yield state.copyWith(formStatus: InitialFormStatus());
       }
