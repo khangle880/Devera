@@ -10,4 +10,12 @@
 - [ ] Create Forgot password
 - [ ] I feel like idiot right now
 
-# asking
+# Some requirement for this project
+
+- IOS > 13
+- Android > 24
+- AWS Amplify Service
+- Bloc Pattern
+- Navigator v2
+
+# Some stupid thing I create

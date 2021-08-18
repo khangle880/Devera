@@ -24,6 +24,7 @@ class AuthRepository {
   }
 
   Future<String?> login({required username, required password}) async {
+    print(username);
     try {
       final result =
           await Amplify.Auth.signIn(username: username, password: password);
@@ -84,6 +85,20 @@ class AuthRepository {
       return res.isPasswordReset;
     } on AmplifyException catch (e) {
       throw e;
+    }
+  }
+
+  Future<void> confirmPassword(
+      {required String email,
+      required String password,
+      required confirmationCode}) async {
+    try {
+      await Amplify.Auth.confirmPassword(
+          username: email,
+          newPassword: password,
+          confirmationCode: confirmationCode);
+    } on AmplifyException catch (e) {
+      print(e);
     }
   }
 

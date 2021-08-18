@@ -24,9 +24,13 @@ class ForgotPasswordBloc
       yield state.copyWith(formStatus: FormSubmitting());
 
       try {
+        print(state.email);
+
         await authRepo.resetPassword(email: state.email);
 
         yield state.copyWith(formStatus: SubmissionSuccess());
+
+        authCubit.showConfirmForgetPasswordCode(email: state.email);
       } on Exception catch (e) {
         yield state.copyWith(formStatus: SubmissionFailed(exception: e));
         yield state.copyWith(formStatus: InitialFormStatus());

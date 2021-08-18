@@ -33,7 +33,7 @@ class _ConfirmResendCodeViewState extends State<ConfirmResendCodeView> {
               size: 30.sp,
             ),
             onPressed: () {
-              context.read<AuthCubit>().showResendCode();
+              context.read<AuthCubit>().showLogin();
               Navigator.of(context).pop();
             },
           ),

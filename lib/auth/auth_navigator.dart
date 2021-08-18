@@ -1,5 +1,6 @@
 import 'package:asking/auth/auth_cubit.dart';
 import 'package:asking/auth/confirm/confirmation_view.dart';
+import 'package:asking/auth/confirm_forgot_password/confirm_forgot_password_view.dart';
 import 'package:asking/auth/confirm_resend_code/confirm_resend_code_view.dart';
 import 'package:asking/auth/forgot_password/forgot_password_view.dart';
 import 'package:asking/auth/resend_code/resend_code_view.dart';
@@ -43,6 +44,10 @@ class AuthNavigator extends StatelessWidget {
           if (state == AuthState.forgotPassword ||
               state == AuthState.confirmForgotPasswordCode) ...[
             MaterialPage(child: ForgotPasswordView()),
+
+            // Show Confirm Forget Password
+            if (state == AuthState.confirmForgotPasswordCode)
+              MaterialPage(child: ConfirmForgotPasswordView())
           ]
         ],
         onPopPage: (route, result) {

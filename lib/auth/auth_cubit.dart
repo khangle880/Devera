@@ -50,7 +50,8 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthState.forgotPassword);
   }
 
-  void showConfirmForgetPasswordCode() {
+  void showConfirmForgetPasswordCode({required String email}) {
+    credentials = AuthCredentials(username: email);
     emit(AuthState.confirmForgotPasswordCode);
   }
 

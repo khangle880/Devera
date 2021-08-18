@@ -45,7 +45,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           authCubit.showConfirmResendCode(username: state.email);
         } else {
           yield state.copyWith(formStatus: SubmissionFailed(exception: e));
-
           yield state.copyWith(formStatus: InitialFormStatus());
         }
       }

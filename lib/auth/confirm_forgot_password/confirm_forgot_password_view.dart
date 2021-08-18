@@ -1,12 +1,12 @@
 import 'package:asking/auth/auth_cubit.dart';
 import 'package:asking/auth/auth_repository.dart';
+import 'package:asking/auth/confirm_forgot_password/components/code_field.dart';
+import 'package:asking/auth/confirm_forgot_password/components/confirm_password_field.dart';
+import 'package:asking/auth/confirm_forgot_password/components/password_field.dart';
+import 'package:asking/auth/confirm_forgot_password/confirm_forgot_password_bloc.dart';
+import 'package:asking/auth/confirm_forgot_password/confirm_forgot_password_event.dart';
+import 'package:asking/auth/confirm_forgot_password/confirm_forgot_password_state.dart';
 import 'package:asking/auth/form_submission_status.dart';
-import 'package:asking/auth/sign_up/components/confirm_password_field.dart';
-import 'package:asking/auth/sign_up/components/email_field.dart';
-import 'package:asking/auth/sign_up/components/password_field.dart';
-import 'package:asking/auth/sign_up/sign_up_bloc.dart';
-import 'package:asking/auth/sign_up/sign_up_event.dart';
-import 'package:asking/auth/sign_up/sign_up_state.dart';
 import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/extension_function.dart';
 import 'package:asking/widgets/custom_button.dart';
@@ -15,57 +15,74 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({Key? key}) : super(key: key);
+class ConfirmForgotPasswordView extends StatefulWidget {
+  const ConfirmForgotPasswordView({Key? key}) : super(key: key);
 
   @override
-  _SignUpViewState createState() => _SignUpViewState();
+  _ConfirmForgotPasswordViewState createState() =>
+      _ConfirmForgotPasswordViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _ConfirmForgotPasswordViewState extends State<ConfirmForgotPasswordView> {
   bool _needLoading = false;
-
   final _formKey = GlobalKey<FormState>();
-  //? Focus node
+
   late FocusNode _confirmPasswordNode;
   late FocusNode _passwordFocusNode;
-  late FocusNode _emailFocusNode;
+  late FocusNode _confirmCodeFocusNode;
 
   @override
   void initState() {
-    _confirmPasswordNode = FocusNode();
+    _confirmCodeFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
-    _emailFocusNode = FocusNode();
+    _confirmPasswordNode = FocusNode();
     super.initState();
   }
 
   @override
   void dispose() {
-    _confirmPasswordNode.dispose();
+    _confirmCodeFocusNode.dispose();
     _passwordFocusNode.dispose();
-    _emailFocusNode.dispose();
+    _confirmPasswordNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocProvider(
-            create: (context) => SignUpBloc(
-                authRepository: context.read<AuthRepository>(),
-                authCubit: context.read<AuthCubit>()),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [_signUpForm(context)],
-            )));
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 30.sp,
+          ),
+          onPressed: () {
+            context.read<AuthCubit>().showForgetPassword();
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        bottomOpacity: 0.0,
+        elevation: 0.0,
+        centerTitle: true,
+      ),
+      body: BlocProvider(
+          create: (context) => ConfirmForgotPasswordBloc(
+              authRepo: context.read<AuthRepository>(),
+              authCubit: context.read<AuthCubit>()),
+          child: _confirmForgotPasswordForm()),
+    );
   }
 
-  Widget _signUpForm(BuildContext context) {
-    return BlocListener<SignUpBloc, SignUpState>(
+  Widget _confirmForgotPasswordForm() {
+    return BlocListener<ConfirmForgotPasswordBloc, ConfirmForgotPasswordState>(
       listener: (context, state) {
         final formStatus = state.formStatus;
         if (formStatus is SubmissionFailed) {
-          _showSnackBar(context, formStatus.exception.toString());
+          ExtensionFunction.showSnackBar(
+              context, formStatus.exception.toString());
           setState(() {
             _needLoading = false;
           });
@@ -76,43 +93,44 @@ class _SignUpViewState extends State<SignUpView> {
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Padding(
-              padding: EdgeInsets.only(top: 118.0.h),
+              padding: EdgeInsets.only(top: 40.0.h),
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Welcome New User',
+                      Text('Reset Password',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 30.sp,
                                   fontWeight: FontWeight.w700,
                                   color: ColorConstants.kTextColor))),
                       SizedBox(height: 12.h),
-                      Text('Sign up to continue',
+                      Text(
+                          'Reset code was sent to your phone. Please enter the code and create new password',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: ColorConstants
                                       .kUnselectedLabelTextColor))),
-                      SizedBox(height: 48.h),
-                      Text('Email',
+                      SizedBox(height: 40.h),
+                      Text('Reset Code',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w500,
                                   color: ColorConstants.kTextColor))),
                       SizedBox(height: 15.h),
-                      _emailField(),
+                      _confirmCodeField(),
                       SizedBox(height: 15.h),
-                      Text('Password',
+                      Text('New Password',
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w500,
                                   color: ColorConstants.kTextColor))),
                       SizedBox(height: 15.h),
-                      _confirmPasswordField(),
+                      _passwordField(),
                       SizedBox(height: 15.h),
                       Text('Confirm Password',
                           style: GoogleFonts.poppins(
@@ -121,15 +139,9 @@ class _SignUpViewState extends State<SignUpView> {
                                   fontWeight: FontWeight.w500,
                                   color: ColorConstants.kTextColor))),
                       SizedBox(height: 15.h),
-                      _passwordField(),
+                      _confirmPasswordField(),
                       SizedBox(height: 40.h),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(child: _showSignInButton(context)),
-                            Expanded(
-                                flex: 2, child: _showSignUpButton(context)),
-                          ]),
+                      _showSignUpButton(context)
                     ]),
               ),
             )),
@@ -137,11 +149,11 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 
-  Widget _emailField() {
-    return EmailField(
-        focusNode: _emailFocusNode,
+  Widget _confirmPasswordField() {
+    return ConfirmPasswordField(
+        focusNode: _confirmPasswordNode,
         onSubmitted: (value) {
-          _emailFocusNode.unfocus();
+          _confirmPasswordNode.unfocus();
           ExtensionFunction.changeFocusFrom(context, _passwordFocusNode);
         });
   }
@@ -151,20 +163,21 @@ class _SignUpViewState extends State<SignUpView> {
         focusNode: _passwordFocusNode,
         onSubmitted: (value) {
           _passwordFocusNode.unfocus();
+          ExtensionFunction.changeFocusFrom(context, _confirmCodeFocusNode);
         });
   }
 
-  Widget _confirmPasswordField() {
-    return ConfirmPasswordField(
-        focusNode: _confirmPasswordNode,
+  Widget _confirmCodeField() {
+    return CodeField(
+        focusNode: _confirmCodeFocusNode,
         onSubmitted: (value) {
-          _confirmPasswordNode.unfocus();
-          ExtensionFunction.changeFocusFrom(context, _emailFocusNode);
+          _confirmCodeFocusNode.unfocus();
         });
   }
 
   Widget _showSignUpButton(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
+    return BlocBuilder<ConfirmForgotPasswordBloc, ConfirmForgotPasswordState>(
+        builder: (context, state) {
       return CustomButton(
           text: 'Sign up',
           color: ColorConstants.kButtonColor,
@@ -176,7 +189,9 @@ class _SignUpViewState extends State<SignUpView> {
             });
 
             if (_formKey.currentState!.validate()) {
-              context.read<SignUpBloc>().add(SignUpSubmitted());
+              context
+                  .read<ConfirmForgotPasswordBloc>()
+                  .add(ConfirmationSubmitted());
             }
 
             setState(() {
@@ -184,21 +199,5 @@ class _SignUpViewState extends State<SignUpView> {
             });
           });
     });
-  }
-
-  Widget _showSignInButton(BuildContext context) {
-    return TextButton(
-        onPressed: () => context.read<AuthCubit>().showLogin(),
-        child: Text('Sign In',
-            style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorConstants.kPrimaryDarkColor))));
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
