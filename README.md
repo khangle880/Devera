@@ -7,7 +7,7 @@
 # Things todo
 
 - [ ] Create Todo Home UI
-- [ ] Create DataStore GraphQL
+- [x] Create DataStore GraphQL
 - [ ] Apply AWS to UI
 
 # Some requirement for this project

@@ -15,7 +15,9 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -28,6 +30,7 @@ class User extends Model {
   final String? _email;
   final String? _avatarKey;
   final String? _description;
+  final List<Todo>? _todos;
 
   @override
   getInstanceType() => classType;
@@ -57,15 +60,20 @@ class User extends Model {
     return _description;
   }
   
-  const User._internal({required this.id, required username, email, avatarKey, description}): _username = username, _email = email, _avatarKey = avatarKey, _description = description;
+  List<Todo>? get todos {
+    return _todos;
+  }
   
-  factory User({String? id, required String username, String? email, String? avatarKey, String? description}) {
+  const User._internal({required this.id, required username, email, avatarKey, description, todos}): _username = username, _email = email, _avatarKey = avatarKey, _description = description, _todos = todos;
+  
+  factory User({String? id, required String username, String? email, String? avatarKey, String? description, List<Todo>? todos}) {
     return User._internal(
       id: id == null ? UUID.getUUID() : id,
       username: username,
       email: email,
       avatarKey: avatarKey,
-      description: description);
+      description: description,
+      todos: todos != null ? List<Todo>.unmodifiable(todos) : todos);
   }
   
   bool equals(Object other) {
@@ -80,7 +88,8 @@ class User extends Model {
       _username == other._username &&
       _email == other._email &&
       _avatarKey == other._avatarKey &&
-      _description == other._description;
+      _description == other._description &&
+      DeepCollectionEquality().equals(_todos, other._todos);
   }
   
   @override
@@ -101,13 +110,14 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? id, String? username, String? email, String? avatarKey, String? description}) {
+  User copyWith({String? id, String? username, String? email, String? avatarKey, String? description, List<Todo>? todos}) {
     return User(
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
       avatarKey: avatarKey ?? this.avatarKey,
-      description: description ?? this.description);
+      description: description ?? this.description,
+      todos: todos ?? this.todos);
   }
   
   User.fromJson(Map<String, dynamic> json)  
@@ -115,10 +125,16 @@ class User extends Model {
       _username = json['username'],
       _email = json['email'],
       _avatarKey = json['avatarKey'],
-      _description = json['description'];
+      _description = json['description'],
+      _todos = json['todos'] is List
+        ? (json['todos'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => Todo.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'username': _username, 'email': _email, 'avatarKey': _avatarKey, 'description': _description
+    'id': id, 'username': _username, 'email': _email, 'avatarKey': _avatarKey, 'description': _description, 'todos': _todos?.map((e) => e?.toJson())?.toList()
   };
 
   static final QueryField ID = QueryField(fieldName: "user.id");
@@ -126,6 +142,9 @@ class User extends Model {
   static final QueryField EMAIL = QueryField(fieldName: "email");
   static final QueryField AVATARKEY = QueryField(fieldName: "avatarKey");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
+  static final QueryField TODOS = QueryField(
+    fieldName: "todos",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Todo).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
     modelSchemaDefinition.pluralName = "Users";
@@ -165,6 +184,13 @@ class User extends Model {
       key: User.DESCRIPTION,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+      key: User.TODOS,
+      isRequired: false,
+      ofModelName: (Todo).toString(),
+      associatedKey: Todo.USERID
     ));
   });
 }

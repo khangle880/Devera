@@ -16,23 +16,41 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'CheckList.dart';
+import 'QuickNote.dart';
+import 'Task.dart';
 import 'Todo.dart';
 import 'User.dart';
 
+export 'CheckList.dart';
+export 'QuickNote.dart';
+export 'Task.dart';
 export 'Todo.dart';
 export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "e90f018a0bd88e6f2932655f3b90afa8";
+  String version = "f8b2f82e2955847d537688b8ed8701b4";
   @override
-  List<ModelSchema> modelSchemas = [Todo.schema, User.schema];
+  List<ModelSchema> modelSchemas = [CheckList.schema, QuickNote.schema, Task.schema, Todo.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
 
   static ModelProvider get instance => _instance;
   
   ModelType getModelTypeByModelName(String modelName) {
     switch(modelName) {
+    case "CheckList": {
+    return CheckList.classType;
+    }
+    break;
+    case "QuickNote": {
+    return QuickNote.classType;
+    }
+    break;
+    case "Task": {
+    return Task.classType;
+    }
+    break;
     case "Todo": {
     return Todo.classType;
     }

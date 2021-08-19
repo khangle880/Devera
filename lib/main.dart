@@ -8,7 +8,7 @@ import 'package:asking/auth/auth_repository.dart';
 import 'package:asking/data_repository.dart';
 import 'package:asking/loading_view.dart';
 import 'package:asking/models/ModelProvider.dart';
-import 'package:asking/session_cubit.dart';
+import 'package:asking/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

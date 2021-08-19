@@ -1,15 +1,45 @@
+type QuickNote @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  description: String!
+  color: String!
+}
+
+type CheckList @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  todoList: [List!]
+  color: String!
+}
+
+type List {
+  description: String!
+  isComplete: Boolean!
+}
+
+type Todo @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
+  id: ID!
+  isTask: Boolean
+  isQuickNote: Boolean
+  isCheckList: Boolean
+  userID: ID
+  task: Task @connection
+  quickNote: QuickNote @connection
+  checkList: CheckList @connection
+}
+
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   username: String!
   email: String
   avatarKey: String
   description: String
+  todos: [Todo] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type Todo @model @auth(rules: [{allow: public}]) {
+type Task @model @auth(rules: [{allow: public}]) {
   id: ID!
-  title: String!
-  isComplete: Boolean
-  userId: String!
+  description: String!
+  dueDate: AWSDateTime!
+  targetUsers: [String!]
+  isComplete: Boolean!
 }
  

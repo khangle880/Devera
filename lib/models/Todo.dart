@@ -15,6 +15,7 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -24,9 +25,13 @@ import 'package:flutter/foundation.dart';
 class Todo extends Model {
   static const classType = const _TodoModelType();
   final String id;
-  final String? _title;
-  final bool? _isComplete;
-  final String? _userId;
+  final bool? _isTask;
+  final bool? _isQuickNote;
+  final bool? _isCheckList;
+  final String? _userID;
+  final Task? _task;
+  final QuickNote? _quickNote;
+  final CheckList? _checkList;
 
   @override
   getInstanceType() => classType;
@@ -36,34 +41,46 @@ class Todo extends Model {
     return id;
   }
   
-  String get title {
-    try {
-      return _title!;
-    } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
-    }
+  bool? get isTask {
+    return _isTask;
   }
   
-  bool? get isComplete {
-    return _isComplete;
+  bool? get isQuickNote {
+    return _isQuickNote;
   }
   
-  String get userId {
-    try {
-      return _userId!;
-    } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
-    }
+  bool? get isCheckList {
+    return _isCheckList;
   }
   
-  const Todo._internal({required this.id, required title, isComplete, required userId}): _title = title, _isComplete = isComplete, _userId = userId;
+  String? get userID {
+    return _userID;
+  }
   
-  factory Todo({String? id, required String title, bool? isComplete, required String userId}) {
+  Task? get task {
+    return _task;
+  }
+  
+  QuickNote? get quickNote {
+    return _quickNote;
+  }
+  
+  CheckList? get checkList {
+    return _checkList;
+  }
+  
+  const Todo._internal({required this.id, isTask, isQuickNote, isCheckList, userID, task, quickNote, checkList}): _isTask = isTask, _isQuickNote = isQuickNote, _isCheckList = isCheckList, _userID = userID, _task = task, _quickNote = quickNote, _checkList = checkList;
+  
+  factory Todo({String? id, bool? isTask, bool? isQuickNote, bool? isCheckList, String? userID, Task? task, QuickNote? quickNote, CheckList? checkList}) {
     return Todo._internal(
       id: id == null ? UUID.getUUID() : id,
-      title: title,
-      isComplete: isComplete,
-      userId: userId);
+      isTask: isTask,
+      isQuickNote: isQuickNote,
+      isCheckList: isCheckList,
+      userID: userID,
+      task: task,
+      quickNote: quickNote,
+      checkList: checkList);
   }
   
   bool equals(Object other) {
@@ -75,9 +92,13 @@ class Todo extends Model {
     if (identical(other, this)) return true;
     return other is Todo &&
       id == other.id &&
-      _title == other._title &&
-      _isComplete == other._isComplete &&
-      _userId == other._userId;
+      _isTask == other._isTask &&
+      _isQuickNote == other._isQuickNote &&
+      _isCheckList == other._isCheckList &&
+      _userID == other._userID &&
+      _task == other._task &&
+      _quickNote == other._quickNote &&
+      _checkList == other._checkList;
   }
   
   @override
@@ -89,36 +110,64 @@ class Todo extends Model {
     
     buffer.write("Todo {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("title=" + "$_title" + ", ");
-    buffer.write("isComplete=" + (_isComplete != null ? _isComplete!.toString() : "null") + ", ");
-    buffer.write("userId=" + "$_userId");
+    buffer.write("isTask=" + (_isTask != null ? _isTask!.toString() : "null") + ", ");
+    buffer.write("isQuickNote=" + (_isQuickNote != null ? _isQuickNote!.toString() : "null") + ", ");
+    buffer.write("isCheckList=" + (_isCheckList != null ? _isCheckList!.toString() : "null") + ", ");
+    buffer.write("userID=" + "$_userID" + ", ");
+    buffer.write("task=" + (_task != null ? _task!.toString() : "null") + ", ");
+    buffer.write("quickNote=" + (_quickNote != null ? _quickNote!.toString() : "null") + ", ");
+    buffer.write("checkList=" + (_checkList != null ? _checkList!.toString() : "null"));
     buffer.write("}");
     
     return buffer.toString();
   }
   
-  Todo copyWith({String? id, String? title, bool? isComplete, String? userId}) {
+  Todo copyWith({String? id, bool? isTask, bool? isQuickNote, bool? isCheckList, String? userID, Task? task, QuickNote? quickNote, CheckList? checkList}) {
     return Todo(
       id: id ?? this.id,
-      title: title ?? this.title,
-      isComplete: isComplete ?? this.isComplete,
-      userId: userId ?? this.userId);
+      isTask: isTask ?? this.isTask,
+      isQuickNote: isQuickNote ?? this.isQuickNote,
+      isCheckList: isCheckList ?? this.isCheckList,
+      userID: userID ?? this.userID,
+      task: task ?? this.task,
+      quickNote: quickNote ?? this.quickNote,
+      checkList: checkList ?? this.checkList);
   }
   
   Todo.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _title = json['title'],
-      _isComplete = json['isComplete'],
-      _userId = json['userId'];
+      _isTask = json['isTask'],
+      _isQuickNote = json['isQuickNote'],
+      _isCheckList = json['isCheckList'],
+      _userID = json['userID'],
+      _task = json['task']?['serializedData'] != null
+        ? Task.fromJson(new Map<String, dynamic>.from(json['task']['serializedData']))
+        : null,
+      _quickNote = json['quickNote']?['serializedData'] != null
+        ? QuickNote.fromJson(new Map<String, dynamic>.from(json['quickNote']['serializedData']))
+        : null,
+      _checkList = json['checkList']?['serializedData'] != null
+        ? CheckList.fromJson(new Map<String, dynamic>.from(json['checkList']['serializedData']))
+        : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'title': _title, 'isComplete': _isComplete, 'userId': _userId
+    'id': id, 'isTask': _isTask, 'isQuickNote': _isQuickNote, 'isCheckList': _isCheckList, 'userID': _userID, 'task': _task?.toJson(), 'quickNote': _quickNote?.toJson(), 'checkList': _checkList?.toJson()
   };
 
   static final QueryField ID = QueryField(fieldName: "todo.id");
-  static final QueryField TITLE = QueryField(fieldName: "title");
-  static final QueryField ISCOMPLETE = QueryField(fieldName: "isComplete");
-  static final QueryField USERID = QueryField(fieldName: "userId");
+  static final QueryField ISTASK = QueryField(fieldName: "isTask");
+  static final QueryField ISQUICKNOTE = QueryField(fieldName: "isQuickNote");
+  static final QueryField ISCHECKLIST = QueryField(fieldName: "isCheckList");
+  static final QueryField USERID = QueryField(fieldName: "userID");
+  static final QueryField TASK = QueryField(
+    fieldName: "task",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Task).toString()));
+  static final QueryField QUICKNOTE = QueryField(
+    fieldName: "quickNote",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (QuickNote).toString()));
+  static final QueryField CHECKLIST = QueryField(
+    fieldName: "checkList",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (CheckList).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Todo";
     modelSchemaDefinition.pluralName = "Todos";
@@ -137,21 +186,48 @@ class Todo extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Todo.TITLE,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      key: Todo.ISTASK,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Todo.ISCOMPLETE,
+      key: Todo.ISQUICKNOTE,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.bool)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Todo.ISCHECKLIST,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.bool)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Todo.USERID,
-      isRequired: true,
+      isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: Todo.TASK,
+      isRequired: false,
+      targetName: "todoTaskId",
+      ofModelName: (Task).toString()
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: Todo.QUICKNOTE,
+      isRequired: false,
+      targetName: "todoQuickNoteId",
+      ofModelName: (QuickNote).toString()
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: Todo.CHECKLIST,
+      isRequired: false,
+      targetName: "todoCheckListId",
+      ofModelName: (CheckList).toString()
     ));
   });
 }
