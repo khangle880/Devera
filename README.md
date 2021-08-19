@@ -19,3 +19,7 @@
 - Navigator v2
 
 # Some stupid thing I create
+
+## AWS Data Stores
+
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-08-19%20at%2019.30.55.png?alt=media&token=2f9ed889-842a-43d4-bac9-bcd9819e1385" width="350" alt="accessibility text">
