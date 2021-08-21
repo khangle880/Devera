@@ -6,7 +6,7 @@ class StyleConstants {
   //? Text's Styles
 
   static TextStyle regularHeader = TextStyle(
-      fontSize: 18.0.sp, fontWeight: FontWeight.w600, color: Colors.black);
+      fontSize: 20.0.sp, fontWeight: FontWeight.w600, color: Colors.white);
 
   static TextStyle regularDarkText = TextStyle(
       fontSize: 22.0.sp, fontWeight: FontWeight.w600, color: Colors.black);

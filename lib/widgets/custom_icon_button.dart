@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:asking/constants/color_constants.dart';
+
+class CustomIconButton extends StatefulWidget {
+  const CustomIconButton({
+    Key? key,
+    required this.onPressed,
+    required this.iconPath,
+    this.isSelected = false,
+    this.buttonText = '',
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final String iconPath;
+  final bool isSelected;
+  final String buttonText;
+
+  @override
+  _CustomIconButton createState() => _CustomIconButton();
+}
+
+class _CustomIconButton extends State<CustomIconButton>
+    with SingleTickerProviderStateMixin {
+  late double _scale;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+      upperBound: 0.5,
+    )..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _scale = 1 - _controller.value;
+    bool textVisibility = false;
+
+    if (widget.buttonText.isNotEmpty) {
+      textVisibility = true;
+    }
+
+    return GestureDetector(
+      onTapDown: _tapDown,
+      onTapUp: _tapUp,
+      onTap: widget.onPressed,
+      child: Transform.scale(
+        scale: _scale,
+        child: Container(
+            padding: EdgeInsets.only(top: 7.h),
+            width: 70.w,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+              color: widget.isSelected
+                  ? ColorConstants.kButtonColor
+                  : Colors.transparent,
+              width: 4.0,
+            ))),
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  widget.iconPath,
+                  width: 25.w,
+                  height: 25.w,
+                  color: widget.isSelected ? Colors.white : Colors.grey,
+                ),
+                SizedBox(height: 7.h),
+                Visibility(
+                    visible: textVisibility,
+                    child: Text(
+                      widget.buttonText,
+                      style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                    ))
+              ],
+            )),
+      ),
+    );
+  }
+
+  void _tapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _tapUp(TapUpDetails details) {
+    _controller.reverse();
+  }
+}

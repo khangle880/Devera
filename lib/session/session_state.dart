@@ -12,4 +12,5 @@ class Authenticated extends SessionState {
   });
 
   final User? user;
+  User? selectedUser;
 }

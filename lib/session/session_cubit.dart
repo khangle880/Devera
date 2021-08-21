@@ -1,15 +1,19 @@
 import 'package:amplify_api/amplify_api.dart';
 import 'package:asking/models/User.dart';
+import 'package:asking/screens/auth/auth_credentials.dart';
+import 'package:asking/screens/auth/auth_repository.dart';
 import 'package:asking/session/session_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:asking/auth/auth_credentials.dart';
-import 'package:asking/auth/auth_repository.dart';
 import 'package:asking/data_repository.dart';
 
 class SessionCubit extends Cubit<SessionState> {
   final AuthRepository authRepo;
   final DataRepository dataRepo;
+
+  User? get currentUser => (state as Authenticated).user;
+  User? get selectedUser => (state as Authenticated).selectedUser;
+  bool get isCurrentUserSelected =>
+      selectedUser == null || currentUser?.id == selectedUser?.id;
 
   SessionCubit({
     required this.authRepo,
@@ -28,10 +32,15 @@ class SessionCubit extends Cubit<SessionState> {
       User? user = await dataRepo.getUserById(userId: userId);
       if (user == null) {
         user = await dataRepo.createUser(
-          userId: userId,
-          username: 'User-${UUID()}',
-        );
+            userId: userId,
+            username: 'User-${UUID()}',
+            email: 'User-${UUID()}');
+        print(user);
+      } else {
+        print('Fuck you');
+        print(user);
       }
+
       emit(Authenticated(user: user));
     } on Exception {
       emit(Unauthenticated());

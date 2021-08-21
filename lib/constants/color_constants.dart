@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorConstants {
   static const Color kPrimaryDarkColor = Color(0xFFF96060);
-  static const Color kPrimaryLightColor = Color(0xFFF4F9F9);
+  static const Color kPrimaryLightColor = Color(0xFFF96060);
   static const Color kSecondaryColor = Color(0xFFF4F9F9);
 
   static const Color kTextColor = Color(0xFF313131);
@@ -17,9 +17,11 @@ class ColorConstants {
   static const Color kButtonColor = Color(0xFFF96060);
   static const Color kFloatingButtonColor = Color(0xFF7C83FD);
 
+  static const Color kBottomAppBarColor = Color(0xFF292E4E);
+
   static const LinearGradient kPrimaryGradientColor = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: <Color>[Color(0xFFFFA53E), Color(0xFFFF7643)],
+    begin: Alignment.centerRight,
+    end: Alignment.centerLeft,
+    colors: <Color>[Color(0xFFF96060), Color(0xFFF68888)],
   );
 }
