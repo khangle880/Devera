@@ -5,6 +5,7 @@
 # Things todo
 
 ## Features
+
 - [x] Try to code like Hung-Senpai ideas
 - [x] Create Forgot password
 - [x] Create Todo Home UI
@@ -33,8 +34,8 @@
 # Some stupid thing I create
 
 ## AWS Data Stores
-<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-08-22%20at%2016.25.12.png?alt=media&token=44ea06bc-ab28-4450-9d03-258d3ca4fb48" width="1000" alt="accessibility text">
 
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-08-22%20at%2016.25.12.png?alt=media&token=44ea06bc-ab28-4450-9d03-258d3ca4fb48" width="1000" alt="accessibility text">
 
 # Some confuses
 
@@ -43,15 +44,17 @@
 Because AWS has 3 options for username which are "username", "email", "phone".
 But the sign up function always required username for Login so username is one of them depend on AWS configure
 I can't change the rule so yeah that's it.
-  
+
 # Some Remind
+
 == <b>In case my future self look back at this not strangle me 👼</b> ==
 
 ### Custom Type is suck
-AWS won't work, it just generate some "Import" and nothing in there
+
+AWS generator won't work, it just generate some "Import" and nothing in there
+
 ```dart
 // ./model/List.dart
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 ```
-
