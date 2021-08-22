@@ -69,6 +69,8 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _isAmplifyConfigure = true;
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 }

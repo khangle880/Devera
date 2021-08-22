@@ -115,6 +115,13 @@ class _ProfileViewState extends State<ProfileView> {
               //     description: "Lorem ipsum dolor sit amet",
               //     color: "Lorem ipsum dolor sit amet");
               // await Amplify.DataStore.save(item);
+              // try {
+              //   List<QuickNote> quickNotes =
+              //       await Amplify.DataStore.query(QuickNote.classType);
+              //   print(quickNotes);
+              // } on Exception catch (e) {
+              //   print("Could not query DataStore: " + e.toString());
+              // }
               // print(item);
               Amplify.DataStore.clear();
               sessionCubit.signOut();
