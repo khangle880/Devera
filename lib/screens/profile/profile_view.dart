@@ -1,3 +1,5 @@
+import 'package:amplify_flutter/amplify.dart';
+import 'package:asking/models/ModelProvider.dart';
 import 'package:asking/models/User.dart';
 import 'package:asking/screens/profile/profile_bloc.dart';
 import 'package:asking/screens/profile/profile_state.dart';
@@ -108,7 +110,13 @@ class _ProfileViewState extends State<ProfileView> {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         return ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+              // final item = QuickNote(
+              //     description: "Lorem ipsum dolor sit amet",
+              //     color: "Lorem ipsum dolor sit amet");
+              // await Amplify.DataStore.save(item);
+              // print(item);
+              Amplify.DataStore.clear();
               sessionCubit.signOut();
             },
             child: Text('Save changes'));

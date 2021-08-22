@@ -1,3 +1,4 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:asking/screens/auth/auth_cubit.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
 import 'package:asking/screens/auth/form_submission_status.dart';
@@ -45,7 +46,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         } else {
           throw Exception('Password are not match');
         }
-      } catch (e) {
+      } on Exception catch (e) {
         yield state.copyWith(
             formStatus: SubmissionFailed(exception: e as Exception));
 
