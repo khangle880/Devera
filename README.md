@@ -15,6 +15,7 @@
 - [ ] Add create New Task
 - [ ] Add create Check List
 - [ ] Update My Task UI
+- [ ] Sorting Task by Month
 
 ## Bugs
 
@@ -25,6 +26,14 @@
 
 - [ ] Some how Android is really really laggy
 - - No idea why :<
+
+- [ ] Sometimes IOS can't query from AWS cloud
+- - Problem: This is bug from AWS Local
+- - Solution: Delete App and Hope they will fix it in the next release
+
+- [ ] User NetworkImage Avatar get bug when user sudden;y delete and sign up back to AWS
+- - Problem: Duplicate UserID key
+- - Solution: ARGGH i don't know how to use AWS Automatic
 
 # Some requirement for this project
 
@@ -38,7 +47,11 @@
 
 ## AWS Data Stores
 
-<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-08-22%20at%2016.25.12.png?alt=media&token=44ea06bc-ab28-4450-9d03-258d3ca4fb48" width="1000" alt="accessibility text">
+### Updated: 24-AUG
+
+I change DB a little bit, old DB is idiot :D
+
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/Main%20UI%20Images%2FScreen%20Shot%202021-08-24%20at%2021.23.27.png?alt=media&token=dde11b50-cfb1-4e4f-a11d-ff28f2e2b769" width="1000" alt="accessibility text">
 
 # Some confuses
 
