@@ -5,28 +5,21 @@ type ListItem @model @auth(rules: [{allow: public}]) @key(name: "byCheckList", f
   checklistID: ID
 }
 
-type CheckList @model @auth(rules: [{allow: public}]) {
+type CheckList @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
   id: ID!
   todoList: [AWSJSON!]
   color: String!
   listItems: [ListItem] @connection(keyName: "byCheckList", fields: ["id"])
+  createdAt: AWSDateTime
+  userID: ID
 }
 
-type QuickNote @model @auth(rules: [{allow: public}]) {
+type QuickNote @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
   id: ID!
   description: String!
   color: String!
-}
-
-type Todo @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
-  id: ID!
-  isTask: Boolean
-  isQuickNote: Boolean
-  isCheckList: Boolean
+  createdAt: AWSDateTime
   userID: ID
-  task: Task @connection
-  quickNote: QuickNote @connection
-  checkList: CheckList @connection
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -35,14 +28,18 @@ type User @model @auth(rules: [{allow: public}]) {
   email: String
   avatarKey: String
   description: String
-  todos: [Todo] @connection(keyName: "byUser", fields: ["id"])
+  tasks: [Task] @connection(keyName: "byUser", fields: ["id"])
+  quickNotes: [QuickNote] @connection(keyName: "byUser", fields: ["id"])
+  checkLists: [CheckList] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type Task @model @auth(rules: [{allow: public}]) {
+type Task @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
   id: ID!
   description: String!
+  createdAt: AWSDateTime
   dueDate: AWSDateTime!
-  targetUsers: [String!]
   isComplete: Boolean!
+  targetUsers: [String!]
+  userID: ID
 }
  

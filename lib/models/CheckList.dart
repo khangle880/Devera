@@ -28,6 +28,8 @@ class CheckList extends Model {
   final List<String>? _todoList;
   final String? _color;
   final List<ListItem>? _listItems;
+  final TemporalDateTime? _createdAt;
+  final String? _userID;
 
   @override
   getInstanceType() => classType;
@@ -58,17 +60,34 @@ class CheckList extends Model {
     return _listItems;
   }
 
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+
+  String? get userID {
+    return _userID;
+  }
+
   const CheckList._internal(
-      {required this.id, todoList, required color, listItems})
+      {required this.id,
+      todoList,
+      required color,
+      listItems,
+      createdAt,
+      userID})
       : _todoList = todoList,
         _color = color,
-        _listItems = listItems;
+        _listItems = listItems,
+        _createdAt = createdAt,
+        _userID = userID;
 
   factory CheckList(
       {String? id,
       List<String>? todoList,
       required String color,
-      List<ListItem>? listItems}) {
+      List<ListItem>? listItems,
+      TemporalDateTime? createdAt,
+      String? userID}) {
     return CheckList._internal(
         id: id == null ? UUID.getUUID() : id,
         todoList:
@@ -76,7 +95,9 @@ class CheckList extends Model {
         color: color,
         listItems: listItems != null
             ? List<ListItem>.unmodifiable(listItems)
-            : listItems);
+            : listItems,
+        createdAt: createdAt,
+        userID: userID);
   }
 
   bool equals(Object other) {
@@ -90,7 +111,9 @@ class CheckList extends Model {
         id == other.id &&
         DeepCollectionEquality().equals(_todoList, other._todoList) &&
         _color == other._color &&
-        DeepCollectionEquality().equals(_listItems, other._listItems);
+        DeepCollectionEquality().equals(_listItems, other._listItems) &&
+        _createdAt == other._createdAt &&
+        _userID == other._userID;
   }
 
   @override
@@ -105,7 +128,11 @@ class CheckList extends Model {
     buffer.write("todoList=" +
         (_todoList != null ? _todoList!.toString() : "null") +
         ", ");
-    buffer.write("color=" + "$_color");
+    buffer.write("color=" + "$_color" + ", ");
+    buffer.write("createdAt=" +
+        (_createdAt != null ? _createdAt!.format() : "null") +
+        ", ");
+    buffer.write("userID=" + "$_userID");
     buffer.write("}");
 
     return buffer.toString();
@@ -115,12 +142,16 @@ class CheckList extends Model {
       {String? id,
       List<String>? todoList,
       String? color,
-      List<ListItem>? listItems}) {
+      List<ListItem>? listItems,
+      TemporalDateTime? createdAt,
+      String? userID}) {
     return CheckList(
         id: id ?? this.id,
         todoList: todoList ?? this.todoList,
         color: color ?? this.color,
-        listItems: listItems ?? this.listItems);
+        listItems: listItems ?? this.listItems,
+        createdAt: createdAt ?? this.createdAt,
+        userID: userID ?? this.userID);
   }
 
   CheckList.fromJson(Map<String, dynamic> json)
@@ -133,13 +164,19 @@ class CheckList extends Model {
                 .map((e) => ListItem.fromJson(
                     new Map<String, dynamic>.from(e['serializedData'])))
                 .toList()
-            : null;
+            : null,
+        _createdAt = json['createdAt'] != null
+            ? TemporalDateTime.fromString(json['createdAt'])
+            : null,
+        _userID = json['userID'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'todoList': _todoList,
         'color': _color,
-        'listItems': _listItems?.map((e) => e?.toJson())?.toList()
+        'listItems': _listItems?.map((e) => e.toJson()).toList(),
+        'createdAt': _createdAt?.format(),
+        'userID': _userID
       };
 
   static final QueryField ID = QueryField(fieldName: "checkList.id");
@@ -149,6 +186,8 @@ class CheckList extends Model {
       fieldName: "listItems",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (ListItem).toString()));
+  static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
+  static final QueryField USERID = QueryField(fieldName: "userID");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "CheckList";
@@ -182,6 +221,16 @@ class CheckList extends Model {
         isRequired: false,
         ofModelName: (ListItem).toString(),
         associatedKey: ListItem.CHECKLISTID));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: CheckList.CREATEDAT,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: CheckList.USERID,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 

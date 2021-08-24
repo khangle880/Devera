@@ -1,7 +1,8 @@
-import 'package:asking/loading_view.dart';
+import 'package:asking/screens/home/home_cubit.dart';
+import 'package:asking/screens/home/home_navigator.dart';
+import 'package:asking/widgets/loading_view.dart';
 import 'package:asking/screens/auth/auth_cubit.dart';
 import 'package:asking/screens/auth/auth_navigator.dart';
-import 'package:asking/screens/home/home_view.dart';
 import 'package:asking/session/session_cubit.dart';
 import 'package:asking/session/session_state.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,11 @@ class AppNavigator extends StatelessWidget {
               ),
             ),
 
-          // Show session flow
-          if (state is Authenticated) MaterialPage(child: HomeView())
+          // Show home flow
+          if (state is Authenticated)
+            MaterialPage(
+                child: BlocProvider(
+                    create: (context) => HomeCubit(), child: HomeNavigator()))
         ],
         onPopPage: (route, result) => route.didPop(result),
       );

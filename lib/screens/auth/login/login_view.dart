@@ -22,7 +22,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   bool _needLoadingForLogin = false;
-  bool _needLoadingForResendCode = false;
+  // bool _needLoadingForResendCode = false;
 
   //? Focus node
   late FocusNode _usernameFocusNode;
@@ -159,10 +159,6 @@ class _LoginViewState extends State<LoginView> {
             if (_formKey.currentState!.validate()) {
               context.read<LoginBloc>().add(LoginSubmitted());
             }
-
-            setState(() {
-              _needLoadingForLogin = false;
-            });
           });
     });
   }
@@ -191,25 +187,25 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget _showResendCode(BuildContext context) {
-    return CustomTextButton(
-        text: 'Resend Confirmation Code',
-        color: Colors.black,
-        outLineButton: true,
-        textColor: Colors.black,
-        isLoading: _needLoadingForResendCode,
-        onPressed: () {
-          setState(() {
-            _needLoadingForResendCode = true;
-          });
+  // Widget _showResendCode(BuildContext context) {
+  //   return CustomTextButton(
+  //       text: 'Resend Confirmation Code',
+  //       color: Colors.black,
+  //       outLineButton: true,
+  //       textColor: Colors.black,
+  //       isLoading: _needLoadingForResendCode,
+  //       onPressed: () {
+  //         setState(() {
+  //           _needLoadingForResendCode = true;
+  //         });
 
-          context.read<AuthCubit>().showResendCode();
+  //         context.read<AuthCubit>().showResendCode();
 
-          setState(() {
-            _needLoadingForResendCode = false;
-          });
-        });
-  }
+  //         setState(() {
+  //           _needLoadingForResendCode = false;
+  //         });
+  //       });
+  // }
 
   void _showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));

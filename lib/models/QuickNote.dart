@@ -26,6 +26,8 @@ class QuickNote extends Model {
   final String id;
   final String? _description;
   final String? _color;
+  final TemporalDateTime? _createdAt;
+  final String? _userID;
 
   @override
   getInstanceType() => classType;
@@ -51,13 +53,23 @@ class QuickNote extends Model {
     }
   }
   
-  const QuickNote._internal({required this.id, required description, required color}): _description = description, _color = color;
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
   
-  factory QuickNote({String? id, required String description, required String color}) {
+  String? get userID {
+    return _userID;
+  }
+  
+  const QuickNote._internal({required this.id, required description, required color, createdAt, userID}): _description = description, _color = color, _createdAt = createdAt, _userID = userID;
+  
+  factory QuickNote({String? id, required String description, required String color, TemporalDateTime? createdAt, String? userID}) {
     return QuickNote._internal(
       id: id == null ? UUID.getUUID() : id,
       description: description,
-      color: color);
+      color: color,
+      createdAt: createdAt,
+      userID: userID);
   }
   
   bool equals(Object other) {
@@ -70,7 +82,9 @@ class QuickNote extends Model {
     return other is QuickNote &&
       id == other.id &&
       _description == other._description &&
-      _color == other._color;
+      _color == other._color &&
+      _createdAt == other._createdAt &&
+      _userID == other._userID;
   }
   
   @override
@@ -83,31 +97,39 @@ class QuickNote extends Model {
     buffer.write("QuickNote {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("description=" + "$_description" + ", ");
-    buffer.write("color=" + "$_color");
+    buffer.write("color=" + "$_color" + ", ");
+    buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
+    buffer.write("userID=" + "$_userID");
     buffer.write("}");
     
     return buffer.toString();
   }
   
-  QuickNote copyWith({String? id, String? description, String? color}) {
+  QuickNote copyWith({String? id, String? description, String? color, TemporalDateTime? createdAt, String? userID}) {
     return QuickNote(
       id: id ?? this.id,
       description: description ?? this.description,
-      color: color ?? this.color);
+      color: color ?? this.color,
+      createdAt: createdAt ?? this.createdAt,
+      userID: userID ?? this.userID);
   }
   
   QuickNote.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _description = json['description'],
-      _color = json['color'];
+      _color = json['color'],
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _userID = json['userID'];
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'description': _description, 'color': _color
+    'id': id, 'description': _description, 'color': _color, 'createdAt': _createdAt?.format(), 'userID': _userID
   };
 
   static final QueryField ID = QueryField(fieldName: "quickNote.id");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static final QueryField COLOR = QueryField(fieldName: "color");
+  static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
+  static final QueryField USERID = QueryField(fieldName: "userID");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "QuickNote";
     modelSchemaDefinition.pluralName = "QuickNotes";
@@ -134,6 +156,18 @@ class QuickNote extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: QuickNote.COLOR,
       isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: QuickNote.CREATEDAT,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: QuickNote.USERID,
+      isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
   });

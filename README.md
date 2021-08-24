@@ -10,8 +10,11 @@
 - [x] Create Forgot password
 - [x] Create Todo Home UI
 - [x] Create DataStore GraphQL
-- [ ] Apply AWS to Home UI
+- [x] Apply AWS to Home UI
 - [x] I feel like idiot right now
+- [ ] Add create New Task
+- [ ] Add create Check List
+- [ ] Update My Task UI
 
 ## Bugs
 
@@ -39,11 +42,28 @@
 
 # Some confuses
 
-## Why I set username: email in authRepo
+### Why I set username: email in authRepo
 
 Because AWS has 3 options for username which are "username", "email", "phone".
+
 But the sign up function always required username for Login so username is one of them depend on AWS configure
+
 I can't change the rule so yeah that's it.
+
+### Show Dialog
+
+Show Dialog I use pure "Navigator.push"
+
+Because Provider and Navigator kinda mess up when using inside Dialog
+
+```dart
+// ./home/home_view.dart
+    onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => AddNoteView()));
+    }
+```
 
 # Some Remind
 
@@ -58,3 +78,7 @@ AWS generator won't work, it just generate some "Import" and nothing in there
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 ```
+
+### Show Dialog push to very different Route
+
+I don't know how to use Show Dialog with Provider yet or it can't

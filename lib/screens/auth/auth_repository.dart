@@ -15,6 +15,19 @@ class AuthRepository {
     }
   }
 
+  Future<String> getUserIdFromAttributes() async {
+    try {
+      final attributes = await Amplify.Auth.fetchUserAttributes();
+      final userId = attributes
+          .firstWhere((element) => element.userAttributeKey == 'sub')
+          .value;
+
+      return userId;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<String?> attemptAutoLogin() async {
     try {
       final session = await Amplify.Auth.fetchAuthSession();

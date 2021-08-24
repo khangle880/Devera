@@ -4,7 +4,7 @@ import 'package:asking/screens/auth/auth_credentials.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
 import 'package:asking/session/session_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:asking/data_repository.dart';
+import 'package:asking/repositories/data_repository.dart';
 
 class SessionCubit extends Cubit<SessionState> {
   final AuthRepository authRepo;
@@ -57,7 +57,7 @@ class SessionCubit extends Cubit<SessionState> {
         user = await dataRepo.createUser(
           userId: credentials.userId,
           username: credentials.username,
-          email: credentials.email,
+          email: credentials.username,
         );
       }
 

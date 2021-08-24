@@ -1,11 +1,17 @@
+import 'package:amplify_flutter/amplify.dart';
 import 'package:asking/constants/color_constants.dart';
-import 'package:asking/constants/icon_constants.dart';
-import 'package:asking/screens/menu/menu_view.dart';
-import 'package:asking/screens/my_task/my_task_view.dart';
-import 'package:asking/screens/profile/profile_view.dart';
-import 'package:asking/screens/quick/quick_view.dart';
+import 'package:asking/constants/asset_constants.dart';
+import 'package:asking/models/QuickNote.dart';
+import 'package:asking/models/User.dart';
+import 'package:asking/screens/home/home_cubit.dart';
+import 'package:asking/screens/home/menu/menu_view.dart';
+import 'package:asking/screens/home/my_task/my_task_view.dart';
+import 'package:asking/screens/home/profile/profile_view.dart';
+import 'package:asking/screens/home/quick_note/quick_view.dart';
+import 'package:asking/screens/popup_modal/choices_modal.dart';
 import 'package:asking/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,9 +25,9 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late PageController _tabsPageController;
   int _selectedTab = 0;
-  String _title = 'Latop Categories';
-  bool _hasBackArrow = false;
-  bool _hasTitle = true;
+  String _title = 'Work List';
+  Color _appBarBackgroundColor = ColorConstants.kPrimaryDarkColor;
+  Color _appBarTextColor = Colors.white;
 
   @override
   void initState() {
@@ -35,32 +41,13 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
-  createAlertDialog(BuildContext context) {
-    TextEditingController customController = TextEditingController();
-
-    return showDialog(
-        context: context,
-        builder: (contect) {
-          return AlertDialog(
-            title: Text('Your Name?'),
-            content: TextField(
-              controller: customController,
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                  elevation: 5.0, child: Text('Hello World'), onPressed: () {})
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: ColorConstants.kPrimaryLightColor,
-        title: Text('Work List'),
+        backgroundColor: _appBarBackgroundColor,
+        title: Text(_title, style: TextStyle(color: _appBarTextColor)),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -77,14 +64,32 @@ class _HomeViewState extends State<HomeView> {
 
               switch (pageIndex) {
                 case 0:
-                  _title = 'Latop Categories';
-                  _hasBackArrow = false;
-                  _hasTitle = true;
+                  setState(() {
+                    _title = 'Work List';
+                    _appBarBackgroundColor = ColorConstants.kPrimaryDarkColor;
+                    _appBarTextColor = Colors.white;
+                  });
                   break;
                 case 1:
-                  _title = 'Search Categories';
-                  _hasBackArrow = false;
-                  _hasTitle = true;
+                  setState(() {
+                    _title = 'Menu';
+                    _appBarBackgroundColor = ColorConstants.kSecondaryColor;
+                    _appBarTextColor = Colors.black;
+                  });
+                  break;
+                case 2:
+                  setState(() {
+                    _title = 'Quick Note';
+                    _appBarBackgroundColor = ColorConstants.kSecondaryColor;
+                    _appBarTextColor = Colors.black;
+                  });
+                  break;
+                case 3:
+                  setState(() {
+                    _title = 'Profile';
+                    _appBarBackgroundColor = ColorConstants.kSecondaryColor;
+                    _appBarTextColor = Colors.black;
+                  });
                   break;
                 default:
               }
@@ -97,23 +102,29 @@ class _HomeViewState extends State<HomeView> {
             ProfileView()
           ]),
       floatingActionButton: Container(
-        margin: EdgeInsets.only(top: 20.h),
-        child: FloatingActionButton(
-          onPressed: () {
-            createAlertDialog(context);
-          },
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: 60,
-            height: 60,
-            child: SvgPicture.asset(IconConstants.addIcon,
-                width: 50.w, height: 50.h, fit: BoxFit.none),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: ColorConstants.kPrimaryGradientColor),
-          ),
-        ),
-      ),
+          margin: EdgeInsets.only(top: 20.h),
+          child: BlocProvider(
+            create: (context) => HomeCubit(),
+            child: BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return FloatingActionButton(
+                  onPressed: () async {
+                    ChoicesModal.createAlertDialog(context);
+                  },
+                  backgroundColor: Colors.transparent,
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    child: SvgPicture.asset(IconConstants.addIcon,
+                        width: 50.w, height: 50.h, fit: BoxFit.none),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: ColorConstants.kPrimaryGradientColor),
+                  ),
+                );
+              },
+            ),
+          )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomBar(
         selectedTab: _selectedTab,

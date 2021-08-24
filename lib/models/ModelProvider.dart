@@ -20,21 +20,19 @@ import 'CheckList.dart';
 import 'ListItem.dart';
 import 'QuickNote.dart';
 import 'Task.dart';
-import 'Todo.dart';
 import 'User.dart';
 
 export 'CheckList.dart';
 export 'ListItem.dart';
 export 'QuickNote.dart';
 export 'Task.dart';
-export 'Todo.dart';
 export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "56aa34d34ed2cfedb323762e32548128";
+  String version = "30249d3b86dce43b44b0acbc2da8256a";
   @override
-  List<ModelSchema> modelSchemas = [CheckList.schema, ListItem.schema, QuickNote.schema, Task.schema, Todo.schema, User.schema];
+  List<ModelSchema> modelSchemas = [CheckList.schema, ListItem.schema, QuickNote.schema, Task.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
 
   static ModelProvider get instance => _instance;
@@ -55,10 +53,6 @@ class ModelProvider implements ModelProviderInterface {
     break;
     case "Task": {
     return Task.classType;
-    }
-    break;
-    case "Todo": {
-    return Todo.classType;
     }
     break;
     case "User": {

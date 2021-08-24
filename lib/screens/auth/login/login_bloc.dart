@@ -48,6 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (e is InvalidStateException) {
           authRepo.signOut();
           yield state.copyWith(formStatus: FormSubmitting());
+          add(LoginSubmitted());
         }
 
         yield state.copyWith(formStatus: SubmissionFailed(exception: e));

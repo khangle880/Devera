@@ -1,5 +1,5 @@
 import 'package:asking/constants/color_constants.dart';
-import 'package:asking/screens/my_task/today_task/today_task_view.dart';
+import 'package:asking/screens/home/my_task/today_task/today_task_view.dart';
 import 'package:flutter/material.dart';
 
 class MyTaskView extends StatefulWidget {

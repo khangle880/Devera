@@ -20,7 +20,6 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-
 /** This is an auto generated class representing the User type in your schema. */
 @immutable
 class User extends Model {
@@ -30,75 +29,121 @@ class User extends Model {
   final String? _email;
   final String? _avatarKey;
   final String? _description;
-  final List<Todo>? _todos;
+  final List<Task>? _tasks;
+  final List<QuickNote>? _quickNotes;
+  final List<CheckList>? _checkLists;
 
   @override
   getInstanceType() => classType;
-  
+
   @override
   String getId() {
     return id;
   }
-  
+
   String get username {
     try {
       return _username!;
-    } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    } catch (e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages
+              .codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion: DataStoreExceptionMessages
+              .codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString());
     }
   }
-  
+
   String? get email {
     return _email;
   }
-  
+
   String? get avatarKey {
     return _avatarKey;
   }
-  
+
   String? get description {
     return _description;
   }
-  
-  List<Todo>? get todos {
-    return _todos;
+
+  List<Task>? get tasks {
+    return _tasks;
   }
-  
-  const User._internal({required this.id, required username, email, avatarKey, description, todos}): _username = username, _email = email, _avatarKey = avatarKey, _description = description, _todos = todos;
-  
-  factory User({String? id, required String username, String? email, String? avatarKey, String? description, List<Todo>? todos}) {
+
+  List<QuickNote>? get quickNotes {
+    return _quickNotes;
+  }
+
+  List<CheckList>? get checkLists {
+    return _checkLists;
+  }
+
+  const User._internal(
+      {required this.id,
+      required username,
+      email,
+      avatarKey,
+      description,
+      tasks,
+      quickNotes,
+      checkLists})
+      : _username = username,
+        _email = email,
+        _avatarKey = avatarKey,
+        _description = description,
+        _tasks = tasks,
+        _quickNotes = quickNotes,
+        _checkLists = checkLists;
+
+  factory User(
+      {String? id,
+      required String username,
+      String? email,
+      String? avatarKey,
+      String? description,
+      List<Task>? tasks,
+      List<QuickNote>? quickNotes,
+      List<CheckList>? checkLists}) {
     return User._internal(
-      id: id == null ? UUID.getUUID() : id,
-      username: username,
-      email: email,
-      avatarKey: avatarKey,
-      description: description,
-      todos: todos != null ? List<Todo>.unmodifiable(todos) : todos);
+        id: id == null ? UUID.getUUID() : id,
+        username: username,
+        email: email,
+        avatarKey: avatarKey,
+        description: description,
+        tasks: tasks != null ? List<Task>.unmodifiable(tasks) : tasks,
+        quickNotes: quickNotes != null
+            ? List<QuickNote>.unmodifiable(quickNotes)
+            : quickNotes,
+        checkLists: checkLists != null
+            ? List<CheckList>.unmodifiable(checkLists)
+            : checkLists);
   }
-  
+
   bool equals(Object other) {
     return this == other;
   }
-  
+
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is User &&
-      id == other.id &&
-      _username == other._username &&
-      _email == other._email &&
-      _avatarKey == other._avatarKey &&
-      _description == other._description &&
-      DeepCollectionEquality().equals(_todos, other._todos);
+        id == other.id &&
+        _username == other._username &&
+        _email == other._email &&
+        _avatarKey == other._avatarKey &&
+        _description == other._description &&
+        DeepCollectionEquality().equals(_tasks, other._tasks) &&
+        DeepCollectionEquality().equals(_quickNotes, other._quickNotes) &&
+        DeepCollectionEquality().equals(_checkLists, other._checkLists);
   }
-  
+
   @override
   int get hashCode => toString().hashCode;
-  
+
   @override
   String toString() {
     var buffer = new StringBuffer();
-    
+
     buffer.write("User {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("username=" + "$_username" + ", ");
@@ -106,98 +151,145 @@ class User extends Model {
     buffer.write("avatarKey=" + "$_avatarKey" + ", ");
     buffer.write("description=" + "$_description");
     buffer.write("}");
-    
+
     return buffer.toString();
   }
-  
-  User copyWith({String? id, String? username, String? email, String? avatarKey, String? description, List<Todo>? todos}) {
+
+  User copyWith(
+      {String? id,
+      String? username,
+      String? email,
+      String? avatarKey,
+      String? description,
+      List<Task>? tasks,
+      List<QuickNote>? quickNotes,
+      List<CheckList>? checkLists}) {
     return User(
-      id: id ?? this.id,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      avatarKey: avatarKey ?? this.avatarKey,
-      description: description ?? this.description,
-      todos: todos ?? this.todos);
+        id: id ?? this.id,
+        username: username ?? this.username,
+        email: email ?? this.email,
+        avatarKey: avatarKey ?? this.avatarKey,
+        description: description ?? this.description,
+        tasks: tasks ?? this.tasks,
+        quickNotes: quickNotes ?? this.quickNotes,
+        checkLists: checkLists ?? this.checkLists);
   }
-  
-  User.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _username = json['username'],
-      _email = json['email'],
-      _avatarKey = json['avatarKey'],
-      _description = json['description'],
-      _todos = json['todos'] is List
-        ? (json['todos'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Todo.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
-        : null;
-  
+
+  User.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        _username = json['username'],
+        _email = json['email'],
+        _avatarKey = json['avatarKey'],
+        _description = json['description'],
+        _tasks = json['tasks'] is List
+            ? (json['tasks'] as List)
+                .where((e) => e?['serializedData'] != null)
+                .map((e) => Task.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null,
+        _quickNotes = json['quickNotes'] is List
+            ? (json['quickNotes'] as List)
+                .where((e) => e?['serializedData'] != null)
+                .map((e) => QuickNote.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null,
+        _checkLists = json['checkLists'] is List
+            ? (json['checkLists'] as List)
+                .where((e) => e?['serializedData'] != null)
+                .map((e) => CheckList.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null;
+
   Map<String, dynamic> toJson() => {
-    'id': id, 'username': _username, 'email': _email, 'avatarKey': _avatarKey, 'description': _description, 'todos': _todos?.map((e) => e?.toJson())?.toList()
-  };
+        'id': id,
+        'username': _username,
+        'email': _email,
+        'avatarKey': _avatarKey,
+        'description': _description,
+        'tasks': _tasks?.map((e) => e.toJson()).toList(),
+        'quickNotes': _quickNotes?.map((e) => e.toJson()).toList(),
+        'checkLists': _checkLists?.map((e) => e.toJson()).toList()
+      };
 
   static final QueryField ID = QueryField(fieldName: "user.id");
   static final QueryField USERNAME = QueryField(fieldName: "username");
   static final QueryField EMAIL = QueryField(fieldName: "email");
   static final QueryField AVATARKEY = QueryField(fieldName: "avatarKey");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
-  static final QueryField TODOS = QueryField(
-    fieldName: "todos",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Todo).toString()));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final QueryField TASKS = QueryField(
+      fieldName: "tasks",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Task).toString()));
+  static final QueryField QUICKNOTES = QueryField(
+      fieldName: "quickNotes",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (QuickNote).toString()));
+  static final QueryField CHECKLISTS = QueryField(
+      fieldName: "checkLists",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (CheckList).toString()));
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
     modelSchemaDefinition.pluralName = "Users";
-    
+
     modelSchemaDefinition.authRules = [
-      AuthRule(
-        authStrategy: AuthStrategy.PUBLIC,
-        operations: [
-          ModelOperation.CREATE,
-          ModelOperation.UPDATE,
-          ModelOperation.DELETE,
-          ModelOperation.READ
-        ])
+      AuthRule(authStrategy: AuthStrategy.PUBLIC, operations: [
+        ModelOperation.CREATE,
+        ModelOperation.UPDATE,
+        ModelOperation.DELETE,
+        ModelOperation.READ
+      ])
     ];
-    
+
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-    
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.USERNAME,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
+        key: User.USERNAME,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.EMAIL,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
+        key: User.EMAIL,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.AVATARKEY,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
+        key: User.AVATARKEY,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: User.DESCRIPTION,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
+        key: User.DESCRIPTION,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-      key: User.TODOS,
-      isRequired: false,
-      ofModelName: (Todo).toString(),
-      associatedKey: Todo.USERID
-    ));
+        key: User.TASKS,
+        isRequired: false,
+        ofModelName: (Task).toString(),
+        associatedKey: Task.USERID));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: User.QUICKNOTES,
+        isRequired: false,
+        ofModelName: (QuickNote).toString(),
+        associatedKey: QuickNote.USERID));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: User.CHECKLISTS,
+        isRequired: false,
+        ofModelName: (CheckList).toString(),
+        associatedKey: CheckList.USERID));
   });
 }
 
 class _UserModelType extends ModelType<User> {
   const _UserModelType();
-  
+
   @override
   User fromJson(Map<String, dynamic> jsonData) {
     return User.fromJson(jsonData);
