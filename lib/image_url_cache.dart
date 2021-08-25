@@ -16,8 +16,6 @@ class ImageUrlCache {
     if (url == null) {
       try {
         url = (await Amplify.Storage.getUrl(key: imageKey)).url;
-        print('Hello WOrld need attension here');
-        print((await Amplify.Storage.getUrl(key: imageKey)).url);
         _urlCache[imageKey] = url;
       } catch (e) {
         _urlCache[imageKey] = ImageConstants.defaultAvatar;

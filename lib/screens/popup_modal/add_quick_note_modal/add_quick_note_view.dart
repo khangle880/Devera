@@ -1,6 +1,6 @@
 import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/extension_function.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:asking/screens/popup_modal/add_quick_note_modal/add_quick_note_bloc.dart';
 import 'package:asking/screens/popup_modal/add_quick_note_modal/add_quick_note_event.dart';
 import 'package:asking/screens/popup_modal/add_quick_note_modal/add_quick_note_state.dart';

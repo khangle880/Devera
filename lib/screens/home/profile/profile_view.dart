@@ -1,16 +1,24 @@
 import 'dart:io';
 import 'package:asking/constants/asset_constants.dart';
+import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/extension_function.dart';
 import 'package:asking/repositories/data_repository.dart';
 import 'package:asking/models/ModelProvider.dart';
 import 'package:asking/models/User.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
+import 'package:asking/screens/home/profile/components/change_avatar_button.dart';
+import 'package:asking/screens/home/profile/components/description_textfield.dart';
+import 'package:asking/screens/home/profile/components/email_tile.dart';
+import 'package:asking/screens/home/profile/components/log_out_button.dart';
+import 'package:asking/screens/home/profile/components/save_changed_button.dart';
+import 'package:asking/screens/home/profile/components/username_textfield.dart';
 import 'package:asking/screens/home/profile/profile_bloc.dart';
 import 'package:asking/screens/home/profile/profile_event.dart';
 import 'package:asking/screens/home/profile/profile_state.dart';
 
 import 'package:asking/session/session_cubit.dart';
 import 'package:asking/repositories/storage_repository.dart';
+import 'package:asking/widgets/custom_text_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +57,7 @@ class _ProfileViewState extends State<ProfileView> {
           }
         },
         child:
-            Scaffold(backgroundColor: Color(0xFFF2F2F7), body: _profilePage()),
+            Scaffold(backgroundColor: Color(0xFFFDFDFD), body: _profilePage()),
       ),
     );
   }
@@ -58,107 +66,118 @@ class _ProfileViewState extends State<ProfileView> {
     return BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
       return SafeArea(
           child: Center(
-              child: Column(
+              child: ListView(
         children: <Widget>[
           SizedBox(height: 30.h),
-          _avatar(),
-          if (state.isCurrentUser) _changeAvatarButton(),
-          SizedBox(height: 30.h),
-          _usernameTile(),
-          _emailTile(),
-          _descriptionTile(),
-          SizedBox(height: 30.h),
-          if (state.isCurrentUser) _saveProfileButton(),
-          TextButton(
-              onPressed: () => context.read<SessionCubit>().signOut(),
-              child: Text('log out'))
+          Card(
+              child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Theme(
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    textColor: Colors.black,
+                    trailing: Icon(
+                      Icons.settings,
+                      color: Colors.black,
+                    ),
+                    title: Row(children: <Widget>[
+                      Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.transparent),
+                          width: 64.w,
+                          height: 64.h,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50.r),
+                            child: CachedNetworkImage(
+                              imageUrl: state.avatarPath ??
+                                  ImageConstants.defaultAvatar,
+                              fit: BoxFit.cover,
+                            ),
+                          )),
+                      Container(
+                        width: 200,
+                        child: ListTile(
+                            title: Text(state.username ?? 'My Bad',
+                                style: TextStyle(fontWeight: FontWeight.w700)),
+                            subtitle: Text(
+                              state.email ?? 'My Bad',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w700),
+                            )),
+                      )
+                    ]),
+                    children: [
+                      // SizedBox(height: 30.h),
+                      // _avatar(),
+                      if (state.isCurrentUser) _changeAvatarButton(),
+                      SizedBox(height: 20.h),
+                      _usernameTextfield(),
+                      _descriptionTextfield(),
+                      _emailTile(),
+                      SizedBox(height: 30.h),
+                      if (state.isCurrentUser) _saveProfileButton(),
+                      SizedBox(height: 10.h),
+                      if (state.isCurrentUser) _logOutButton()
+                    ],
+                  ),
+                ),
+                SizedBox(height: 25.h),
+                Row(children: <Widget>[
+                  Container(
+                    width: 150,
+                    child: ListTile(
+                        title: Text('120',
+                            style: TextStyle(
+                                fontSize: 18.sp, fontWeight: FontWeight.w700)),
+                        subtitle: Text('Create Tasks',
+                            style: TextStyle(fontWeight: FontWeight.w700))),
+                  ),
+                  Container(
+                    width: 150,
+                    child: ListTile(
+                        title: Text('80',
+                            style: TextStyle(
+                                fontSize: 18.sp, fontWeight: FontWeight.w700)),
+                        subtitle: Text('Completed Tasks',
+                            style: TextStyle(fontWeight: FontWeight.w700))),
+                  )
+                ])
+              ],
+            ),
+          )),
         ],
       )));
     });
   }
 
-  Widget _avatar() {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return Container(
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: Colors.transparent),
-            width: 100.w,
-            height: 100.h,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50.r),
-              child: CachedNetworkImage(
-                imageUrl: state.avatarPath ?? ImageConstants.defaultAvatar,
-                fit: BoxFit.cover,
-              ),
-            ));
-      },
-    );
-  }
-
   Widget _changeAvatarButton() {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return TextButton(
-            onPressed: () =>
-                context.read<ProfileBloc>().add(ChangeAvatarRequest()),
-            child: Text('Change Avatar'));
-      },
-    );
+    return ChangeAvatarButton();
   }
 
-  Widget _usernameTile() {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return ListTile(
-          tileColor: Colors.white,
-          leading: Icon(Icons.person),
-          title: Text(state.username),
-        );
-      },
-    );
+  Widget _usernameTextfield() {
+    return UsernameTextField();
+  }
+
+  Widget _descriptionTextfield() {
+    return DescriptionTextfield();
   }
 
   Widget _emailTile() {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return ListTile(
-          tileColor: Colors.white,
-          leading: Icon(Icons.mail),
-          title: Text(state.email ?? 'Not registered'),
-        );
-      },
-    );
-  }
-
-  Widget _descriptionTile() {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return ListTile(
-          tileColor: Colors.white,
-          leading: Icon(Icons.mail),
-          title: TextFormField(
-            decoration: InputDecoration.collapsed(
-                hintText: 'Say hello to my little friend'),
-            maxLines: null,
-            onChanged: (value) => context
-                .read<ProfileBloc>()
-                .add(ProfileDescriptionChanged(description: value)),
-          ),
-        );
-      },
-    );
+    return EmailTile();
   }
 
   Widget _saveProfileButton() {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return ElevatedButton(
-            onPressed: () =>
-                context.read<ProfileBloc>().add(SaveProfileChanged()),
-            child: Text('Save changes'));
-      },
-    );
+    return SaveChangedButton();
+  }
+
+  Widget _logOutButton() {
+    return LogoutButton();
   }
 
   void _showImageSourceActionSheet(BuildContext context) {

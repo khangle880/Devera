@@ -18,6 +18,14 @@ class ProvideImagePath extends ProfileEvent {
   final String avarPath;
 }
 
+class ProfileUsernameChanged extends ProfileEvent {
+  ProfileUsernameChanged({
+    required this.username,
+  });
+
+  final String username;
+}
+
 class ProfileDescriptionChanged extends ProfileEvent {
   ProfileDescriptionChanged({
     required this.description,

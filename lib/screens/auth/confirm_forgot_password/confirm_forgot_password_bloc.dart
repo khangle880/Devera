@@ -2,7 +2,7 @@ import 'package:asking/screens/auth/auth_cubit.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
 import 'package:asking/screens/auth/confirm_forgot_password/confirm_forgot_password_event.dart';
 import 'package:asking/screens/auth/confirm_forgot_password/confirm_forgot_password_state.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmForgotPasswordBloc

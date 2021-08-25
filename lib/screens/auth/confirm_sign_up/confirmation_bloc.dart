@@ -2,7 +2,7 @@ import 'package:asking/screens/auth/auth_cubit.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
 import 'package:asking/screens/auth/confirm_sign_up/confirmation_event.dart';
 import 'package:asking/screens/auth/confirm_sign_up/confirmation_state.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmationBloc extends Bloc<ConfirmationEvent, ConfirmationState> {

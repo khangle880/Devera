@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:asking/image_url_cache.dart';
 import 'package:asking/repositories/data_repository.dart';
 import 'package:asking/models/User.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:asking/repositories/storage_repository.dart';
 import 'package:asking/screens/home/profile/profile_event.dart';
 import 'package:asking/screens/home/profile/profile_state.dart';
@@ -15,7 +15,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       required this.isCurrentUser,
       required this.dataRepo,
       required this.storageRepo})
-      : super(ProfileState(user: user, isCurrentUser: isCurrentUser)) {
+      : super(ProfileState(
+            user: user,
+            isCurrentUser: isCurrentUser,
+            username: user.username,
+            userDescription: user.description)) {
     ImageUrlCache.instance
         .getUrl(user.avatarKey ?? '')
         .then((url) => add(ProvideImagePath(avarPath: url ?? '')));
@@ -52,14 +56,20 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(avatarPath: event.avarPath);
     } else if (event is ProfileDescriptionChanged) {
       yield state.copyWith(userDescription: event.description);
+    } else if (event is ProfileUsernameChanged) {
+      yield state.copyWith(username: event.username);
     } else if (event is SaveProfileChanged) {
       yield state.copyWith(formStatus: FormSubmitting());
 
-      final updatedUser =
-          state.user.copyWith(description: state.userDescription);
-
       try {
+        if (state.username!.isEmpty) {
+          throw Exception('Username cannot be empty.');
+        }
+
+        final updatedUser = state.user.copyWith(
+            username: state.username, description: state.userDescription);
         await dataRepo.updateUser(updatedUser);
+        print(updatedUser);
         yield state.copyWith(formStatus: SubmissionSuccess());
       } on Exception catch (e) {
         print(e);

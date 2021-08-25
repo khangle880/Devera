@@ -2,7 +2,7 @@ import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/extension_function.dart';
 import 'package:asking/screens/auth/auth_cubit.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:asking/screens/auth/sign_up/components/confirm_password_field.dart';
 import 'package:asking/screens/auth/sign_up/components/email_field.dart';
 import 'package:asking/screens/auth/sign_up/components/password_field.dart';

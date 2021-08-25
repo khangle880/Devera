@@ -1,7 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:asking/screens/auth/auth_cubit.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:asking/screens/auth/sign_up/sign_up_event.dart';
 import 'package:asking/screens/auth/sign_up/sign_up_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

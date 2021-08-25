@@ -44,41 +44,43 @@ class _QuickViewState extends State<QuickView> {
   }
 
   Widget _quickNoteView(List<QuickNote> quickNotes) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: ListView.builder(
-          itemCount: quickNotes.length,
-          itemBuilder: (context, index) {
-            final quickNote = quickNotes[index];
-            return Container(
-              margin: EdgeInsets.only(bottom: 20.h),
-              child: Card(
-                  child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: 100.w,
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                top: BorderSide(
-                          color: ColorConstants.kButtonColor,
-                          width: 2.0.w,
-                        ))),
-                      ),
-                      Text(
-                        quickNote.description,
-                        style: TextStyle(
-                            fontSize: 20.sp, fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(height: 30.h),
-                    ]),
-              )),
-            );
-          }),
-    );
+    return Scaffold(
+        backgroundColor: Color(0xFFFDFDFD),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: ListView.builder(
+              itemCount: quickNotes.length,
+              itemBuilder: (context, index) {
+                final quickNote = quickNotes[index];
+                return Container(
+                  margin: EdgeInsets.only(bottom: 20.h),
+                  child: Card(
+                      child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: 100.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    top: BorderSide(
+                              color: ColorConstants.kButtonColor,
+                              width: 2.0.w,
+                            ))),
+                          ),
+                          Text(
+                            quickNote.description,
+                            style: TextStyle(
+                                fontSize: 20.sp, fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(height: 30.h),
+                        ]),
+                  )),
+                );
+              }),
+        ));
   }
 }

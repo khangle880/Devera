@@ -8,7 +8,7 @@ import 'package:asking/screens/auth/confirm_forgot_password/components/password_
 import 'package:asking/screens/auth/confirm_forgot_password/confirm_forgot_password_bloc.dart';
 import 'package:asking/screens/auth/confirm_forgot_password/confirm_forgot_password_event.dart';
 import 'package:asking/screens/auth/confirm_forgot_password/confirm_forgot_password_state.dart';
-import 'package:asking/screens/auth/form_submission_status.dart';
+import 'package:asking/constants/form_submission_status.dart';
 import 'package:asking/widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

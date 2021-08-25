@@ -15,7 +15,8 @@ class DataRepository {
 
   Future<User> createUser(
       {String? userId, required String username, String? email}) async {
-    final newUser = User(id: userId, username: username, email: email);
+    final newUser = User(
+        id: userId, username: username, email: email, avatarKey: 'Logo.png');
     try {
       await Amplify.DataStore.save(newUser);
       return newUser;
@@ -53,7 +54,8 @@ class DataRepository {
     try {
       List<QuickNote> quickNotes = await Amplify.DataStore.query(
           QuickNote.classType,
-          where: QuickNote.USERID.eq(userID));
+          where: QuickNote.USERID.eq(userID),
+          sortBy: [QuickNote.CREATEDAT.descending()]);
       return quickNotes;
     } on Exception catch (e) {
       print("Could not query DataStore: " + e.toString());

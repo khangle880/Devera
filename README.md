@@ -1,6 +1,8 @@
 # To-do-list-Devera
 
-### I do not own the design
+### I do not own this beautiful design
+
+[**Design Link.**](https://www.figma.com/file/Lg4BWGwHR2L3Qwk6s0yIHO/Devera-Aking-To-Do-List-App?node-id=0%3A1)<br>
 
 # Things todo
 
@@ -12,6 +14,7 @@
 - [x] Create DataStore GraphQL
 - [x] Apply AWS to Home UI
 - [x] I feel like idiot right now
+- [x] Update Profile UI
 - [ ] Add create New Task
 - [ ] Add create Check List
 - [ ] Update My Task UI
@@ -24,18 +27,19 @@
 - - Problem: Models CheckList and Type List causing conflict problem when generating code by AWS
 - - Solution: Change Type List to Model List (Some how custom type is buggy or I'm idiot)
 
-- [ ] Some how Android is really really laggy
-- - No idea why :<
+- [ ] Some how Android is tremendous lag
+- - No idea why. How? :<
 
-- [ ] Sometimes IOS can't query from AWS cloud
-- - Problem: This is bug from AWS Local
-- - Solution: Delete App and Hope they will fix it in the next release
+- [x] Sometimes IOS can't query from AWS cloud
+- - Problem: <strike>This is bug from AWS Local</strike>
+- - Problem: Changed DB in cloud causing this bug
+- - Solution: Reinstall App will work and Hope they will fix it in the next release
 
-- [ ] User NetworkImage Avatar get bug when user sudden;y delete and sign up back to AWS
+- [ ] User NetworkImage Avatar get bug when user suddenly delete and sign up back to AWS
 - - Problem: Duplicate UserID key
-- - Solution: ARGGH i don't know how to use AWS Automatic
+- - Solution: ARGGH i don't know how to use AWS Automation
 
-# Some requirement for this project
+# Requirements for this project
 
 - IOS > 13
 - Android > 24
@@ -43,7 +47,7 @@
 - Bloc Pattern
 - Navigator v2
 
-# Some stupid thing I create
+# Some stupid thing I created
 
 ## AWS Data Stores
 
@@ -78,6 +82,25 @@ Because Provider and Navigator kinda mess up when using inside Dialog
     }
 ```
 
+- <b>Updated: 25 - AUG</b>
+
+I found the way to implement Provider but I'm too lazy to change it back LOL!
+
+```dart
+// ./profile/profile_view.dart
+    void _showImageSourceActionSheet(BuildContext context) {
+    Function(ImageSource) selectImageSource = (imageSource) {
+      context
+          .read<ProfileBloc>()
+          .add(OpenImagePicker(imageSource: imageSource));
+    };
+
+    if (Platform.isIOS) {
+      showCupertinoModalPopup()
+    }
+}
+```
+
 # Some Remind
 
 == <b>In case my future self look back at this not strangle me 👼</b> ==
@@ -94,4 +117,6 @@ import 'package:flutter/foundation.dart';
 
 ### Show Dialog push to very different Route
 
-I don't know how to use Show Dialog with Provider yet or it can't
+<strike>I don't know how to use Show Dialog with Provider yet or it can't</strike>
+
+Can but kinda tricky to do it :D
