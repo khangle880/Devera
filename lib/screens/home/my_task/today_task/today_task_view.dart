@@ -1,81 +1,111 @@
-import 'package:asking/constants/color_constants.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:asking/constants/asset_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:asking/constants/color_constants.dart';
+import 'package:asking/constants/style_constants.dart';
+import 'package:asking/models/ModelProvider.dart';
+import 'package:asking/screens/home/my_task/components/slidable_task_tile.dart';
+import 'package:asking/widgets/custom_column_builder.dart';
+import 'package:asking/constants/extension_function.dart';
 
 class TodayTaskView extends StatefulWidget {
-  const TodayTaskView({Key? key}) : super(key: key);
+  const TodayTaskView({
+    Key? key,
+    required this.tasksByDay,
+  }) : super(key: key);
+
+  final Map<TemporalDate?, List<Task>> tasksByDay;
 
   @override
   _TodayTaskViewState createState() => _TodayTaskViewState();
 }
 
 class _TodayTaskViewState extends State<TodayTaskView> {
+  final _itemScrollController = ItemScrollController();
+  late int todayIndexKey = 0;
+
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.all(6),
-              child: Slidable(
-                child: _buildListTile(),
-                actionPane: SlidableStrechActionPane(),
-                actionExtentRatio: 0.25,
-                secondaryActions: [
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            right: BorderSide(
-                      color: Colors.black.withOpacity(0.2),
-                      width: 1.0,
-                    ))),
-                    child: IconSlideAction(
-                        foregroundColor: Colors.red,
-                        color: Colors.white,
-                        icon: Icons.edit,
-                        onTap: () {}),
-                  ),
-                  IconSlideAction(
-                      foregroundColor: Colors.red,
-                      color: Colors.white,
-                      icon: Icons.tram_sharp,
-                      onTap: () {}),
-                ],
-              ),
-            );
-          }),
-    );
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      scrollToIndex(todayIndexKey);
+    });
   }
 
-  Widget _buildListTile() => Container(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: ListTile(
-                  contentPadding: EdgeInsets.all(6),
-                  leading: SizedBox(
-                      height: double.infinity, child: Icon(Icons.check_box)),
-                  title: Text('Helo Therer', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Oh No Im Idiot'),
-                ),
-              ),
-              Container(
-                height: 20,
-                decoration: BoxDecoration(
-                    border: Border(
-                        right: BorderSide(
-                  color: Colors.blue,
-                  width: 5.0,
-                ))),
-              )
-            ],
+  void scrollToIndex(int index) => _itemScrollController.jumpTo(index: index);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            scrollToIndex(todayIndexKey);
+          },
+          child: Container(
+            width: 50.w,
+            height: 40.h,
+            margin: EdgeInsets.only(top: 5.h),
+            alignment: Alignment.center,
+            child: Icon(Icons.gps_fixed_outlined, color: Colors.white),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                gradient: ColorConstants.kPrimaryGradientColor),
           ),
         ),
-      );
+        body: widget.tasksByDay.length != 0
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: ScrollablePositionedList.builder(
+                    itemScrollController: _itemScrollController,
+                    itemCount: widget.tasksByDay.length,
+                    itemBuilder: (context, index) {
+                      String currentIndexDateValue;
+                      if (widget.tasksByDay.keys
+                          .elementAt(index)!
+                          .getDateTime()
+                          .isSameDate(DateTime.now())) {
+                        currentIndexDateValue = 'Today';
+                        todayIndexKey = index;
+                      } else {
+                        currentIndexDateValue =
+                            widget.tasksByDay.keys.elementAt(index).toString();
+                      }
+
+                      List<Task> currentIndexListTasks = widget
+                          .tasksByDay.values
+                          .elementAt(index)
+                          .reversed
+                          .toList();
+
+                      return Center(
+                        child: Container(
+                            width: double.maxFinite,
+                            margin: EdgeInsets.symmetric(vertical: 20.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(currentIndexDateValue,
+                                    style: StyleConstants.regularBlurText),
+                                CustomColumnBuilder(
+                                  itemCount: currentIndexListTasks.length,
+                                  itemBuilder: (context, index) {
+                                    final task = currentIndexListTasks[index];
+                                    return _slidableTaskTile(task);
+                                  },
+                                ),
+                              ],
+                            )),
+                      );
+                    }))
+            : Center(
+                child: Lottie.asset(AnimationConstants.emptyTask,
+                    frameRate: FrameRate(60.0))));
+  }
+
+  Widget _slidableTaskTile(Task task) => SlidableTaskTile(task: task);
 }

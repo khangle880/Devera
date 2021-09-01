@@ -20,7 +20,6 @@ class QuickCubit extends Cubit<QuickState> {
 
     try {
       final quickNotes = await dataRepo.getQuickNote(userID: user.id);
-      print(quickNotes);
       emit(GetQuickNoteSuccess(quickNotes: quickNotes));
     } on Exception catch (e) {
       print(e);
@@ -28,8 +27,8 @@ class QuickCubit extends Cubit<QuickState> {
     }
   }
 
-  void observeTodo() {
-    final todosStream = dataRepo.observeQuickNotes();
-    todosStream.listen((_) => getQuickNotes());
+  void observeQuickNotes() {
+    final quickNotesStream = dataRepo.observeQuickNotes();
+    quickNotesStream.listen((_) => getQuickNotes());
   }
 }

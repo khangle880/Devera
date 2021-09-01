@@ -27,10 +27,10 @@ class Task extends Model {
   final String id;
   final String? _description;
   final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _dueDate;
+  final TemporalDate? _dueDate;
   final bool? _isComplete;
-  final List<String>? _targetUsers;
   final String? _userID;
+  final List<String>? _members;
 
   @override
   getInstanceType() => classType;
@@ -52,12 +52,8 @@ class Task extends Model {
     return _createdAt;
   }
   
-  TemporalDateTime get dueDate {
-    try {
-      return _dueDate!;
-    } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
-    }
+  TemporalDate? get dueDate {
+    return _dueDate;
   }
   
   bool get isComplete {
@@ -68,25 +64,25 @@ class Task extends Model {
     }
   }
   
-  List<String>? get targetUsers {
-    return _targetUsers;
-  }
-  
   String? get userID {
     return _userID;
   }
   
-  const Task._internal({required this.id, required description, createdAt, required dueDate, required isComplete, targetUsers, userID}): _description = description, _createdAt = createdAt, _dueDate = dueDate, _isComplete = isComplete, _targetUsers = targetUsers, _userID = userID;
+  List<String>? get members {
+    return _members;
+  }
   
-  factory Task({String? id, required String description, TemporalDateTime? createdAt, required TemporalDateTime dueDate, required bool isComplete, List<String>? targetUsers, String? userID}) {
+  const Task._internal({required this.id, required description, createdAt, dueDate, required isComplete, userID, members}): _description = description, _createdAt = createdAt, _dueDate = dueDate, _isComplete = isComplete, _userID = userID, _members = members;
+  
+  factory Task({String? id, required String description, TemporalDateTime? createdAt, TemporalDate? dueDate, required bool isComplete, String? userID, List<String>? members}) {
     return Task._internal(
       id: id == null ? UUID.getUUID() : id,
       description: description,
       createdAt: createdAt,
       dueDate: dueDate,
       isComplete: isComplete,
-      targetUsers: targetUsers != null ? List<String>.unmodifiable(targetUsers) : targetUsers,
-      userID: userID);
+      userID: userID,
+      members: members != null ? List<String>.unmodifiable(members) : members);
   }
   
   bool equals(Object other) {
@@ -102,8 +98,8 @@ class Task extends Model {
       _createdAt == other._createdAt &&
       _dueDate == other._dueDate &&
       _isComplete == other._isComplete &&
-      DeepCollectionEquality().equals(_targetUsers, other._targetUsers) &&
-      _userID == other._userID;
+      _userID == other._userID &&
+      DeepCollectionEquality().equals(_members, other._members);
   }
   
   @override
@@ -119,35 +115,35 @@ class Task extends Model {
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("dueDate=" + (_dueDate != null ? _dueDate!.format() : "null") + ", ");
     buffer.write("isComplete=" + (_isComplete != null ? _isComplete!.toString() : "null") + ", ");
-    buffer.write("targetUsers=" + (_targetUsers != null ? _targetUsers!.toString() : "null") + ", ");
-    buffer.write("userID=" + "$_userID");
+    buffer.write("userID=" + "$_userID" + ", ");
+    buffer.write("members=" + (_members != null ? _members!.toString() : "null"));
     buffer.write("}");
     
     return buffer.toString();
   }
   
-  Task copyWith({String? id, String? description, TemporalDateTime? createdAt, TemporalDateTime? dueDate, bool? isComplete, List<String>? targetUsers, String? userID}) {
+  Task copyWith({String? id, String? description, TemporalDateTime? createdAt, TemporalDate? dueDate, bool? isComplete, String? userID, List<String>? members}) {
     return Task(
       id: id ?? this.id,
       description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       dueDate: dueDate ?? this.dueDate,
       isComplete: isComplete ?? this.isComplete,
-      targetUsers: targetUsers ?? this.targetUsers,
-      userID: userID ?? this.userID);
+      userID: userID ?? this.userID,
+      members: members ?? this.members);
   }
   
   Task.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _description = json['description'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _dueDate = json['dueDate'] != null ? TemporalDateTime.fromString(json['dueDate']) : null,
+      _dueDate = json['dueDate'] != null ? TemporalDate.fromString(json['dueDate']) : null,
       _isComplete = json['isComplete'],
-      _targetUsers = json['targetUsers']?.cast<String>(),
-      _userID = json['userID'];
+      _userID = json['userID'],
+      _members = json['members']?.cast<String>();
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'description': _description, 'createdAt': _createdAt?.format(), 'dueDate': _dueDate?.format(), 'isComplete': _isComplete, 'targetUsers': _targetUsers, 'userID': _userID
+    'id': id, 'description': _description, 'createdAt': _createdAt?.format(), 'dueDate': _dueDate?.format(), 'isComplete': _isComplete, 'userID': _userID, 'members': _members
   };
 
   static final QueryField ID = QueryField(fieldName: "task.id");
@@ -155,8 +151,8 @@ class Task extends Model {
   static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
   static final QueryField DUEDATE = QueryField(fieldName: "dueDate");
   static final QueryField ISCOMPLETE = QueryField(fieldName: "isComplete");
-  static final QueryField TARGETUSERS = QueryField(fieldName: "targetUsers");
   static final QueryField USERID = QueryField(fieldName: "userID");
+  static final QueryField MEMBERS = QueryField(fieldName: "members");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Task";
     modelSchemaDefinition.pluralName = "Tasks";
@@ -188,8 +184,8 @@ class Task extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Task.DUEDATE,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.date)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -199,16 +195,16 @@ class Task extends Model {
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Task.TARGETUSERS,
-      isRequired: false,
-      isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Task.USERID,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Task.MEMBERS,
+      isRequired: false,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
     ));
   });
 }

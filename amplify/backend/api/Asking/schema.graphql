@@ -1,3 +1,18 @@
+type Members @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  avatarKey: String
+}
+
+type Task @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
+  id: ID!
+  description: String!
+  createdAt: AWSDateTime
+  dueDate: AWSDate
+  isComplete: Boolean!
+  userID: ID
+  members: [String]
+}
+
 type ListItem @model @auth(rules: [{allow: public}]) @key(name: "byCheckList", fields: ["checklistID"]) {
   id: ID!
   description: String!
@@ -28,18 +43,8 @@ type User @model @auth(rules: [{allow: public}]) {
   email: String
   avatarKey: String
   description: String
-  tasks: [Task] @connection(keyName: "byUser", fields: ["id"])
   quickNotes: [QuickNote] @connection(keyName: "byUser", fields: ["id"])
   checkLists: [CheckList] @connection(keyName: "byUser", fields: ["id"])
-}
-
-type Task @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
-  id: ID!
-  description: String!
-  createdAt: AWSDateTime
-  dueDate: AWSDateTime!
-  isComplete: Boolean!
-  targetUsers: [String!]
-  userID: ID
+  tasks: [Task] @connection(keyName: "byUser", fields: ["id"])
 }
  

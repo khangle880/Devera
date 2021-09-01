@@ -2,6 +2,7 @@ import 'package:asking/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//? THIS FILE IS ONLY FOR TESTING AUTH FUNCTION IF I RUN OUT OF MONEY ON AWS :>
 class SessionView extends StatelessWidget {
   const SessionView({
     Key? key,

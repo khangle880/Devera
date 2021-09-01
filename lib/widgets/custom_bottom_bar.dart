@@ -1,3 +1,4 @@
+import 'package:asking/constants/asset_constants.dart';
 import 'package:asking/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,14 +53,14 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                             widget.tabPressed(0);
                           },
                           buttonText: 'My Task',
-                          iconPath: 'assets/icons/home.svg'),
+                          iconPath: IconConstants.homeIcon),
                       CustomIconButton(
                           isSelected: _currentTab == 1 || false,
                           onPressed: () {
                             widget.tabPressed(1);
                           },
                           buttonText: 'Menu',
-                          iconPath: 'assets/icons/find.svg'),
+                          iconPath: IconConstants.menuIcon),
                     ],
                   ),
                 ),
@@ -75,14 +76,14 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
                             widget.tabPressed(2);
                           },
                           buttonText: 'Quick',
-                          iconPath: 'assets/icons/bookmark.svg'),
+                          iconPath: IconConstants.quickIcon),
                       CustomIconButton(
                           isSelected: _currentTab == 3 || false,
                           onPressed: () {
                             widget.tabPressed(3);
                           },
                           buttonText: 'Profile',
-                          iconPath: 'assets/icons/profile.svg'),
+                          iconPath: IconConstants.profileIcon),
                     ],
                   ),
                 ),

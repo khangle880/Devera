@@ -1,5 +1,5 @@
-import 'package:asking/screens/home/add_note/add_note_view.dart';
 import 'package:asking/screens/popup_modal/add_quick_note_modal/add_quick_note_view.dart';
+import 'package:asking/screens/popup_modal/add_task_modal/add_task_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,7 +22,7 @@ class ChoicesModal {
                   )),
                   onTap: () {
                     Navigator.of(context).pop();
-                    createAddNote(context);
+                    createAddTask(context);
                   }),
               Divider(
                 height: 15.0,
@@ -37,8 +37,7 @@ class ChoicesModal {
                   )),
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => AddNoteView()));
+                    createAddNote(context);
                   }),
               Divider(
                 height: 15.0,
@@ -57,6 +56,15 @@ class ChoicesModal {
             ]));
       },
     );
+  }
+
+  static createAddTask(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierColor: Colors.transparent,
+        builder: (context) {
+          return AddTaskView();
+        });
   }
 
   static createAddNote(BuildContext context) {

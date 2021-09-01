@@ -1,8 +1,5 @@
-import 'package:amplify_flutter/amplify.dart';
 import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/asset_constants.dart';
-import 'package:asking/models/QuickNote.dart';
-import 'package:asking/models/User.dart';
 import 'package:asking/screens/home/home_cubit.dart';
 import 'package:asking/screens/home/menu/menu_view.dart';
 import 'package:asking/screens/home/my_task/my_task_view.dart';
@@ -14,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -25,9 +24,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late PageController _tabsPageController;
   int _selectedTab = 0;
-  String _title = 'Work List';
-  Color _appBarBackgroundColor = ColorConstants.kPrimaryDarkColor;
-  Color _appBarTextColor = Colors.white;
 
   @override
   void initState() {
@@ -44,55 +40,12 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: _appBarBackgroundColor,
-        title: Text(_title, style: TextStyle(color: _appBarTextColor)),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: Icon(Icons.ac_unit),
-          )
-        ],
-      ),
       body: PageView(
           physics: new NeverScrollableScrollPhysics(),
           controller: _tabsPageController,
           onPageChanged: (int pageIndex) {
             setState(() {
               _selectedTab = pageIndex;
-
-              switch (pageIndex) {
-                case 0:
-                  setState(() {
-                    _title = 'Work List';
-                    _appBarBackgroundColor = ColorConstants.kPrimaryDarkColor;
-                    _appBarTextColor = Colors.white;
-                  });
-                  break;
-                case 1:
-                  setState(() {
-                    _title = 'Menu';
-                    _appBarBackgroundColor = ColorConstants.kSecondaryColor;
-                    _appBarTextColor = Colors.black;
-                  });
-                  break;
-                case 2:
-                  setState(() {
-                    _title = 'Quick Note';
-                    _appBarBackgroundColor = ColorConstants.kSecondaryColor;
-                    _appBarTextColor = Colors.black;
-                  });
-                  break;
-                case 3:
-                  setState(() {
-                    _title = 'Profile';
-                    _appBarBackgroundColor = ColorConstants.kSecondaryColor;
-                    _appBarTextColor = Colors.black;
-                  });
-                  break;
-                default:
-              }
             });
           },
           children: const <Widget>[

@@ -18,21 +18,23 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'CheckList.dart';
 import 'ListItem.dart';
+import 'Members.dart';
 import 'QuickNote.dart';
 import 'Task.dart';
 import 'User.dart';
 
 export 'CheckList.dart';
 export 'ListItem.dart';
+export 'Members.dart';
 export 'QuickNote.dart';
 export 'Task.dart';
 export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "30249d3b86dce43b44b0acbc2da8256a";
+  String version = "8962206a77f1b71f544cf639d6eacb36";
   @override
-  List<ModelSchema> modelSchemas = [CheckList.schema, ListItem.schema, QuickNote.schema, Task.schema, User.schema];
+  List<ModelSchema> modelSchemas = [CheckList.schema, ListItem.schema, Members.schema, QuickNote.schema, Task.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
 
   static ModelProvider get instance => _instance;
@@ -45,6 +47,10 @@ class ModelProvider implements ModelProviderInterface {
     break;
     case "ListItem": {
     return ListItem.classType;
+    }
+    break;
+    case "Members": {
+    return Members.classType;
     }
     break;
     case "QuickNote": {

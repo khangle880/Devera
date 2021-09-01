@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextButton extends StatefulWidget {
-  const CustomTextButton({
-    Key? key,
-    required this.text,
-    required this.color,
-    required this.textColor,
-    this.outLineButton = false,
-    this.margin = const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-    required this.onPressed,
-    this.isLoading = false,
-  }) : super(key: key);
+  const CustomTextButton(
+      {Key? key,
+      required this.text,
+      required this.color,
+      required this.textColor,
+      this.outLineButton = false,
+      this.margin = const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      required this.onPressed,
+      this.isLoading = false,
+      this.buttonRadius = 5})
+      : super(key: key);
 
   final String text;
   final Color color;
@@ -21,6 +22,7 @@ class CustomTextButton extends StatefulWidget {
   final bool outLineButton;
   final EdgeInsets margin;
   final VoidCallback onPressed;
+  final double buttonRadius;
 
   @override
   _CustomTextButton createState() => _CustomTextButton();
@@ -70,9 +72,7 @@ class _CustomTextButton extends State<CustomTextButton>
           decoration: BoxDecoration(
             color: widget.outLineButton ? Colors.transparent : widget.color,
             border: Border.all(color: widget.color, width: 2.0.w),
-            borderRadius: BorderRadius.circular(
-              5.0.r,
-            ),
+            borderRadius: BorderRadius.circular(widget.buttonRadius),
           ),
           margin: widget.margin,
           child: _isLoading

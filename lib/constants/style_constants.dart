@@ -9,7 +9,12 @@ class StyleConstants {
       fontSize: 20.0.sp, fontWeight: FontWeight.w600, color: Colors.white);
 
   static TextStyle regularDarkText = TextStyle(
-      fontSize: 22.0.sp, fontWeight: FontWeight.w600, color: Colors.black);
+      fontSize: 16.0.sp, fontWeight: FontWeight.w600, color: Colors.black);
+
+  static TextStyle regularBlurText = TextStyle(
+      fontSize: 18.0.sp,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF9A9A9A).withOpacity(0.6));
 
   static TextStyle regularHintText = TextStyle(
       fontSize: 16.0.sp, fontWeight: FontWeight.w600, color: Colors.black38);

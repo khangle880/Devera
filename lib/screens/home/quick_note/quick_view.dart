@@ -1,4 +1,4 @@
-import 'package:asking/constants/color_constants.dart';
+import 'package:asking/constants/extension_function.dart';
 import 'package:asking/models/ModelProvider.dart';
 import 'package:asking/repositories/data_repository.dart';
 import 'package:asking/screens/home/quick_note/quick_cubit.dart';
@@ -27,7 +27,7 @@ class _QuickViewState extends State<QuickView> {
               sessionCubit.currentUser ??
               User(username: 'N/A'))
         ..getQuickNotes()
-        ..observeTodo(),
+        ..observeQuickNotes(),
       child: BlocBuilder<QuickCubit, QuickState>(builder: (context, state) {
         if (state is GetQuickNoteSuccess) {
           return state.quickNotes.isEmpty
@@ -46,6 +46,12 @@ class _QuickViewState extends State<QuickView> {
   Widget _quickNoteView(List<QuickNote> quickNotes) {
     return Scaffold(
         backgroundColor: Color(0xFFFDFDFD),
+        appBar: AppBar(
+          toolbarHeight: 100.h,
+          elevation: 0.0,
+          backgroundColor: Color(0xFFFDFDFD),
+          title: Text('Quick Notes', style: TextStyle(color: Colors.black)),
+        ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: ListView.builder(
@@ -67,7 +73,8 @@ class _QuickViewState extends State<QuickView> {
                             decoration: BoxDecoration(
                                 border: Border(
                                     top: BorderSide(
-                              color: ColorConstants.kButtonColor,
+                              color:
+                                  ExtensionFunction.hexToColor(quickNote.color),
                               width: 2.0.w,
                             ))),
                           ),

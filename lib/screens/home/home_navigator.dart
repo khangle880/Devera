@@ -1,4 +1,3 @@
-import 'package:asking/screens/home/add_note/add_note_view.dart';
 import 'package:asking/screens/home/home_cubit.dart';
 import 'package:asking/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,6 @@ class HomeNavigator extends StatelessWidget {
               state == HomeState.addNote ||
               state == HomeState.home) ...[
             // Show home view
-
-            if (state == HomeState.addNote) MaterialPage(child: AddNoteView())
           ]
         ],
         onPopPage: (route, result) {

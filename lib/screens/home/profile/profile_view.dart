@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:asking/constants/asset_constants.dart';
-import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/extension_function.dart';
 import 'package:asking/repositories/data_repository.dart';
 import 'package:asking/models/ModelProvider.dart';
@@ -15,10 +14,8 @@ import 'package:asking/screens/home/profile/components/username_textfield.dart';
 import 'package:asking/screens/home/profile/profile_bloc.dart';
 import 'package:asking/screens/home/profile/profile_event.dart';
 import 'package:asking/screens/home/profile/profile_state.dart';
-
 import 'package:asking/session/session_cubit.dart';
 import 'package:asking/repositories/storage_repository.dart';
-import 'package:asking/widgets/custom_text_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +34,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final sessionCubit = context.read<SessionCubit>();
+
     return BlocProvider(
       create: (context) => ProfileBloc(
           dataRepo: context.read<DataRepository>(),
@@ -56,8 +54,15 @@ class _ProfileViewState extends State<ProfileView> {
                 context, formStatus.exception.toString());
           }
         },
-        child:
-            Scaffold(backgroundColor: Color(0xFFFDFDFD), body: _profilePage()),
+        child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 70.h,
+              elevation: 0.0,
+              backgroundColor: Color(0xFFFDFDFD),
+              title: Text('Profiles', style: TextStyle(color: Colors.black)),
+            ),
+            backgroundColor: Color(0xFFFDFDFD),
+            body: _profilePage()),
       ),
     );
   }
@@ -68,10 +73,9 @@ class _ProfileViewState extends State<ProfileView> {
           child: Center(
               child: ListView(
         children: <Widget>[
-          SizedBox(height: 30.h),
           Card(
               child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -113,8 +117,6 @@ class _ProfileViewState extends State<ProfileView> {
                       )
                     ]),
                     children: [
-                      // SizedBox(height: 30.h),
-                      // _avatar(),
                       if (state.isCurrentUser) _changeAvatarButton(),
                       SizedBox(height: 20.h),
                       _usernameTextfield(),
@@ -138,8 +140,9 @@ class _ProfileViewState extends State<ProfileView> {
                         subtitle: Text('Create Tasks',
                             style: TextStyle(fontWeight: FontWeight.w700))),
                   ),
+                  SizedBox(width: 10.w),
                   Container(
-                    width: 150,
+                    width: 180,
                     child: ListTile(
                         title: Text('80',
                             style: TextStyle(

@@ -23,7 +23,14 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^0.8.3+2
+  syncfusion_flutter_datepicker: ^19.2.57
+  table_calendar: ^3.0.2
   cached_network_image: ^3.1.0
+  intl: ^0.17.0
+  collection: ^1.15.0
+  scrollable_positioned_list: ^0.2.0-nullsafety.0
+  focused_menu: ^1.0.5
+  lottie: ^1.1.0
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.0.0+2

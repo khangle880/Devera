@@ -1,7 +1,4 @@
 import 'package:asking/constants/color_constants.dart';
-import 'package:asking/screens/home/profile/profile_bloc.dart';
-import 'package:asking/screens/home/profile/profile_event.dart';
-import 'package:asking/screens/home/profile/profile_state.dart';
 import 'package:asking/session/session_cubit.dart';
 import 'package:asking/widgets/custom_text_button.dart';
 import 'package:flutter/material.dart';

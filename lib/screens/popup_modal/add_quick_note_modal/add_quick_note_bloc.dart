@@ -1,8 +1,5 @@
-import 'package:amplify_flutter/amplify.dart';
-import 'package:asking/models/ModelProvider.dart';
 import 'package:asking/screens/auth/auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:asking/repositories/data_repository.dart';
 import 'package:asking/constants/form_submission_status.dart';
 import 'package:asking/screens/popup_modal/add_quick_note_modal/add_quick_note_event.dart';
