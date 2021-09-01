@@ -73,7 +73,7 @@
 
 I change DB a little bit, old DB is idiot :D
 
-<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/Main%20UI%20Images%2FScreen%20Shot%202021-08-24%20at%2021.23.27.png?alt=media&token=dde11b50-cfb1-4e4f-a11d-ff28f2e2b769" width="1000" alt="accessibility text">
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/Main%20UI%20Images%2FScreen%20Shot%202021-08-24%20at%2021.23.27.png?alt=media&token=dde11b50-cfb1-4e4f-a11d-ff28f2e2b769" width="1000" alt="AWS Date Store">
 
 ## Some confuses<a name = "confuses"></a>
 
@@ -139,7 +139,7 @@ import 'package:flutter/foundation.dart';
 
 Can but kinda tricky to do it :D
 
-### Better using Cubit for multiple view using same Date
+### Better using Cubit for multiple view using same Data
 
 ```dart
 // ./profile/profile_view.dart
