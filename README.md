@@ -1,16 +1,48 @@
 # icon
 
-A new Flutter project.
+ICON flutter Network's testing environment
 
-## Getting Started
+## Table of Contents
 
-This project is a starting point for a Flutter application.
+- [Careful](#careful)
+  - [Problems](#problems)
+- [Active Account](#account) -[Account 1](#account1) -[Account 2](#account2)
+- [Things I created](#created)
+  - [AWS Schema](#aws)
 
-A few resources to get you started if this is your first Flutter project:
+## Be Careful!<a name = "careful"></a>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<b>- I have only 3 days to create this project </b>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<b>- So the codes is really mess and lot of bugs </b>
+
+<b>- Worked only on idea flow </b>
+
+### Problems<a name = "problems"></a>
+
+I don't validate any text input, make sure you input carefully your info.
+
+Problems will appear are :
+
+- Wrong email or Password
+- Send ICX more than your current ICX
+- Unstable internet connection
+  (These days I got really bad internet problems which may cause app to crash instantly)
+
+## My current Testing account if you need<a name = "account"></a>
+
+### I<a name = "account1"></a>
+
+- vodoanminhhieuapple@gmail.com
+- password: admin123
+
+### II<a name = "account2"></a>
+
+- vodoanminhhieuvn@gmail.com
+- password: admin123
+
+## Some stupid thing I created<a name = "created"></a>
+
+### AWS Data Stores<a name = "aws"></a>
+
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-08-19%20at%2019.30.55.png?alt=media&token=2f9ed889-842a-43d4-bac9-bcd9819e1385" width="1000" alt="AWS Date Store">
