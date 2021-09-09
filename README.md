@@ -6,7 +6,9 @@ ICON flutter Network's testing environment
 
 - [Careful](#careful)
   - [Problems](#problems)
-- [Active Account](#account) -[Account 1](#account1) -[Account 2](#account2)
+- [Active Account](#account)
+  - [Account 1](#account1)
+  - [Account 2](#account2)
 - [Things I created](#created)
   - [AWS Schema](#aws)
 
