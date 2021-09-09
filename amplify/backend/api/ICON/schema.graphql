@@ -1,0 +1,24 @@
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  firstName: String
+  lastName: String
+  pin: String!
+  email: String
+  wallet: Wallet @connection
+}
+
+type Wallet @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  address: String
+  privateKey: String
+  transfers: [Transfer] @connection(keyName: "byWallet", fields: ["id"])
+}
+
+type Transfer @model @auth(rules: [{allow: public}]) @key(name: "byWallet", fields: ["walletID"]) {
+  id: ID!
+  txHash: String
+  walletID: ID
+  amount: String
+  createdAt: AWSDateTime
+}
+ 
