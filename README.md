@@ -47,4 +47,4 @@ Problems will appear are :
 
 ### AWS Data Stores<a name = "aws"></a>
 
-<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-08-19%20at%2019.30.55.png?alt=media&token=2f9ed889-842a-43d4-bac9-bcd9819e1385" width="1000" alt="AWS Date Store">
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-09-09%20at%2015.12.57.png?alt=media&token=c21466b8-d2cc-457d-88ad-b85a3bcdfb8f" width="1000" alt="AWS Date Store">
