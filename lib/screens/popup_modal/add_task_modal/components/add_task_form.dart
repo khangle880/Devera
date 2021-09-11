@@ -41,9 +41,9 @@ class _AddTaskFormState extends State<AddTaskForm> {
             _dateExpandContainerWidth = 80.w;
             _dateString = 'Today';
           } else {
+            final DateFormat format = DateFormat('dd - MMM');
             _dateExpandContainerWidth = 150.w;
-            _dateString =
-                "${state.dueDate!.day} - ${DateFormat('MMMM').format(state.dueDate!)}";
+            _dateString = format.format(state.dueDate!);
           }
 
           return Container(
@@ -128,7 +128,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                           fontSize: 18.sp, fontWeight: FontWeight.w400)),
                   SizedBox(width: 15.w),
                   AnimatedContainer(
-                    duration: const Duration(seconds: 3),
+                    duration: const Duration(seconds: 2),
                     curve: Curves.fastOutSlowIn,
                     height: 30.h,
                     width: _dateExpandContainerWidth,
@@ -314,6 +314,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
     Function(DateRangePickerSelectionChangedArgs) _onSelectionChanged =
         (dateTime) {
       setState(() {
+        descriptionNode.unfocus();
         _dateTime = dateTime.value;
       });
 
@@ -322,9 +323,10 @@ class _AddTaskFormState extends State<AddTaskForm> {
           _dateExpandContainerWidth = 80.w;
         });
       } else {
+        final DateFormat format = DateFormat('MMM - dd');
+
         _dateExpandContainerWidth = 150.w;
-        _dateString =
-            "${_dateTime.day} - ${DateFormat('MMMM').format(_dateTime)}";
+        _dateString = format.format(_dateTime);
       }
 
       context.read<AddTaskBloc>().add(TaskDueDateOnChanged(dueDate: _dateTime));

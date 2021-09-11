@@ -15,6 +15,7 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -31,6 +32,7 @@ class Task extends Model {
   final bool? _isComplete;
   final String? _userID;
   final List<String>? _members;
+  final List<Comment>? _comments;
 
   @override
   getInstanceType() => classType;
@@ -72,9 +74,13 @@ class Task extends Model {
     return _members;
   }
   
-  const Task._internal({required this.id, required description, createdAt, dueDate, required isComplete, userID, members}): _description = description, _createdAt = createdAt, _dueDate = dueDate, _isComplete = isComplete, _userID = userID, _members = members;
+  List<Comment>? get comments {
+    return _comments;
+  }
   
-  factory Task({String? id, required String description, TemporalDateTime? createdAt, TemporalDate? dueDate, required bool isComplete, String? userID, List<String>? members}) {
+  const Task._internal({required this.id, required description, createdAt, dueDate, required isComplete, userID, members, comments}): _description = description, _createdAt = createdAt, _dueDate = dueDate, _isComplete = isComplete, _userID = userID, _members = members, _comments = comments;
+  
+  factory Task({String? id, required String description, TemporalDateTime? createdAt, TemporalDate? dueDate, required bool isComplete, String? userID, List<String>? members, List<Comment>? comments}) {
     return Task._internal(
       id: id == null ? UUID.getUUID() : id,
       description: description,
@@ -82,7 +88,8 @@ class Task extends Model {
       dueDate: dueDate,
       isComplete: isComplete,
       userID: userID,
-      members: members != null ? List<String>.unmodifiable(members) : members);
+      members: members != null ? List<String>.unmodifiable(members) : members,
+      comments: comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
   
   bool equals(Object other) {
@@ -99,7 +106,8 @@ class Task extends Model {
       _dueDate == other._dueDate &&
       _isComplete == other._isComplete &&
       _userID == other._userID &&
-      DeepCollectionEquality().equals(_members, other._members);
+      DeepCollectionEquality().equals(_members, other._members) &&
+      DeepCollectionEquality().equals(_comments, other._comments);
   }
   
   @override
@@ -122,7 +130,7 @@ class Task extends Model {
     return buffer.toString();
   }
   
-  Task copyWith({String? id, String? description, TemporalDateTime? createdAt, TemporalDate? dueDate, bool? isComplete, String? userID, List<String>? members}) {
+  Task copyWith({String? id, String? description, TemporalDateTime? createdAt, TemporalDate? dueDate, bool? isComplete, String? userID, List<String>? members, List<Comment>? comments}) {
     return Task(
       id: id ?? this.id,
       description: description ?? this.description,
@@ -130,7 +138,8 @@ class Task extends Model {
       dueDate: dueDate ?? this.dueDate,
       isComplete: isComplete ?? this.isComplete,
       userID: userID ?? this.userID,
-      members: members ?? this.members);
+      members: members ?? this.members,
+      comments: comments ?? this.comments);
   }
   
   Task.fromJson(Map<String, dynamic> json)  
@@ -140,10 +149,16 @@ class Task extends Model {
       _dueDate = json['dueDate'] != null ? TemporalDate.fromString(json['dueDate']) : null,
       _isComplete = json['isComplete'],
       _userID = json['userID'],
-      _members = json['members']?.cast<String>();
+      _members = json['members']?.cast<String>(),
+      _comments = json['comments'] is List
+        ? (json['comments'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'description': _description, 'createdAt': _createdAt?.format(), 'dueDate': _dueDate?.format(), 'isComplete': _isComplete, 'userID': _userID, 'members': _members
+    'id': id, 'description': _description, 'createdAt': _createdAt?.format(), 'dueDate': _dueDate?.format(), 'isComplete': _isComplete, 'userID': _userID, 'members': _members, 'comments': _comments?.map((e) => e?.toJson())?.toList()
   };
 
   static final QueryField ID = QueryField(fieldName: "task.id");
@@ -153,6 +168,9 @@ class Task extends Model {
   static final QueryField ISCOMPLETE = QueryField(fieldName: "isComplete");
   static final QueryField USERID = QueryField(fieldName: "userID");
   static final QueryField MEMBERS = QueryField(fieldName: "members");
+  static final QueryField COMMENTS = QueryField(
+    fieldName: "comments",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Comment).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Task";
     modelSchemaDefinition.pluralName = "Tasks";
@@ -205,6 +223,13 @@ class Task extends Model {
       isRequired: false,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+      key: Task.COMMENTS,
+      isRequired: false,
+      ofModelName: (Comment).toString(),
+      associatedKey: Comment.TASKID
     ));
   });
 }

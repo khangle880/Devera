@@ -41,16 +41,11 @@ class _BuildTaskTileState extends State<BuildTaskTile> {
                   leading: GestureDetector(
                     onTap: () {
                       if (widget.task.isComplete) {
-                        setState(() {
-                          _task = _task.copyWith(isComplete: false);
-                        });
+                        _task = _task.copyWith(isComplete: false);
                       } else {
-                        setState(() {
-                          _task = _task.copyWith(isComplete: true);
-                        });
+                        _task = _task.copyWith(isComplete: true);
                       }
-
-                      BlocProvider.of<MyTaskCubit>(context).updateMyTask(_task);
+                      context.read<MyTaskCubit>().updateMyTask(_task);
                     },
                     child: SizedBox(
                         width: 25.w,

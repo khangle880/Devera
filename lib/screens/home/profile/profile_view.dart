@@ -5,6 +5,7 @@ import 'package:asking/repositories/data_repository.dart';
 import 'package:asking/models/ModelProvider.dart';
 import 'package:asking/models/User.dart';
 import 'package:asking/constants/form_submission_status.dart';
+import 'package:asking/screens/home/home_cubit.dart';
 import 'package:asking/screens/home/profile/components/change_avatar_button.dart';
 import 'package:asking/screens/home/profile/components/description_textfield.dart';
 import 'package:asking/screens/home/profile/components/email_tile.dart';
@@ -22,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -134,7 +136,11 @@ class _ProfileViewState extends State<ProfileView> {
                   Container(
                     width: 150,
                     child: ListTile(
-                        title: Text('120',
+                        title: Text(
+                            context
+                                .read<HomeCubit>()
+                                .totalCreatedTask
+                                .toString(),
                             style: TextStyle(
                                 fontSize: 18.sp, fontWeight: FontWeight.w700)),
                         subtitle: Text('Create Tasks',
@@ -144,16 +150,26 @@ class _ProfileViewState extends State<ProfileView> {
                   Container(
                     width: 180,
                     child: ListTile(
-                        title: Text('80',
+                        title: Text(
+                            context
+                                .read<HomeCubit>()
+                                .totalCompletedTask
+                                .toString(),
                             style: TextStyle(
                                 fontSize: 18.sp, fontWeight: FontWeight.w700)),
                         subtitle: Text('Completed Tasks',
                             style: TextStyle(fontWeight: FontWeight.w700))),
                   )
-                ])
+                ]),
               ],
             ),
           )),
+          SizedBox(height: 40.h),
+          Lottie.asset(AnimationConstants.sorryAnimation,
+              frameRate: FrameRate(60.0), width: 150, height: 150),
+          Center(
+              child: Text(
+                  "I haven't created these functions under this card yet :<"))
         ],
       )));
     });

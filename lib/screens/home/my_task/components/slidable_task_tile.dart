@@ -1,5 +1,6 @@
 import 'package:asking/screens/home/my_task/my_task_cubit.dart';
 import 'package:asking/screens/home/my_task/my_task_state.dart';
+import 'package:asking/screens/popup_modal/my_task_detail_modal/my_task_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,9 @@ class SlidableTaskTile extends StatelessWidget {
                   foregroundColor: Colors.red,
                   color: Colors.white,
                   icon: Icons.edit,
-                  onTap: () {}),
+                  onTap: () {
+                    myTaskDetail(context, task);
+                  }),
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 5.h),
@@ -64,4 +67,13 @@ class SlidableTaskTile extends StatelessWidget {
   Widget _buildTaskTile(Task task) => BuildTaskTile(
         task: task,
       );
+
+  static myTaskDetail(BuildContext context, Task task) {
+    showDialog(
+        context: context,
+        barrierColor: Colors.transparent,
+        builder: (context) {
+          return MyTaskDetailModalView(task: task);
+        });
+  }
 }

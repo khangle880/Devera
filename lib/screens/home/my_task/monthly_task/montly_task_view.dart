@@ -1,20 +1,22 @@
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:asking/constants/asset_constants.dart';
 import 'package:asking/screens/home/my_task/components/slidable_task_tile.dart';
+import 'package:asking/screens/home/my_task/my_task_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:asking/models/Task.dart';
 import 'package:asking/constants/extension_function.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MonthlyTaskView extends StatefulWidget {
   MonthlyTaskView({
     Key? key,
-    required this.tasksByDay,
+    required this.myTask,
   }) : super(key: key);
 
-  final Map<TemporalDate?, List<Task>> tasksByDay;
+  final Map<TemporalDate?, List<Task>> myTask;
 
   @override
   _MonthlyTaskViewState createState() => _MonthlyTaskViewState();
@@ -24,12 +26,13 @@ class _MonthlyTaskViewState extends State<MonthlyTaskView>
     with SingleTickerProviderStateMixin {
   bool _isExpand = false;
   late DateRangePickerController _datePickerController;
-
   late AnimationController _controller;
   late Animation<double> _animation;
   DateTime _selectedDateTime = DateTime.now();
   late List<Task> _tasksInDay;
   late List<DateTime> _listActiveDay;
+
+  Map<TemporalDate?, List<Task>> _tasksByDay = {};
 
   @override
   void initState() {
@@ -54,9 +57,10 @@ class _MonthlyTaskViewState extends State<MonthlyTaskView>
 
   @override
   Widget build(BuildContext context) {
-    _tasksInDay = _getTasksInDay(_selectedDateTime, widget.tasksByDay);
-    _listActiveDay =
-        _convertListTemporalToLocalDate(widget.tasksByDay.keys.toList());
+    final _tasksByDay = widget.myTask;
+
+    _tasksInDay = _getTasksInDay(_selectedDateTime, _tasksByDay);
+    _listActiveDay = _convertListTemporalToLocalDate(_tasksByDay.keys.toList());
     return Scaffold(
       body: Column(
         children: [
@@ -191,7 +195,7 @@ class _MonthlyTaskViewState extends State<MonthlyTaskView>
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs dateTime) {
     setState(() {
       _selectedDateTime = dateTime.value;
-      _tasksInDay = _getTasksInDay(dateTime.value, widget.tasksByDay);
+      _tasksInDay = _getTasksInDay(dateTime.value, _tasksByDay);
     });
   }
 

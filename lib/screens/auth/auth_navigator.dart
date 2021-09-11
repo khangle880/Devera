@@ -50,6 +50,8 @@ class AuthNavigator extends StatelessWidget {
           ]
         ],
         onPopPage: (route, result) {
+          print('Hello World Pop This Page');
+          BlocProvider.of<AuthCubit>(context).showLogin();
           BlocProvider.of<AuthCubit>(context).didPop();
           return route.didPop(result);
         },

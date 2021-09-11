@@ -26,11 +26,11 @@ import 'package:flutter/foundation.dart';
 class CheckList extends Model {
   static const classType = const _CheckListModelType();
   final String id;
-  final List<String>? _todoList;
   final String? _color;
   final List<ListItem>? _listItems;
   final TemporalDateTime? _createdAt;
   final String? _userID;
+  final String? _description;
 
   @override
   getInstanceType() => classType;
@@ -38,10 +38,6 @@ class CheckList extends Model {
   @override
   String getId() {
     return id;
-  }
-  
-  List<String>? get todoList {
-    return _todoList;
   }
   
   String get color {
@@ -64,16 +60,20 @@ class CheckList extends Model {
     return _userID;
   }
   
-  const CheckList._internal({required this.id, todoList, required color, listItems, createdAt, userID}): _todoList = todoList, _color = color, _listItems = listItems, _createdAt = createdAt, _userID = userID;
+  String? get description {
+    return _description;
+  }
   
-  factory CheckList({String? id, List<String>? todoList, required String color, List<ListItem>? listItems, TemporalDateTime? createdAt, String? userID}) {
+  const CheckList._internal({required this.id, required color, listItems, createdAt, userID, description}): _color = color, _listItems = listItems, _createdAt = createdAt, _userID = userID, _description = description;
+  
+  factory CheckList({String? id, required String color, List<ListItem>? listItems, TemporalDateTime? createdAt, String? userID, String? description}) {
     return CheckList._internal(
       id: id == null ? UUID.getUUID() : id,
-      todoList: todoList != null ? List<String>.unmodifiable(todoList) : todoList,
       color: color,
       listItems: listItems != null ? List<ListItem>.unmodifiable(listItems) : listItems,
       createdAt: createdAt,
-      userID: userID);
+      userID: userID,
+      description: description);
   }
   
   bool equals(Object other) {
@@ -85,11 +85,11 @@ class CheckList extends Model {
     if (identical(other, this)) return true;
     return other is CheckList &&
       id == other.id &&
-      DeepCollectionEquality().equals(_todoList, other._todoList) &&
       _color == other._color &&
       DeepCollectionEquality().equals(_listItems, other._listItems) &&
       _createdAt == other._createdAt &&
-      _userID == other._userID;
+      _userID == other._userID &&
+      _description == other._description;
   }
   
   @override
@@ -101,28 +101,27 @@ class CheckList extends Model {
     
     buffer.write("CheckList {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("todoList=" + (_todoList != null ? _todoList!.toString() : "null") + ", ");
     buffer.write("color=" + "$_color" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
-    buffer.write("userID=" + "$_userID");
+    buffer.write("userID=" + "$_userID" + ", ");
+    buffer.write("description=" + "$_description");
     buffer.write("}");
     
     return buffer.toString();
   }
   
-  CheckList copyWith({String? id, List<String>? todoList, String? color, List<ListItem>? listItems, TemporalDateTime? createdAt, String? userID}) {
+  CheckList copyWith({String? id, String? color, List<ListItem>? listItems, TemporalDateTime? createdAt, String? userID, String? description}) {
     return CheckList(
       id: id ?? this.id,
-      todoList: todoList ?? this.todoList,
       color: color ?? this.color,
       listItems: listItems ?? this.listItems,
       createdAt: createdAt ?? this.createdAt,
-      userID: userID ?? this.userID);
+      userID: userID ?? this.userID,
+      description: description ?? this.description);
   }
   
   CheckList.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _todoList = json['todoList']?.cast<String>(),
       _color = json['color'],
       _listItems = json['listItems'] is List
         ? (json['listItems'] as List)
@@ -131,20 +130,21 @@ class CheckList extends Model {
           .toList()
         : null,
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _userID = json['userID'];
+      _userID = json['userID'],
+      _description = json['description'];
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'todoList': _todoList, 'color': _color, 'listItems': _listItems?.map((e) => e?.toJson())?.toList(), 'createdAt': _createdAt?.format(), 'userID': _userID
+    'id': id, 'color': _color, 'listItems': _listItems?.map((e) => e?.toJson())?.toList(), 'createdAt': _createdAt?.format(), 'userID': _userID, 'description': _description
   };
 
   static final QueryField ID = QueryField(fieldName: "checkList.id");
-  static final QueryField TODOLIST = QueryField(fieldName: "todoList");
   static final QueryField COLOR = QueryField(fieldName: "color");
   static final QueryField LISTITEMS = QueryField(
     fieldName: "listItems",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (ListItem).toString()));
   static final QueryField CREATEDAT = QueryField(fieldName: "createdAt");
   static final QueryField USERID = QueryField(fieldName: "userID");
+  static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "CheckList";
     modelSchemaDefinition.pluralName = "CheckLists";
@@ -161,13 +161,6 @@ class CheckList extends Model {
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: CheckList.TODOLIST,
-      isRequired: false,
-      isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
-    ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: CheckList.COLOR,
@@ -190,6 +183,12 @@ class CheckList extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: CheckList.USERID,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: CheckList.DESCRIPTION,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));

@@ -50,8 +50,8 @@ class _CustomTextButton extends State<CustomTextButton>
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

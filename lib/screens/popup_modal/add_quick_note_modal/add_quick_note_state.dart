@@ -1,4 +1,3 @@
-import 'package:asking/models/ModelProvider.dart';
 import 'package:asking/constants/form_submission_status.dart';
 
 class AddQuickNoteState {
@@ -14,8 +13,6 @@ class AddQuickNoteState {
   FormSubmissionStatus formStatus;
 
   AddQuickNoteState copyWith({
-    User? user,
-    bool? isCurrentUser,
     String? description,
     String? color,
     FormSubmissionStatus? formStatus,

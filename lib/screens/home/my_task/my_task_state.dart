@@ -8,10 +8,10 @@ class MyTaskLoading extends MyTaskState {}
 
 class GetMyTaskSuccess extends MyTaskState {
   GetMyTaskSuccess({
-    required this.tasksByDay,
+    required this.myTask,
   });
 
-  final Map<TemporalDate?, List<Task>> tasksByDay;
+  final Map<TemporalDate?, List<Task>> myTask;
 }
 
 class GetMyTaskFailed extends MyTaskState {

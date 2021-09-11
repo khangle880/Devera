@@ -91,6 +91,26 @@ class DataRepository {
     }
   }
 
+  Future<QuickNote> updateQuickNote(QuickNote updatedQuickNote) async {
+    try {
+      await Amplify.DataStore.save(updatedQuickNote);
+      return updatedQuickNote;
+    } catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<QuickNote> deleteQuickNote(QuickNote deletedQuickNote) async {
+    try {
+      await Amplify.DataStore.delete(deletedQuickNote);
+      return deletedQuickNote;
+    } catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
   Stream observeQuickNotes() {
     return Amplify.DataStore.observe(QuickNote.classType);
   }
@@ -152,5 +172,154 @@ class DataRepository {
 
   Stream observeMyTask() {
     return Amplify.DataStore.observe(Task.classType);
+  }
+
+  //? For Check List Model
+  Future<CheckList> createCheckList(
+      {required String description,
+      required String color,
+      required String userID}) async {
+    try {
+      final checkList =
+          CheckList(description: description, color: color, userID: userID);
+      await Amplify.DataStore.save(checkList);
+      return checkList;
+    } on Exception catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<CheckList> updateCheckList(CheckList updatedCheckList) async {
+    try {
+      await Amplify.DataStore.save(updatedCheckList);
+      return updatedCheckList;
+    } catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<List<CheckList>> getCheckLists({required String userID}) async {
+    try {
+      List<CheckList> checkLists = await Amplify.DataStore.query(
+          CheckList.classType,
+          where: Task.USERID.eq(userID),
+          sortBy: [CheckList.CREATEDAT.descending()]);
+
+      return checkLists;
+    } on Exception catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<CheckList> deleteCheckList(CheckList deletedCheckList) async {
+    print('Hello World');
+    print(deletedCheckList);
+    try {
+      (await Amplify.DataStore.query(ListItem.classType,
+              where: ListItem.CHECKLISTID.eq(deletedCheckList.id)))
+          .forEach((listItem) async {
+        await Amplify.DataStore.delete(listItem);
+      });
+
+      await Amplify.DataStore.delete(deletedCheckList);
+      return deletedCheckList;
+    } on Exception catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Stream observeCheckList() {
+    return Amplify.DataStore.observe(CheckList.classType);
+  }
+
+  //? For List Item Model
+  Future<List<ListItem>> createListItem({
+    required List<ListItem> listItems,
+    required String checkListID,
+  }) async {
+    if (listItems.length != 0) {
+      listItems.forEach((item) {
+        if (item.description.isNotEmpty) {
+          item = item.copyWith(checklistID: checkListID);
+          Amplify.DataStore.save(item);
+        }
+      });
+    }
+
+    return [];
+  }
+
+  Future<ListItem> updateListItem(ListItem updatedListItem) async {
+    try {
+      await Amplify.DataStore.save(updatedListItem);
+      return updatedListItem;
+    } catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<ListItem> deleteListItem(ListItem deletedListItem) async {
+    try {
+      await Amplify.DataStore.delete(deletedListItem);
+      return deletedListItem;
+    } catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<List<ListItem>> getListItem({
+    required String checkListID,
+  }) async {
+    try {
+      final List<ListItem> listItem = await Amplify.DataStore.query(
+          ListItem.classType,
+          where: ListItem.CHECKLISTID.eq(checkListID));
+      return listItem;
+    } on Exception catch (e) {
+      print("Could not query DataStore: " + e.toString());
+      throw (e);
+    }
+  }
+
+  Future<Comment> createComment({
+    required String avatarKey,
+    required String commentStr,
+    required String username,
+    required String taskID,
+  }) async {
+    try {
+      final comment = Comment(
+          avatarKey: avatarKey,
+          comment: commentStr,
+          username: username,
+          taskID: taskID);
+      await Amplify.DataStore.save(comment);
+      return comment;
+    } on Exception catch (e) {
+      print(e);
+      throw (e);
+    }
+  }
+
+  Future<List<Comment>> getComments({required String taskID}) async {
+    try {
+      final List<Comment> comments = await Amplify.DataStore.query(
+          Comment.classType,
+          where: Comment.TASKID.eq(taskID));
+      return comments;
+    } on Exception catch (e) {
+      print("Could not query DataStore: " + e.toString());
+      throw (e);
+    }
+  }
+
+  Stream observeComment() {
+    return Amplify.DataStore.observe(Comment.classType);
   }
 }

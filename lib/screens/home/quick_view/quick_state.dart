@@ -19,3 +19,13 @@ class GetQuickNoteFailed extends QuickState {
 
   final Exception exception;
 }
+
+class GetQuickViewDataSuccess extends QuickState {}
+
+class GetQuickViewDataFailed extends QuickState {
+  GetQuickViewDataFailed({
+    required this.exception,
+  });
+
+  final Exception exception;
+}

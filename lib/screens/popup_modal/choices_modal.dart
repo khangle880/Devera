@@ -1,3 +1,4 @@
+import 'package:asking/screens/popup_modal/add_check_list_modal/add_check_list_view.dart';
 import 'package:asking/screens/popup_modal/add_quick_note_modal/add_quick_note_view.dart';
 import 'package:asking/screens/popup_modal/add_task_modal/add_task_view.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,7 @@ class ChoicesModal {
                   )),
                   onTap: () {
                     Navigator.of(context).pop();
+                    createCheckList(context);
                   }),
             ]));
       },
@@ -75,5 +77,13 @@ class ChoicesModal {
         return AddQuickNoteView();
       },
     );
+  }
+
+  static createCheckList(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AddCheckListView();
+        });
   }
 }

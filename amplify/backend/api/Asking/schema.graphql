@@ -1,3 +1,12 @@
+type Comment @model @auth(rules: [{allow: public}]) @key(name: "byTask", fields: ["taskID"]) {
+  id: ID!
+  avatarKey: String
+  comment: String
+  taskID: ID
+  username: String
+  createdAt: AWSDateTime
+}
+
 type Members @model @auth(rules: [{allow: public}]) {
   id: ID!
   avatarKey: String
@@ -11,6 +20,7 @@ type Task @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["
   isComplete: Boolean!
   userID: ID
   members: [String]
+  comments: [Comment] @connection(keyName: "byTask", fields: ["id"])
 }
 
 type ListItem @model @auth(rules: [{allow: public}]) @key(name: "byCheckList", fields: ["checklistID"]) {
@@ -22,11 +32,11 @@ type ListItem @model @auth(rules: [{allow: public}]) @key(name: "byCheckList", f
 
 type CheckList @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
   id: ID!
-  todoList: [AWSJSON!]
   color: String!
   listItems: [ListItem] @connection(keyName: "byCheckList", fields: ["id"])
   createdAt: AWSDateTime
   userID: ID
+  description: String
 }
 
 type QuickNote @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {

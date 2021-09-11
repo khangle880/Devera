@@ -14,6 +14,8 @@ class ColorConstants {
   static const Color kFavoriteIconColor = Color(0xFF334257);
   static const Color kBottomIconColor = Color(0xFF548CA8);
 
+  static const Color kGreyBackground = Color(0xFFF4F4F4);
+
   static const Color kButtonColor = Color(0xFFF96060);
   static const Color kFloatingButtonColor = Color(0xFF7C83FD);
 

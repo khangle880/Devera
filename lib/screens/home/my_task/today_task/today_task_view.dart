@@ -1,9 +1,9 @@
 import 'package:amplify_datastore/amplify_datastore.dart';
-import 'package:asking/constants/asset_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:asking/constants/asset_constants.dart';
 import 'package:asking/constants/color_constants.dart';
 import 'package:asking/constants/style_constants.dart';
 import 'package:asking/models/ModelProvider.dart';
@@ -14,10 +14,10 @@ import 'package:asking/constants/extension_function.dart';
 class TodayTaskView extends StatefulWidget {
   const TodayTaskView({
     Key? key,
-    required this.tasksByDay,
+    required this.myTask,
   }) : super(key: key);
 
-  final Map<TemporalDate?, List<Task>> tasksByDay;
+  final Map<TemporalDate?, List<Task>> myTask;
 
   @override
   _TodayTaskViewState createState() => _TodayTaskViewState();
@@ -40,6 +40,7 @@ class _TodayTaskViewState extends State<TodayTaskView> {
 
   @override
   Widget build(BuildContext context) {
+    final _myTask = widget.myTask;
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         floatingActionButton: GestureDetector(
@@ -51,21 +52,21 @@ class _TodayTaskViewState extends State<TodayTaskView> {
             height: 40.h,
             margin: EdgeInsets.only(top: 5.h),
             alignment: Alignment.center,
-            child: Icon(Icons.gps_fixed_outlined, color: Colors.white),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.r),
                 gradient: ColorConstants.kPrimaryGradientColor),
+            child: Icon(Icons.gps_fixed_outlined, color: Colors.white),
           ),
         ),
-        body: widget.tasksByDay.length != 0
+        body: _myTask.length != 0
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: ScrollablePositionedList.builder(
                     itemScrollController: _itemScrollController,
-                    itemCount: widget.tasksByDay.length,
+                    itemCount: _myTask.length,
                     itemBuilder: (context, index) {
                       String currentIndexDateValue;
-                      if (widget.tasksByDay.keys
+                      if (_myTask.keys
                           .elementAt(index)!
                           .getDateTime()
                           .isSameDate(DateTime.now())) {
@@ -73,14 +74,11 @@ class _TodayTaskViewState extends State<TodayTaskView> {
                         todayIndexKey = index;
                       } else {
                         currentIndexDateValue =
-                            widget.tasksByDay.keys.elementAt(index).toString();
+                            _myTask.keys.elementAt(index).toString();
                       }
 
-                      List<Task> currentIndexListTasks = widget
-                          .tasksByDay.values
-                          .elementAt(index)
-                          .reversed
-                          .toList();
+                      List<Task> currentIndexListTasks =
+                          _myTask.values.elementAt(index).reversed.toList();
 
                       return Center(
                         child: Container(
