@@ -218,11 +218,14 @@ class DataRepository {
     print('Hello World');
     print(deletedCheckList);
     try {
-      (await Amplify.DataStore.query(ListItem.classType,
-              where: ListItem.CHECKLISTID.eq(deletedCheckList.id)))
-          .forEach((listItem) async {
-        await Amplify.DataStore.delete(listItem);
-      });
+      final listItems = await Amplify.DataStore.query(ListItem.classType,
+          where: ListItem.CHECKLISTID.eq(deletedCheckList.id));
+
+      if (listItems.length != 0) {
+        listItems.forEach((listItem) async {
+          await Amplify.DataStore.delete(listItem);
+        });
+      }
 
       await Amplify.DataStore.delete(deletedCheckList);
       return deletedCheckList;

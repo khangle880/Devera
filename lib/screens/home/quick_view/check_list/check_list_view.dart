@@ -69,6 +69,8 @@ class _CheckListViewState extends State<CheckListView> {
                           Container(
                             width: 200,
                             child: TextFormField(
+                              key: Key(checkList.description ??
+                                  UniqueKey().toString()),
                               initialValue: checkList.description ?? '',
                               style: TextStyle(
                                   fontSize: 20.sp, fontWeight: FontWeight.bold),

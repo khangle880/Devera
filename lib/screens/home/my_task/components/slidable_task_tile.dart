@@ -53,7 +53,7 @@ class SlidableTaskTile extends StatelessWidget {
               child: IconSlideAction(
                   foregroundColor: Colors.red,
                   color: Colors.white,
-                  icon: Icons.tram_sharp,
+                  icon: Icons.delete,
                   onTap: () {
                     BlocProvider.of<MyTaskCubit>(context).deleteMyTask(task);
                   }),

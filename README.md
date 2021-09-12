@@ -44,36 +44,41 @@
 
 ### Bugs <a name = "bugs"></a>
 
-- [x] AWS local can't update to AWS cloud
-- - <strike>Some how IOS kill connection between local and cloud</strike>
-- - Problem: Models CheckList and Type List causing conflict problem when generating code by AWS
-- - Solution: Change Type List to Model List (Some how custom type is buggy or I'm idiot)
+<b>These are very big bug I found, some have proper solutions, some don't</b>
 
-- [ ] Some how Android is tremendous lag
-- - No idea why. How? :<
+- [ ] AWS local can't update to AWS cloud
+- - Problem: Models sometimes conflict with Cloud Models
+- - <strike>Solution: Change Type List to Model List (Some how custom type is buggy or I'm idiot)</strike>
+- - Warning: There're many things can cause this problem, there's no proper way to fix this
 
-- [x] Sometimes IOS can't query from AWS cloud
+- [x] Some how Android is tremendous lag
+- - <strike>No idea why. How? :<</strike>
+- - Problem: Chip MediaTek are suck, snapdragon work like charm (and I hate samsung A series)
+- - Solution: Use Samsung S series with SnapDragon bro or Iphone :>
+
+- [ ] Sometimes app can't query from AWS cloud
 - - Problem: <strike>This is bug from AWS Local</strike>
 - - Problem: Changed DB in cloud causing this bug
-- - Solution: Reinstall App will work and Hope they will fix it in the next release
+- - Tricky-Solution: Reinstall App will work and Hope AWS will fix it in the next release
 
 - [x] User NetworkImage Avatar get bug when user suddenly delete and sign up back to AWS
 - - Problem: No idea!
-- - Solution: I have no idea how i fixed it
+- - Solution: I have no idea how I fixed it
 
-- [ ] User date somehow disappeared after pulling from AWS
-- - Problem: Schema suddenly changing causing miss match Schema from cloud
-- - Solution: Reinstall APP (I know It's idiot)
+- [ ] User data somehow disappeared after pulling from AWS
+- - <strike>Problem: Schema suddenly changing causing miss match Schema from cloud</strike>
+- - Problem: Even local schema match, it's still failed to get User Info
+- - Tricky-Solution: Reinstall APP (I know It's idiot)
 
 ## Some stupid thing I created<a name = "created"></a>
 
 ### AWS Data Stores<a name = "aws"></a>
 
-<b>Updated: 24-AUG</b>
+<b>Updated: 12-SEP</b>
 
-I change DB a little bit, old DB is idiot :D
+ADD Comment Models
 
-<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/Main%20UI%20Images%2FScreen%20Shot%202021-08-24%20at%2021.23.27.png?alt=media&token=dde11b50-cfb1-4e4f-a11d-ff28f2e2b769" width="1000" alt="AWS Date Store">
+<img src="https://firebasestorage.googleapis.com/v0/b/wanders-b9bab.appspot.com/o/DataStore%2FScreen%20Shot%202021-09-12%20at%2011.10.12.png?alt=media&token=830a6f96-ddbb-43de-8eb6-f2814b97110f" width="1000" alt="AWS Date Store">
 
 ## Some confuses<a name = "confuses"></a>
 

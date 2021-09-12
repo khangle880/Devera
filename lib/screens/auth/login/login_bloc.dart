@@ -29,6 +29,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield state.copyWith(formStatus: FormSubmitting());
 
       try {
+        authRepo.signOut();
+
         final userId = await authRepo.login(
           username: state.email,
           password: state.password,
